@@ -1,25 +1,37 @@
-const navigationList: Array<{ url: string, name: string }> = [
+
+interface NavigationList {
+    url: string,
+    name: string,
+    icon: string
+}
+const navigationList: Array<NavigationList> = [
     {
         name: "Inicio",
-        url: "/"
+        url: "/",
+        icon: "home"
     },
     {
         name: "Productos",
-        url: "/"
+        url: "/",
+        icon: "shopping_bag"
     },
     {
         name: "Ofertas",
-        url: "/"
+        url: "/",
+        icon: "sell"
     },
     {
         name: "Contacto",
-        url: "/"
+        url: "/",
+        icon: "contact_support"
     },
     {
-        name: "Tiempos de entrega",
-        url: "/"
+        name: "Envios",
+        url: "/",
+        icon: "local_shipping"
     },
 
 ]
 
+export type {NavigationList}
 export default navigationList
