@@ -22,7 +22,6 @@ const Responsive = <
   C = undefined
 >(props: ResponsiveProps<T, K, C>) => {
 
-
   return (
     <ResponsiveComponent breakpoints={breakpoints} {...props as any} />
   );

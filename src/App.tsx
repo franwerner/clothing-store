@@ -1,8 +1,8 @@
-import { RouterProvider, useNavigate } from 'react-router-dom'
-import './App.css'
-import router from './router'
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { RouterProvider } from 'react-router-dom';
+import './App.css';
+import router from './router';
 
 function App() {
 

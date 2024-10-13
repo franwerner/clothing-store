@@ -1,9 +1,9 @@
-import transformToCurrency from "@/helper/transformToCurrency";
+import transformToCurrency from "@/helper/transformToCurrency.helper";
 import { Button, Image } from "@nextui-org/react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-interface ProductProps {
+interface ProductShopcartProps {
     id: number,
     url: string,
     name: string,
@@ -11,9 +11,20 @@ interface ProductProps {
     price: number
 }
 
+const productTest: Array<ProductShopcartProps> = Array.from<ProductShopcartProps, ProductShopcartProps>({ length: 0 }, () => {
+    return {
+        url: "https://acdn.mitiendanube.com/stores/001/874/631/products/1080x1080-421-26a776f1c63a0e562516481597741027-480-0.webp",
+        name: "Zapatillas negras con plantilla asdasdasd",
+        discount: 20,
+        price: 70000,
+        id: Math.random()
+    }
+})
 
 
-const Product = ({ discount, name, price, url, index }: ProductProps & { index: number }) => {
+
+
+const Product = ({ discount, name, price, url, index }: ProductShopcartProps & { index: number }) => {
 
     const calculateDiscount = price * (discount / 100)
 
@@ -90,5 +101,27 @@ const Product = ({ discount, name, price, url, index }: ProductProps & { index: 
     );
 };
 
-export type { ProductProps };
-export default Product;
+const VoidShopcart = () => {
+
+    return (
+        <div id="void-shopcart" className="flex flex-1 justify-center items-center h-full  rounded-md  p-4 ">
+            <p className="font-medium uppercase ">El carrito de compras esta vacio!</p>
+        </div>
+    )
+}
+
+const ProductsShopcart = () => {
+
+    return (
+        <section id="shoptcart-product" className="flex-1 flex flex-col bg-default-50 rounded-md  ">
+            {
+                productTest.length > 0 ?
+                    productTest.map((props, index) => <Product key={props.id} index={index + 1}  {...props} />) :
+                    <VoidShopcart />
+            }
+        </section>
+    )
+}
+
+
+export default ProductsShopcart;

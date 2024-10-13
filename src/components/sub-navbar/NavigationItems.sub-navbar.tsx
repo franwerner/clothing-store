@@ -6,10 +6,10 @@ import { useLocation } from "react-router-dom";
 
 const Items = memo(({ name, url, icon, isActive }: NavigationList & { isActive: boolean }) => {
     return (
-        <NavbarItem  >
+        <NavbarItem>
             <Link
                 onClick={() => router.navigate(url)}
-                className={`flex flex-col ${isActive ? "text-secondary-400" : "text-default-950"} `}
+                className={`flex cursor-pointer flex-col ${isActive ? "text-secondary-400" : "text-default-950"} `}
                 style={{
                     fontWeight: isActive ? "600" : "400",
                 }}>
