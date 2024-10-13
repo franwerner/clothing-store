@@ -1,13 +1,13 @@
 import { Button, Input, Modal, ModalBody, ModalContent } from "@nextui-org/react"
 
-const ModalSearch = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
+const ModalProductSearch = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
 
     return (
         <Modal
             isOpen={show}
             onOpenChange={onShow}
             hideCloseButton
-            classNames={{ base: "min-w-full sm:m-0 m-0 " }}
+            classNames={{ base: "m-3 p-2 " }}
             placement="top"
             backdrop="blur" >
             <ModalContent >
@@ -53,4 +53,4 @@ const ModalSearch = ({ onShow, show }: { show: boolean, onShow: () => void }) =>
     )
 }
 
-export default ModalSearch
+export default ModalProductSearch

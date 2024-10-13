@@ -12,22 +12,22 @@ const navigationList: Array<NavigationList> = [
     },
     {
         name: "Productos",
-        url: "/",
+        url: "/productos",
         icon: "shopping_bag"
     },
     {
         name: "Ofertas",
-        url: "/",
+        url: "/ofertas",
         icon: "sell"
     },
     {
         name: "Contacto",
-        url: "/",
+        url: "/contacto",
         icon: "contact_support"
     },
     {
         name: "Envios",
-        url: "/",
+        url: "/envios",
         icon: "local_shipping"
     },
 

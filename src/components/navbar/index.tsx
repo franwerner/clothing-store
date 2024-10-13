@@ -1,9 +1,9 @@
 import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react"
 import { useState } from "react"
-import NavBarShopCart from "./NavBarShopCart"
-import NavBarNavigationMenu from "./NavBarNavigationMenu"
-import NavBarAccount from "./NavBarAccount"
-import NavBarSearch from "./navbar-search"
+import AccountNavBar from "./Account.navbar"
+import ShopCartNavbar from "./shopcart"
+import ProductSearchNavBar from "./product-search"
+import MenuNavBar from "./menu"
 
 
 const NavBar = () => {
@@ -14,8 +14,8 @@ const NavBar = () => {
         <Navbar
             maxWidth="lg"
             className="h-24 shadow sm:shadow-none">
-            <NavBarNavigationMenu />
-            <NavBarSearch />
+            <MenuNavBar/>
+            <ProductSearchNavBar />
             <NavbarBrand className="justify-center ">
                 <img
                     className="w-[100px] select-none "
@@ -25,8 +25,8 @@ const NavBar = () => {
                 />
             </NavbarBrand>
             <NavbarContent className=" data-[justify=start]:justify-center">
-                <NavBarAccount />
-                <NavBarShopCart />
+                <AccountNavBar />
+                <ShopCartNavbar />
             </NavbarContent>
         </Navbar>
     )
