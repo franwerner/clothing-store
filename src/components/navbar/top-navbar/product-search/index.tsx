@@ -1,11 +1,10 @@
 import { Button, NavbarContent, NavbarItem } from "@nextui-org/react";
 import { useState } from "react";
 import { useMediaQuery } from "responsive-component";
-import StaticProductSearch from "./Static.product-search";
-import ModalProductSearch from "./Modal.product-search";
+import ProductSearchStatic from "./Static.product-search";
+import ProductSearchModal from "./Modal.product-search";
 
-
-const ProductSearchNavBar = () => {
+const TopNavbarProductSearch = () => {
 
     const { search } = useMediaQuery({ search: { maxWidth: 767.97 } })
     const [show, setShow] = useState(false)
@@ -15,7 +14,7 @@ const ProductSearchNavBar = () => {
     }
 
     return (
-        <NavbarContent className="data-[justify=start]:justify-center"   >
+        <NavbarContent className="data-[justify=start]:justify-center h-auto" >
             <NavbarItem className="md:hidden">
                 <Button
                     onClick={onShow}
@@ -27,10 +26,10 @@ const ProductSearchNavBar = () => {
                     search
                 </Button>
             </NavbarItem>
-            <StaticProductSearch />
-            <ModalProductSearch onShow={onShow} show={show && search.matches} />
+            <ProductSearchStatic />
+            <ProductSearchModal onShow={onShow} show={show && search.matches} />
         </NavbarContent >
     );
 };
 
-export default ProductSearchNavBar;
+export default TopNavbarProductSearch;

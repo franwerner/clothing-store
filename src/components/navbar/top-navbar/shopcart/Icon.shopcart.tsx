@@ -1,6 +1,6 @@
 import { Badge } from "@nextui-org/react";
 
-const IconBag = ({ onShow }: { onShow: () => void }) => (
+const ShopCartIcon = ({ onShow }: { onShow: () => void }) => (
     <div onClick={onShow} className="relative flex justify-center items-center cursor-pointer flex-col" >
         <Badge
             content="(5)"
@@ -16,4 +16,4 @@ const IconBag = ({ onShow }: { onShow: () => void }) => (
 )
 
 
-export default IconBag
+export default ShopCartIcon

@@ -1,6 +1,6 @@
 import { Input, NavbarItem } from "@nextui-org/react";
 
-const StaticProductSearch = () => {
+const ProductSearchStatic = () => {
     return (
         <NavbarItem className=" hidden md:flex">
             <Input
@@ -23,4 +23,4 @@ const StaticProductSearch = () => {
     );
 };
 
-export default StaticProductSearch;
+export default ProductSearchStatic;

@@ -1,7 +1,5 @@
 import transformToCurrency from "@/helper/transformToCurrency.helper";
 import { Button, Image } from "@nextui-org/react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 
 interface ProductShopcartProps {
     id: number,
@@ -11,7 +9,7 @@ interface ProductShopcartProps {
     price: number
 }
 
-const productTest: Array<ProductShopcartProps> = Array.from<ProductShopcartProps, ProductShopcartProps>({ length: 0 }, () => {
+const productTest: Array<ProductShopcartProps> = Array.from<ProductShopcartProps, ProductShopcartProps>({ length: 10 }, () => {
     return {
         url: "https://acdn.mitiendanube.com/stores/001/874/631/products/1080x1080-421-26a776f1c63a0e562516481597741027-480-0.webp",
         name: "Zapatillas negras con plantilla asdasdasd",
@@ -24,29 +22,13 @@ const productTest: Array<ProductShopcartProps> = Array.from<ProductShopcartProps
 
 
 
-const Product = ({ discount, name, price, url, index }: ProductShopcartProps & { index: number }) => {
+const Product = ({ discount, name, price, url }: ProductShopcartProps) => {
 
     const calculateDiscount = price * (discount / 100)
 
-    const ref = useRef(null)
-    const inView = useInView(ref, { once: true })
-
     return (
-        <motion.article
-            ref={ref}
-            initial={{
-                opacity: 0
-            }}
-            animate={{
-                opacity: inView ? 1 : 0,
-            }}
-            transition={{
-                delay: 0.03 * index,
-                damping: 40,
-                stiffness: 100,
-                duration: 0.2 * index
-            }}
-            className="bg-default-5 bg-default-50 border-b-2 flex flex-col rounded-md p-2">
+        <article
+            className="bg-default-5 bg-default-50  border-b-2 flex flex-col rounded-md p-2">
             <section className="grid  grid-cols-[auto,1fr,auto,auto] ">
                 <Image
                     width={80}
@@ -97,7 +79,7 @@ const Product = ({ discount, name, price, url, index }: ProductShopcartProps & {
                     add
                 </Button>
             </section>
-        </motion.article>
+        </article>
     );
 };
 
@@ -110,13 +92,13 @@ const VoidShopcart = () => {
     )
 }
 
-const ProductsShopcart = () => {
+const ShopCartProducts = () => {
 
     return (
         <section id="shoptcart-product" className="flex-1 flex flex-col bg-default-50 rounded-md  ">
             {
                 productTest.length > 0 ?
-                    productTest.map((props, index) => <Product key={props.id} index={index + 1}  {...props} />) :
+                    productTest.map((props) => <Product key={props.id}   {...props} />) :
                     <VoidShopcart />
             }
         </section>
@@ -124,4 +106,4 @@ const ProductsShopcart = () => {
 }
 
 
-export default ProductsShopcart;
+export default ShopCartProducts;

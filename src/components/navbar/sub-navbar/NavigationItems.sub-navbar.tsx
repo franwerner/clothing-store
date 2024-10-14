@@ -1,12 +1,19 @@
 import navigationList, { NavigationList } from "@/constant/navigationList.contant";
 import router from "@/router";
-import { Link, NavbarContent, NavbarItem } from "@nextui-org/react";
+import { Link, NavbarContent } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import { memo } from "react";
 import { useLocation } from "react-router-dom";
 
 const Items = memo(({ name, url, icon, isActive }: NavigationList & { isActive: boolean }) => {
+
+    const responsiveItems = ["Inicio", "Productos"].includes(name)
+    const responsiveItemsSm = ["Envios"].includes(name)
+
     return (
-        <NavbarItem>
+        <motion.li
+            layout
+            className={` ${responsiveItems ? "flex" : "hidden"} ${responsiveItemsSm ? "xs:flex" : ""} md:flex `}>
             <Link
                 onClick={() => router.navigate(url)}
                 className={`flex cursor-pointer flex-col ${isActive ? "text-secondary-400" : "text-default-950"} `}
@@ -19,18 +26,18 @@ const Items = memo(({ name, url, icon, isActive }: NavigationList & { isActive: 
                 </span>
                 {name}
             </Link>
-        </NavbarItem>
+        </motion.li>
     )
 })
 
-const NavigationItems = () => {
+const SubNavbarNavigationItems = () => {
 
     const pathname = useLocation().pathname
 
 
     return (
         <NavbarContent
-            className="flex data-[justify=start]:justify-center w-full  sm:flex"
+            className="flex data-[justify=start]:justify-center w-min max-h-[68px] sm:flex"
             id="navigation"
         >
             {
@@ -40,4 +47,4 @@ const NavigationItems = () => {
     );
 };
 
-export default NavigationItems
+export default SubNavbarNavigationItems

@@ -1,14 +1,15 @@
-import WrapperApp from "@/components/WrapperApp";
+import AppWrapper from "@/components/AppWrapper";
+import Products from "@/pages/products";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <WrapperApp />,
+        element: <AppWrapper />,
         children: [
             {
                 path: "productos",
-                element: <p>Productos</p>
+                element: <Products />
             },
             {
                 path: "ofertas",

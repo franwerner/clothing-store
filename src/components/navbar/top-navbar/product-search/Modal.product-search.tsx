@@ -1,6 +1,6 @@
 import { Button, Input, Modal, ModalBody, ModalContent } from "@nextui-org/react"
 
-const ModalProductSearch = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
+const ProductSearchModal = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
 
     return (
         <Modal
@@ -9,7 +9,25 @@ const ModalProductSearch = ({ onShow, show }: { show: boolean, onShow: () => voi
             hideCloseButton
             classNames={{ base: "m-3 p-2 " }}
             placement="top"
-            backdrop="blur" >
+            motionProps={{
+                variants : {
+                    enter : {
+                        opacity : 1,
+                        transition : {
+                            duration : 0.2,
+                            easings : "easeInOut"
+                        }
+                    },
+                    exit : {
+                        opacity : 0,
+                        transition : {
+                            duration : 0.2,
+                            easings : "easeInOut"
+                        }
+                    }
+                }
+            }}
+            backdrop="opaque" >
             <ModalContent >
                 <ModalBody className="flex-row justify-between" >
                     <Button
@@ -53,4 +71,4 @@ const ModalProductSearch = ({ onShow, show }: { show: boolean, onShow: () => voi
     )
 }
 
-export default ModalProductSearch
+export default ProductSearchModal

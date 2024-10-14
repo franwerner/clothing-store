@@ -6,7 +6,7 @@ interface TotalShopcartProps {
 
 }
 
-const TotalShopcart = ({ subtotal }: TotalShopcartProps) => {
+const ShopCartTotal = ({ subtotal }: TotalShopcartProps) => {
 
     const shipping = 3000
     const freeShipping = 10000
@@ -21,11 +21,13 @@ const TotalShopcart = ({ subtotal }: TotalShopcartProps) => {
             className="flex flex-col w-full  items-center border-b-2"
         >
             <Progress
+                label="none"
                 size="md"
                 value={subtotal}
                 maxValue={freeShipping}
                 classNames={{
                     indicator: "bg-default-500",
+                    label: "hidden"
                 }}
                 formatOptions={{ style: "currency", currency: "ARS" }}
             />
@@ -49,4 +51,4 @@ const TotalShopcart = ({ subtotal }: TotalShopcartProps) => {
     );
 };
 
-export default TotalShopcart;
+export default ShopCartTotal;
