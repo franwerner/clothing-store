@@ -4,7 +4,7 @@ import Product, { ProductProps } from "./product";
 
 const classname = "material-symbols-outlined border-1 border-default-200 select-none absolute top-1/2   cursor-pointer shadow-xl  pointer-events-auto  bg-white rounded-full text-default-700 p-[12px] text-[35px]"
 
-const CarruselProducts = ({ products }: { products: Array<ProductProps> }) => {
+const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [constraints, setConstraints] = useState({ left: 0, right: 0 })
     const [hidden, setHidden] = useState(false)
@@ -53,7 +53,9 @@ const CarruselProducts = ({ products }: { products: Array<ProductProps> }) => {
     }, [constraints.left])
 
     return (
-        <section className="relative  p-2">
+        <section
+            data-id="ProductsCarousel"
+            className="relative  p-2">
             <div className="overflow-hidden p-1">
                 <motion.div
                     drag="x"
@@ -128,4 +130,4 @@ const CarruselProducts = ({ products }: { products: Array<ProductProps> }) => {
 };
 
 
-export default CarruselProducts
+export default ProductsCarousel

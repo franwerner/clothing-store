@@ -1,4 +1,4 @@
-import CarruselProducts from "@/components/CarruselProducts";
+import ProductsCarousel from "@/components/ProductsCarousel";
 import { ProductProps } from "@/components/product";
 
 const products: Array<ProductProps> = [
@@ -26,7 +26,7 @@ const HomeCategories = () => {
             id="categories"
             className="flex justify-center shadow-lg border flex-col py-6 rounded-md px-4">
             <h2 className="font-semibold  pb-2  text-1xl tracking-wider  uppercase ">Mejores ofertas</h2>
-            <CarruselProducts products={products} />
+            <ProductsCarousel products={products} />
         </section>
     );
 };
