@@ -24,9 +24,9 @@ const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) =
             as="article"
             id={id.toString()}
             classNames={{
-                body: "p-0 pb-[80%]  relative flex-0",
+                body: "p-0 pb-[80%]  relative flex-0 overflow-hidden  ",
                 footer: " flex-0  flex-wrap p-1 m-0 break-all  flex-col bg-default-50 min-h-[95px] text-center tracking-widest text-default-600 ",
-                base: `min-h-[280px]  bg-default-50 group cursor-pointer relative  min-w-[200px]`,
+                base: `min-h-[280px] md:min-w-[180px] min-w-[150px]  bg-default-50 group cursor-pointer relative`,
                 header: "p-0 relative block m-0  ",
             }}
         >
@@ -35,14 +35,14 @@ const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) =
                 {!stock && <ProductWithoutStock />}
             </CardHeader>
             <CardBody >
-                <div className={`${!stock ? "bg-red-900" : "bg-black"} bg-opacity-0 group-hover:bg-opacity-20 absolute z-10 h-full w-full`} />
                 <Image
+                    draggable={false}
                     classNames={{
                         wrapper: "static z-0"
                     }}
                     alt={name}
                     src={url}
-                    className="absolute w-full   h-full object-contain "
+                    className="absolute w-full  h-full object-contain "
                 />
             </CardBody>
 

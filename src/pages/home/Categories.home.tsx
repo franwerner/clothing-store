@@ -1,5 +1,5 @@
-import Carrusel from "@/components/carrusel";
-import Product, { ProductProps } from "@/components/product";
+import CarruselProducts from "@/components/CarruselProducts";
+import { ProductProps } from "@/components/product";
 
 const products: Array<ProductProps> = [
     { id: 1, name: "camiseta básica", discount: 10, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 230000.00, stock: true },
@@ -24,15 +24,9 @@ const HomeCategories = () => {
     return (
         <section
             id="categories"
-            className="flex justify-center flex-col p-10">
-            <h2 className="font-semibold  text-center  text-2xl tracking-wider uppercase">Comprar por categoría</h2>
-            <Carrusel
-                data={products}>
-                {
-                    products.map(i => <Product key={i.id} {...i} />)
-                }
-            </Carrusel>
-
+            className="flex justify-center shadow-lg border flex-col py-6 rounded-md px-4">
+            <h2 className="font-semibold  pb-2  text-1xl tracking-wider  uppercase ">Mejores ofertas</h2>
+            <CarruselProducts products={products} />
         </section>
     );
 };

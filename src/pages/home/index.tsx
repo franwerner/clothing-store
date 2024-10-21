@@ -10,9 +10,6 @@ const models = [img1, img2]
 
 const HomeCarrusel = () => {
 
-
-  // return 
-
   return (
     <Carrusel
     data={models}

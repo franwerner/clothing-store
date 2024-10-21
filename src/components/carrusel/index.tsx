@@ -33,7 +33,12 @@ const useCarrusel = () => {
     return useContext(CarruselContext)
 }
 
-const Carrusel = ({ classNames = {}, data = [], swiper = "arrow", children }: CarruselProps & { children: ReactNode }) => {
+const Carrusel = ({
+    classNames = {},
+    data = [],
+    swiper = "arrow",
+    children
+}: CarruselProps & { children: ReactNode }) => {
 
     const [stage, setStage] = useState(0)
     const [width, setWidth] = useState(0)
@@ -72,7 +77,7 @@ const Carrusel = ({ classNames = {}, data = [], swiper = "arrow", children }: Ca
         const resize = () => onSetWidth()
 
         const interval = setInterval(() => {
-            // onHandlerStage(-1)
+            onHandlerStage(-1)
         }, 1000 * 5);
 
         window.addEventListener("resize", resize)
