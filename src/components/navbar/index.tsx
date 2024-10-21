@@ -4,9 +4,8 @@ import TopNavBar from "./top-navbar"
 
 const calcHideOnScroll = `
     calc(-1 * (var(--navbar-height) - 
-     (var(--subnavbar-height) + var(--topnavbar-height)) + 
+    (var(--subnavbar-height) + var(--topnavbar-height)) + 
     var(--topnavbar-height) - 7px ) 
-
     `
 
 const NavBar = () => {
@@ -42,7 +41,7 @@ const NavBar = () => {
                     }
                 }
             }}
-            className=" shadow sm">
+            className=" bg-white shadow sm">
             <TopNavBar />
             <SubNavbar />
         </NavbarUI>

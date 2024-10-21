@@ -3,11 +3,14 @@ import { Button, Divider, Link, Modal, ModalBody, ModalContent, ModalFooter, Mod
 import { useState } from "react";
 import MenuNavigationItems from "./NavigationItems.menu";
 import router from "@/router";
+import { useQuerySm } from "@/hooks/useQuery.hook";
 
 
 const TopNavbarMenu = () => {
 
     const [show, setShow] = useState(false)
+
+    const matches = useQuerySm().matches
 
     useOptimizationModal(show)
 
@@ -17,9 +20,12 @@ const TopNavbarMenu = () => {
 
     return (
         <>
-            <NavbarMenuToggle data-open={show} onClick={() => setShow(true)} className="sm:hidden h-10" />
+            <NavbarMenuToggle
+                data-open={show}
+                onClick={() => setShow(true)}
+                className="sm:hidden h-10" />
             <Modal
-                isOpen={show}
+                isOpen={show && !matches}
                 onOpenChange={onShow}
                 backdrop="opaque"
                 placement="top"
@@ -49,15 +55,15 @@ const TopNavbarMenu = () => {
                 }}
             >
                 <ModalContent className="overflow-hidden">
-                    <ModalHeader className="font-bold uppercase text-default-700 font-Oswald text-2xl border-b-1 p-5 mx-2">
+                    <ModalHeader className="font-bold uppercase text-default-700 font-Oswald text-2xl  p-5 mx-2">
                         Holga Hat's
                     </ModalHeader>
-                    <ModalBody className="mx-1 p-1">
+                    <ModalBody className="mx-1 border-y-1 p-1">
                         <ul>
                             <MenuNavigationItems onShow={onShow} />
                         </ul>
                     </ModalBody>
-                    <ModalFooter className="flex xs:gap-5 border-1 p-2 justify-center items-center" >
+                    <ModalFooter className="flex xs:gap-5 p-2 justify-center items-center" >
                         <Button
                             color="success"
                             className="p-[21px] px-2"

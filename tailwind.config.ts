@@ -1,4 +1,3 @@
-// tailwind.config.js
 const { nextui } = require("@nextui-org/react");
 const twinds = require("tailwindcss/defaultTheme")
 

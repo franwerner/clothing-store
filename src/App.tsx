@@ -8,7 +8,7 @@ function App() {
 
   return (
     <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="ligth">
+      <NextThemesProvider attribute="class"  defaultTheme="ligth">
         <RouterProvider router={router}>
         </RouterProvider>
       </NextThemesProvider>

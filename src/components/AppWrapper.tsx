@@ -1,4 +1,4 @@
-import Home from "@/pages/home";
+import HomePage from "@/pages/home";
 import { useRef } from "react";
 import { useOutlet } from "react-router-dom";
 import NavBar from "./navbar";
@@ -9,13 +9,14 @@ const AppWrapper = () => {
 
   return (
     <div
-      className="flex flex-col justify-center  items-center"
+      className="flex flex-col min-h-dvh  bg-justify-center  items-center"
       id="wrapper-app"
       ref={ref}
      
     >
       <NavBar/>
-      {Outlet ?? <Home />}
+      {Outlet ?? <HomePage />}
+
     </div>
   );
 };

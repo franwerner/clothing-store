@@ -18,7 +18,7 @@ const ShopCartTotal = ({ subtotal }: TotalShopcartProps) => {
     return (
         <section
             id="shopcart-total"
-            className="flex flex-col w-full  items-center border-b-2"
+            className="flex flex-col w-full  items-center border-b-1"
         >
             <Progress
                 label="none"

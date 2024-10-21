@@ -19,10 +19,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*" : ["src/*"]
+      "@/*" : ["src/*"],
+      "@assets/*" : [ "assets/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src","tailwind.config"]
 }

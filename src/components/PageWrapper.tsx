@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 
 
-const PageWrapper = ({ id, children }: { id: string, children: ReactNode }) => {
+
+const PageWrapper = ({ children}: { children: ReactNode}) => {
+
     return (
-        <main id={id} className="w-full max-w-[1024px] px-4 ">
+        <main className="w-full p-1 sm:p-2 sm:px-3 flex-1 max-w-[1024px]  ">
             {children}
         </main>
     );

@@ -7,7 +7,6 @@ import ShopCartProducts from "./Products.shopcart";
 import ShopCartTotal from "./Total.shopcart";
 
 
-
 const TopNavbarShopCart = () => {
 
     const [show, setShow] = useState(false)

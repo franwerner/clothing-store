@@ -1,47 +1,47 @@
-/**Esta ruta se renderiza en conjunto al component WrapperApp*/
+import PageWrapper from "@/components/PageWrapper";
+import Categories from "./Categories.home";
+import HomeInfo from "./Info.home";
+import Carrusel from "@/components/carrusel";
+import { Image } from "@nextui-org/react";
+import img1 from "@assets/slider-1.png";
+import img2 from "@assets/slider-2.jpg";
 
-import { motion } from "framer-motion";
+const models = [img1, img2]
 
-const Home = () => {
-    return (
-        <motion.main
-        className=" bg-white  inline-flex flex-col  w-full" 
-        >
-          <p className="p-3 ">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-          <p className="p-3">131231232</p>
-        </motion.main>
-    );
+const HomeCarrusel = () => {
+
+
+  // return 
+
+  return (
+    <Carrusel
+    data={models}
+    swiper="point"
+    classNames={{}}
+    >
+      {models.map((src, index) =>
+        <Image
+          key={index}
+          classNames={{
+            wrapper: "flex w-full flex-shrink-0 ",
+            img: "rounded-none w-full  "
+          }}
+          draggable={false}
+          src={src} />
+
+      )}
+    </Carrusel>
+  )
+}
+
+const HomePage = () => {
+  return (
+    <PageWrapper >
+      <HomeCarrusel />
+      <HomeInfo />
+      <Categories />
+    </PageWrapper>
+  );
 };
 
-export default Home
+export default HomePage
