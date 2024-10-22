@@ -4,7 +4,7 @@ const ProductsFilterPrice = () => {
     return (
         <section
             id="aside-filter-price" >
-            <h3 className="font-oswald  text-default-700 tracking-wide uppercase pb-1 font-bold text-[18px]">Precio</h3>
+            <h3 className="font-oswald  text-default-700 tracking-wider uppercase pb-1 font-bold text-[18px]">Precio</h3>
             <div className="flex items-center mt-1 gap-2 ">
                 <Input
                     label="Min"

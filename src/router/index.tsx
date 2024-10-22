@@ -1,4 +1,4 @@
-import AppWrapper from "@/components/AppWrapper";
+import AppWrapper from "@/pages/wrapper";
 import { CircularProgress } from "@nextui-org/react";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";

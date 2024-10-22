@@ -8,12 +8,25 @@ import { useEffect } from "react";
 const useOptimizationModal = (show: boolean) => {
     useEffect(() => {
         const root = document.querySelector("#root") as HTMLDivElement
+
         if (!root) return
-        if (show && window.innerWidth <= 440) { 
+
+        if (show && window.innerWidth <= 440) {
             (root.style.display = "none")
         } else {
             (root.style.display = "")
         }
+
+        const resize = () => {
+            if (window.innerWidth > 440 && root.style.display == "none") root.style.display = ""
+        }
+
+        window.addEventListener("resize", resize)
+
+        return () => {
+            window.removeEventListener("resize", resize)
+        }
+
 
     }, [show])
 };

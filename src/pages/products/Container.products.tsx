@@ -35,7 +35,7 @@ const ProductsContainer = () => {
                 <Button
                     variant="flat"
                     color="default"
-                    className="h-12 text-[16px]  bg-default-700 text-default-50  uppercase">
+                    className="h-12 text-[16px] bg-default-700 tracking-wider font-semibold  text-default-50  uppercase">
                     Cargar más productos
                 </Button>
             </div>

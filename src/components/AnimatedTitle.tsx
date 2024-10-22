@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
-interface TitlePageProps {
-    pageName: string
+interface AnimatedTitle {
+    title: string
 }
 
 const DividerAnimate = () => (
@@ -14,9 +14,11 @@ const DividerAnimate = () => (
         className="h-[1px] bg-default-300" />
 )
 
-const TitlePage = ({ pageName }: TitlePageProps) => {
+const AnimatedTitle = ({ title }: AnimatedTitle) => {
+    
     return (
-        <div className="text-center gap-4  justify-between items-center flex  pt-2 mt-6  ">
+        <div 
+        className="text-center gap-4  justify-between items-center flex pt-2 mt-6  ">
             <DividerAnimate />
             <motion.h1
                 transition={{
@@ -26,14 +28,14 @@ const TitlePage = ({ pageName }: TitlePageProps) => {
                     scale: 0
                 }}
                 animate={{
-                    scale: 1
+                    scale: 1,
                 }}
-                className="text-3xl font-oswald font-medium uppercase text-default-700 tracking-widest">
-                {pageName}
+                className="text-3xl text-nowrap font-oswald font-medium uppercase text-default-700 tracking-wider">
+                {title}
             </motion.h1>
             <DividerAnimate />
         </div>
     );
 };
 
-export default TitlePage;
+export default AnimatedTitle;

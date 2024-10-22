@@ -55,8 +55,8 @@ const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
     return (
         <section
             data-id="ProductsCarousel"
-            className="relative  p-2">
-            <div className="overflow-hidden p-1">
+            className="relative ">
+            <div className="overflow-hidden p-1 px-2">
                 <motion.div
                     drag="x"
                     onDragStart={() => {
@@ -81,10 +81,10 @@ const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
                     transition={{
                         type: "spring",
                         stiffness: 300,
-                        damping: 30,
+                        damping: 20,
                         duration: 0.2,
                     }}
-                    className="flex gap-1  cursor-pointer"
+                    className="flex gap-1 cursor-pointer"
                 >
                     {products.map((i) => (
                         <Product key={i.id} {...i} />

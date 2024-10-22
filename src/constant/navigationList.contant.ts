@@ -15,11 +15,11 @@ const navigationList: Array<NavigationList> = [
         url: "/productos",
         icon: "shopping_bag"
     },
-    {
-        name: "Ofertas",
-        url: "/ofertas",
-        icon: "sell"
-    },
+    // {
+    //     name: "Ofertas",
+    //     url: "/ofertas",
+    //     icon: "sell"
+    // },
     {
         name: "Contacto",
         url: "/contacto",

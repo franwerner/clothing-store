@@ -19,9 +19,6 @@ const productTest: Array<ProductShopcartProps> = Array.from<ProductShopcartProps
     }
 })
 
-
-
-
 const Product = ({ discount, name, price, url }: ProductShopcartProps) => {
 
     const calculateDiscount = price * (discount / 100)
@@ -44,13 +41,13 @@ const Product = ({ discount, name, price, url }: ProductShopcartProps) => {
 
                 <small className="underline overflow-hidden text-ellipsis">{name}</small>
 
-                <div id="subtotal">
-                    <small id="discount" >-{discount}%</small>
-                    <p id="old-price" className="text-default-400 text-[12px] line-through">{transformToCurrency(calculateDiscount, "ARS")}</p>
-                    <p id="price" className="font-bold">{transformToCurrency(price, "ARS")}</p>
+                <div className="tracking-wider text-default-600 flex flex-col justify-center" >
+                    <small className="font-oswald ">{-discount}%</small>
+                    <p className=" text-[12px] font-oswald line-through font-light">{transformToCurrency(calculateDiscount, "ARS")}</p>
+                    <p className="font-semibold  font-oswald">{transformToCurrency(price, "ARS")}</p>
                 </div>
 
-                <div id="remove-product"
+                <div 
                     className="p-0 ">
                     <Button
                         variant="bordered"
@@ -66,7 +63,7 @@ const Product = ({ discount, name, price, url }: ProductShopcartProps) => {
                 <Button
                     color="default"
                     variant="solid"
-                    className="material-symbols-outlined text-1xl text-default-50 bg-default-500  rounded-none"
+                    className="material-symbols-outlined text-1xl text-white bg-default-700  rounded-none"
                     isIconOnly>
                     remove
                 </Button>
@@ -74,7 +71,7 @@ const Product = ({ discount, name, price, url }: ProductShopcartProps) => {
                 <Button
                     color="default"
                     variant="solid"
-                    className="material-symbols-outlined text-1xl text-default-50 bg-default-500  rounded-none"
+                    className="material-symbols-outlined text-1xl text-white bg-default-700  rounded-none"
                     isIconOnly>
                     add
                 </Button>

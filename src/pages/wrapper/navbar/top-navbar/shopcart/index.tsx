@@ -72,7 +72,7 @@ const TopNavbarShopCart = () => {
                     <ModalFooter className="flex flex-col  justify-start items-center ">
                         <ShopCartTotal subtotal={95000} />
                         <Button
-                            className="uppercase font-bold w-full text-secondary-400"
+                            className="uppercase font-bold tracking-wider w-full text-secondary-400"
                             variant="flat"
                             color="secondary">
                             Iniciar compra

@@ -1,6 +1,6 @@
 import { Divider, Link, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react"
 import router from "@/router"
-import imgBrand from "../../../../assets/Olga hats.jpg"
+import imgBrand from "@assets/Olga hats.jpg"
 import TopNavbarShopCart from "./shopcart"
 import TopNavbarProductSearch from "./product-search"
 import TopNavbarMenu from "./menu"

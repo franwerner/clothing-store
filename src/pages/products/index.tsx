@@ -1,4 +1,3 @@
-import TitlePage from "@/components/TitlePage";
 import PageWrapper from "@/components/PageWrapper";
 import ProductsOrder from "./Order.products";
 import ProductsModalFilter from "./ModalFilter.products";
@@ -7,12 +6,14 @@ import ProductsFilterCategories from "./products-filter/Categories.products-filt
 import ProductsFilterWaits from "./products-filter/Waist.filter-products-filter";
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
+import AnimatedTitle from "@/components/AnimatedTitle";
+import { ScrollRestoration } from "react-router-dom";
 
 const ProductsPage = () => {
     return (
         <PageWrapper  >
             <section id="products-page-head">
-                <TitlePage pageName="Productos" />
+                <AnimatedTitle title="Productos" />
                 <div className="flex justify-center p-2 gap-3 items-center">
                     <ProductsOrder />
                     <ProductsModalFilter />
@@ -30,6 +31,7 @@ const ProductsPage = () => {
                 </aside>
                 <ProductsContainer />
             </section>
+            <ScrollRestoration />
         </PageWrapper>
     );
 };

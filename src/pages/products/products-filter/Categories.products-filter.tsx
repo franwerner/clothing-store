@@ -45,7 +45,7 @@ const ProductsFilterCategories = () => {
             hiddenToggleButton={categories.length <= maxLength}
             id="aside-filter-categories"
             as="section">
-            <h3 className="font-oswald text-default-700 tracking-wide uppercase pb-1 font-bold text-[18px]">Categorias</h3>
+            <h3 className="font-oswald text-default-700 tracking-wider uppercase pb-1 font-bold text-[18px]">Categorias</h3>
             <ToggleContent.visible className={classname}>
                 {categories.slice(0, maxLength).map(i => <CatetegoriesItem key={i.id} {...i} />)}
             </ToggleContent.visible>

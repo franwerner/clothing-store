@@ -5,7 +5,9 @@ const orderList = [
     "Precio : mayor a Menor",
     "A - Z",
     "Z - A",
-    "Mas vendidos"
+    "Mas vendidos",
+    "Ofertas",
+    "Nuevo"
 ]
 
 const ProductsPageOrder = () => {

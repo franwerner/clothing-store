@@ -75,13 +75,15 @@ const GalleryCarousel = ({
         <section
             data-id="GalerryCarousel"
             ref={containerRef}
-            className={"overflow-hidden rounded-md relative flex flex-col pt-2"}>
+            className={"overflow-hidden  relative flex flex-col"}>
             <div
-                className={"flex relative rounded-md max-h-[600px] cursor-pointer"}>
+                className={"flex relative  max-h-[500px] cursor-pointer"}>
                 <motion.div
-                    data-slot="content"
-                    className="flex rounded-md w-full relative"
+                    className="flex w-full relative"
                     dragElastic={1}
+                    transition={{
+                        damping: 20
+                    }}
                     dragConstraints={{ left: 0, right: -1 * width * stage }}
                     onDragEnd={onDragEnd}
                     animate={{
@@ -93,14 +95,14 @@ const GalleryCarousel = ({
                         <Image
                             key={index}
                             classNames={{
-                                wrapper: "flex w-full flex-shrink-0 ",
-                                img: "rounded-lg w-full  "
+                                wrapper: "flex  flex-shrink-0 ",
+                                img: "rounded-none object-cover w-full  "
                             }}
                             draggable={false}
                             src={src} />
                     )}
                 </motion.div >
-                <div className="bg-transparent gap-2 right-0 p-2 absolute flex justify-center">
+                <div className="bg-transparent gap-2 p-2 absolute flex justify-center">
                     {
                         images.map((i, index) => <Point
                             key={i}

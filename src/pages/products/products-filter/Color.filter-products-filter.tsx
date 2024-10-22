@@ -48,7 +48,7 @@ const ProductsFilterColor = () => {
             
             as="section"
             id="aside-filter-color">
-            <h3 className="font-oswald  text-default-700 tracking-wide uppercase pb-1 font-bold text-[18px]">Color</h3>
+            <h3 className="font-oswald  text-default-700 tracking-wider uppercase pb-1 font-bold text-[18px]">Color</h3>
             <ToggleContent.visible className={classname}>
                 {colors.slice(0, maxLength).map(i => <ColorItem key={i.id} {...i} />)}
             </ToggleContent.visible>
