@@ -25,7 +25,7 @@ const TopNavbarShopCart = () => {
             <Modal
                 classNames={{
                     wrapper: "flex justify-end  ",
-                    base: "sm:m-0 m-0 min-h-dvh rounded-none",
+                    base: "sm:m-0 m-0  min-h-dvh rounded-none",
 
                 }}
                 isOpen={show}
@@ -70,9 +70,9 @@ const TopNavbarShopCart = () => {
                         <ShopCartProducts />
                     </ModalBody>
                     <ModalFooter className="flex flex-col  justify-start items-center ">
-                        <ShopCartTotal subtotal={95000} />
+                        <ShopCartTotal />
                         <Button
-                            className="uppercase font-bold tracking-wider w-full text-secondary-400"
+                            className="uppercase font-bold  w-full text-secondary-400"
                             variant="flat"
                             color="secondary">
                             Iniciar compra

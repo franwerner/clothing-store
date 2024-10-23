@@ -24,7 +24,7 @@ const InstagramSvg = () => (
     <Link
         target="_blank"
         to={"https://www.instagram.com"}
-        className="bg-default-700 max-w-min p-2 rounded-full">
+        className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] max-w-min p-2 rounded-full">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
@@ -40,7 +40,7 @@ const WhatsappSvg = () => (
     <Link
         target="_blank"
         to={"https://www.whatsapp.com"}
-        className="bg-default-700 max-w-min p-2 rounded-full">
+        className="bg-success-400 max-w-min p-2 rounded-full">
         <svg
             height={35}
             width={35}
@@ -56,8 +56,8 @@ const FooterTop = () => {
     return (
         <section
             id="footer-top"
-            className="max-w-[--page-width] ">
-            <div id="social-media" className="border-b-1 border-default-300">
+            className="max-w-[--page-width]   w-full p-2 sm:px-3 ">
+            <div id="social-media" className="border-b-1 ">
                 <AnimatedTitle title="Redes sociales" />
                 <div className="flex justify-center gap-6 py-5 ">
                     <InstagramSvg />
@@ -75,9 +75,9 @@ const FooterTop = () => {
                                 <span className="material-symbols-outlined text-default-600  text-[25px] ">
                                     {icon}
                                 </span>
-                                <h3 className="text-[17px] font-oswald tracking-wider text-default-600 font-semibold uppercase">{title}</h3>
+                                <h3 className="text-[17px] font-oswald  text-default-600 font-semibold uppercase">{title}</h3>
                             </div>
-                            <p className="text-[14px] text-center tracking-wider font-light">{subtitle}</p>
+                            <p className="text-[14px] text-center  font-light">{subtitle}</p>
                         </div>
                     )
                 }

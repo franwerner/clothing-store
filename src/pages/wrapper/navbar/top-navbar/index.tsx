@@ -25,7 +25,7 @@ const TopNavBar = () => {
                     <Link
                         onClick={() => router.navigate("cuenta/register")}
                         color="foreground"
-                        className="text-[10px] uppercase cursor-pointer">
+                        className="text-[10px] uppercase tracking-wider cursor-pointer">
                         crear cuenta
                     </Link>
                 </NavbarItem>
@@ -36,7 +36,7 @@ const TopNavBar = () => {
                     <Link
                         onClick={() => router.navigate("cuenta/login")}
                         color="foreground"
-                        className="text-[10px] cursor-pointer uppercase">
+                        className="text-[10px] cursor-pointer tracking-wider uppercase">
                         iniciar sesion
                     </Link>
                 </NavbarItem>

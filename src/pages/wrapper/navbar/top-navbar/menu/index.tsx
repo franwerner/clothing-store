@@ -3,14 +3,14 @@ import { Button, Divider, Link, Modal, ModalBody, ModalContent, ModalFooter, Mod
 import { useState } from "react";
 import MenuNavigationItems from "./NavigationItems.menu";
 import router from "@/router";
-import { useQuerySm } from "@/hooks/useQuery.hook";
+import { useQueryMd } from "@/hooks/useQuery.hook";
 
 
 const TopNavbarMenu = () => {
 
     const [show, setShow] = useState(false)
 
-    const matches = useQuerySm().matches
+    const matches = useQueryMd().matches
 
     useOptimizationModal(show)
 
@@ -18,12 +18,13 @@ const TopNavbarMenu = () => {
         setShow(prev => !prev)
     }
 
+
     return (
         <>
             <NavbarMenuToggle
                 data-open={show}
                 onClick={() => setShow(true)}
-                className="sm:hidden h-10" />
+                className="md:hidden h-10 " />
             <Modal
                 isOpen={show && !matches}
                 onOpenChange={onShow}
@@ -32,7 +33,7 @@ const TopNavbarMenu = () => {
                 scrollBehavior="inside"
                 classNames={{
                     wrapper: "flex justify-start ",
-                    base: "sm:m-0 m-0 min-h-dvh rounded-none",
+                    base: "sm:m-0 m-0  min-h-dvh rounded-none",
                 }}
                 motionProps={{
                     variants: {
@@ -56,14 +57,14 @@ const TopNavbarMenu = () => {
             >
                 <ModalContent className="overflow-hidden">
                     <ModalHeader className="font-bold uppercase text-default-700 font-Oswald text-2xl  p-5 mx-2">
-                        Holga Hat's
+                       Olga Hat's
                     </ModalHeader>
                     <ModalBody className="mx-1 border-y-1 p-1">
                         <ul>
                             <MenuNavigationItems onShow={onShow} />
                         </ul>
                     </ModalBody>
-                    <ModalFooter className="flex xs:gap-5 p-2 justify-center items-center" >
+                    <ModalFooter className="flex xs:gap-5  p-2 justify-center items-center" >
                         <Button
                             color="success"
                             className="p-[21px] px-2"

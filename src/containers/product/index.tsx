@@ -2,20 +2,12 @@ import { Card, CardBody, CardFooter, CardHeader, Image } from "@nextui-org/react
 import { memo } from "react"
 import ProductDiscountBand from "./DiscountBand.product"
 import ProductWithoutStock from "./WithoutStock.product"
-import transformToCurrency from "@/helper/transformToCurrency.helper"
-import transformToUppercase from "@/helper/transformToUppercase.helper"
-
-interface ProductProps {
-    id: number,
-    name: string,
-    discount: number,
-    url: string,
-    price: number,
-    stock: boolean,
-}
+import transformToCurrency from "@/utils/transformToCurrency.utils"
+import transformToUppercase from "@/utils/transformToUppercase.utils"
+import IProduct from "@/interfaces/Product.interfaces"
 
 
-const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) => {
+const ProductCard = memo(({ discount, name, url, price, stock, id }: IProduct) => {
 
     const calculateDiscount = (discount / 100) * price
 
@@ -25,7 +17,7 @@ const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) =
             id={id.toString()}
             classNames={{
                 body: "p-0 pb-[80%]  relative flex-0 overflow-hidden  ",
-                footer: " flex-0  flex-wrap p-1 m-0 break-all flex-col bg-default-50 min-h-[95px] text-center tracking-widest text-default-600 ",
+                footer: " flex-0 flex-wrap p-1 m-0 break-all flex-col bg-default-50 min-h-[95px] text-center  text-default-700 ",
                 base: `min-h-[280px] md:min-w-[180px] min-w-[160px]  bg-default-50 group cursor-pointer relative`,
                 header: "p-0 relative block m-0  ",
             }}
@@ -47,10 +39,10 @@ const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) =
             </CardBody>
 
             <CardFooter  >
-                <h3 className="font-oswald text-[13px] max-h-[80px] group-hover:text-default-900  font-semibold  text-wrap truncate uppercase ">{transformToUppercase(name)}</h3>
+                <h3 className="font-oswald text-[15px] max-h-[80px] group-hover:text-default-900  font-semibold  text-wrap truncate uppercase ">{transformToUppercase(name)}</h3>
                 {
                     discount > 0 && <div className="flex items-center gap-1 text-w py-[2px]">
-                        <span className="text-[10px] text:md-[12px] line-through">{transformToCurrency(price, "ARS")}</span>
+                        <span className="text-[12px] line-through">{transformToCurrency(price, "ARS")}</span>
                         <span className="text-[10px]">{discount}% OFF</span>
                     </div>
                 }
@@ -60,5 +52,4 @@ const Product = memo(({ discount, name, url, price, stock, id }: ProductProps) =
     )
 })
 
-export type { ProductProps }
-export default Product
+export default ProductCard

@@ -1,18 +1,18 @@
-import AppWrapper from "@/pages/wrapper";
-import { CircularProgress } from "@nextui-org/react";
+import LoadPage from "@/components/LoadPage";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 const LazyProducts = lazy(() => import("@/pages/products"))
+const LazyContact = lazy(() => import("@/pages/contact"))
+const LazyAppWraper = lazy(() => import("@/pages/wrapper"))
 
-const LoadPage = () => <div className=" flex flex-1 ">
-    <CircularProgress className="m-auto" size="lg" color="secondary" aria-label="Loading..." />
-</div>
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AppWrapper />,
+        element: <Suspense fallback={<LoadPage screen="full" />} >
+            <LazyAppWraper />
+        </Suspense>,
         children: [
             {
                 path: "productos",
@@ -26,7 +26,9 @@ const router = createBrowserRouter([
             },
             {
                 path: "contacto",
-                element: <p>contacto</p>
+                element: <Suspense fallback={<LoadPage />} >
+                    <LazyContact />
+                </Suspense>
             },
             {
                 path: "envios",

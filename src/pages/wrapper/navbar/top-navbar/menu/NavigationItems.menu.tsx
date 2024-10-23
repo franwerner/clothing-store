@@ -16,7 +16,7 @@ const Item = memo(({ name, url, icon, index, isActive, setMenu }: NavigationList
                 className={`text-[16px] flex p-3 items-center gap-5 justify-start font-semibold cursor-pointer ${isActive ? "text-secondary-400" : "text-default-600 "} uppercase`}
             >
                 {name}
-                <span className={`material-symbols-outlined text-2xl px-2 p-1 rounded-full ${isActive ? "bg-secondary-50  text-secondary-400 " : "bg-default-50"} `}>
+                <span className={`material-symbols-outlined text-3xl px-2 p-1 rounded-full ${isActive ? "bg-secondary-50  text-secondary-400 " : "bg-default-50"} `}>
                     {icon}
                 </span>
             </Link>

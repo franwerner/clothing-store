@@ -16,7 +16,7 @@ const Items = memo(({ name, url, icon, isActive }: NavigationList & { isActive: 
             className={` ${responsiveItems ? "flex" : "hidden"} ${responsiveItemsSm ? "xs:flex" : ""} md:flex `}>
             <Link
                 onClick={() => router.navigate(url)}
-                className={`flex cursor-pointer flex-col ${isActive ? "text-secondary-400" : "text-default-950"} `}
+                className={`flex cursor-pointer flex-col  ${isActive ? "text-secondary-400" : "text-default-950"} `}
                 style={{
                     fontWeight: isActive ? "600" : "400",
                 }}>

@@ -12,7 +12,7 @@ module.exports = {
     screens : {
       xs : "440px",
       ...twinds.screens
-    }
+    },
   },
   darkMode: "class",
   plugins: [

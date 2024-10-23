@@ -30,7 +30,7 @@ const AnimatedTitle = ({ title }: AnimatedTitle) => {
                 animate={{
                     scale: 1,
                 }}
-                className="text-3xl text-nowrap font-oswald font-medium uppercase text-default-700 tracking-wider">
+                className="text-3xl text-nowrap font-oswald font-semibold uppercase text-default-700 ">
                 {title}
             </motion.h1>
             <DividerAnimate />

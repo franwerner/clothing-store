@@ -40,7 +40,7 @@ const ProductsFilterWaits = () => {
       className=" flex flex-col items-start  "
       hiddenToggleButton={waits.length <= maxLength}
     >
-      <h3 className="font-oswald  text-default-700 tracking-wider uppercase pb-1  font-bold text-[18px]">Talles</h3>
+      <h3 className="font-oswald  text-default-700  uppercase pb-1  font-bold text-[18px]">Talles</h3>
       <ToggleContent.visible className={` ${classname}`}>
         {waits.slice(0, maxLength).map(e => <WaitsItem key={e.id} {...e} />)}
       </ToggleContent.visible>

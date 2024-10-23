@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
-const PageWrapper = ({ children}: { children: ReactNode}) => {
+const PageWrapper = ({ children, className = "" }: { children: ReactNode, className?: string }) => {
 
     return (
-        <main className="w-full p-1 sm:p-2 bg-default-100 sm:px-3 flex-1 max-w-[--page-width]  ">
+        <div className={`w-full overflow-x-hidden p-2 bg-default-100 sm:px-3 flex-1 min-h-[50dvh] max-w-[--page-width]  ${className} `}>
             {children}
-        </main>
+        </div>
     );
 };
 

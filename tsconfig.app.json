@@ -25,5 +25,5 @@
       "@assets/*" : [ "assets/*"]
     }
   },
-  "include": ["src","tailwind.config"]
+  "include": ["src","tailwind.config", "src/components/.tsx", "global.d.ts"]
 }

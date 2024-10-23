@@ -1,28 +1,35 @@
 import { Button, Input, Modal, ModalBody, ModalContent } from "@nextui-org/react"
+import { ProductSearchStaticProps } from "./Static.product-search"
 
-const ProductSearchModal = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
+interface ProductSearchModalProps extends ProductSearchStaticProps {
+    show: boolean,
+    onShow: () => void,
+
+}
+
+const ProductSearchModal = ({ onShow, show, onChange, value }: ProductSearchModalProps) => {
 
     return (
         <Modal
             isOpen={show}
             onOpenChange={onShow}
             hideCloseButton
-            classNames={{ base: "m-3 p-2 " }}
+            classNames={{ base: "m-3 p-2  " }}
             placement="top"
             motionProps={{
-                variants : {
-                    enter : {
-                        opacity : 1,
-                        transition : {
-                            duration : 0.2,
-                            easings : "easeInOut"
+                variants: {
+                    enter: {
+                        opacity: 1,
+                        transition: {
+                            duration: 0.2,
+                            easings: "easeInOut"
                         }
                     },
-                    exit : {
-                        opacity : 0,
-                        transition : {
-                            duration : 0.2,
-                            easings : "easeInOut"
+                    exit: {
+                        opacity: 0,
+                        transition: {
+                            duration: 0.2,
+                            easings: "easeInOut"
                         }
                     }
                 }
@@ -39,6 +46,10 @@ const ProductSearchModal = ({ onShow, show }: { show: boolean, onShow: () => voi
                         arrow_left_alt
                     </Button>
                     <Input
+                        onChange={onChange}
+                        value = {value}
+                        name = {"search"}
+                        autoComplete="none"
                         isClearable
                         radius="lg"
                         classNames={{
@@ -47,8 +58,6 @@ const ProductSearchModal = ({ onShow, show }: { show: boolean, onShow: () => voi
                                 "group-data-[focus=true]:bg-white",
                                 "group-data-[hover=true]:bg-white",
                                 "shadow"
-                                ,
-                                ,
                             ],
                             input: " text-1xl text-default-900 bg-transparent  placeholder:text-default-900",
                         }}

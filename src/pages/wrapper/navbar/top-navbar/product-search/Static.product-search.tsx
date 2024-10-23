@@ -1,17 +1,27 @@
 import { Input, NavbarItem } from "@nextui-org/react";
+import { ChangeEventHandler } from "react";
 
-const ProductSearchStatic = () => {
+interface ProductSearchStaticProps {
+    value: string,
+    onChange: ChangeEventHandler<HTMLInputElement>
+}
+
+const ProductSearchStatic = ({ onChange, value }: ProductSearchStaticProps) => {
     return (
         <NavbarItem className=" hidden md:flex">
             <Input
                 isClearable
                 radius="lg"
+                autoComplete="none"
+                name="search"
                 color="secondary"
                 classNames={{
                     inputWrapper: [
                         "shadow",
                     ],
                 }}
+                onChange={onChange}
+                value={value}
                 placeholder="Buscar producto..."
                 startContent={
                     <span className="material-symbols-outlined ">
@@ -23,4 +33,5 @@ const ProductSearchStatic = () => {
     );
 };
 
+export type { ProductSearchStaticProps }
 export default ProductSearchStatic;

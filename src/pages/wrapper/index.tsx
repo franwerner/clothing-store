@@ -8,7 +8,7 @@ const AppWrapper = () => {
 
     return (
         <div
-            className="flex flex-col min-h-dvh  bg-justify-center bg-default-100  items-center"
+            className="flex flex-col min-h-dvh   bg-justify-center bg-default-100  items-center"
             id="wrapper-app"
             style={{
                 //@ts-ignore

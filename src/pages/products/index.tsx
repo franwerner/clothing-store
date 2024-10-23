@@ -1,4 +1,3 @@
-import PageWrapper from "@/components/PageWrapper";
 import ProductsOrder from "./Order.products";
 import ProductsModalFilter from "./ModalFilter.products";
 import ProductsContainer from "./Container.products";
@@ -8,6 +7,7 @@ import ProductsFilterColor from "./products-filter/Color.filter-products-filter"
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
 import AnimatedTitle from "@/components/AnimatedTitle";
 import { ScrollRestoration } from "react-router-dom";
+import PageWrapper from "@/components/PageWrapper";
 
 const ProductsPage = () => {
     return (

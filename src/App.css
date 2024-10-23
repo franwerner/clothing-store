@@ -14,8 +14,9 @@
 .font-oswald {
     font-family: Oswald;
 }
-
-
+.font-oswalds {
+    font-family: Oswald;
+}
 html, body {
     height: 100%;
 }

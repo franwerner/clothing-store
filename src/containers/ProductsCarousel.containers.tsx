@@ -1,43 +1,41 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useLayoutEffect, useRef, useState } from "react";
-import Product, { ProductProps } from "./product";
+import Product from "./product";
+import IProduct from "@/interfaces/Product.interfaces";
 
 const classname = "material-symbols-outlined border-1 border-default-200 select-none absolute top-1/2   cursor-pointer shadow-xl  pointer-events-auto  bg-white rounded-full text-default-700 p-[12px] text-[35px]"
 
-const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
+const ProductsCarousel = ({ products }: { products: Array<IProduct> }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [constraints, setConstraints] = useState({ left: 0, right: 0 })
     const [hidden, setHidden] = useState(false)
+    const [direction, setDirection] = useState<"rigth" | "left" | undefined>(undefined)
     const [x, setX] = useState(0)
+
+    const rigth = () => {
+        handlerPositionX(-400)
+        setDirection("rigth")
+    }
+    const left = () => {
+        handlerPositionX(400)
+        setDirection("left")
+    }
 
     const handlerContrains = () => {
         const content = contentRef.current
         if (!content) return
-        const scrollWidth = content.scrollWidth
-        const offSetWidth = content.offsetWidth
+        const { scrollWidth, offsetWidth } = content
         setConstraints({
-            left: -(scrollWidth - offSetWidth),
+            left: -(scrollWidth - offsetWidth),
             right: 0,
         })
     }
 
     const handlerPositionX = (deplacement: number) => {
-        setX(() => {
-            const x = getPositionX()
+        setX((x) => {
             const op = x + deplacement
-            if (op < constraints.left) return constraints.left
-            else if (op > 0 && deplacement > 0) return 0
-            return op + 0
+            return Math.min(Math.max(op, constraints.left), 0) //Nunca sobrepasara el 0.
         })
-    }
-
-    const getPositionX = () => {
-        //Nos ayuda a obtener el calculo que se esta dando actualemnte en framer-motion, 
-        // para que en caso de que la animacion se detenga o la ejecutenemos nuevamente, siempre se haga en base a la propiedad X del DOM.
-        const content = contentRef.current
-        if (!content) return 0
-        const value = content.style.transform.match(/-\d+/g)
-        return value ? Number(value[0]) : 0
     }
 
     useLayoutEffect(() => {
@@ -56,25 +54,27 @@ const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
         <section
             data-id="ProductsCarousel"
             className="relative ">
-            <div className="overflow-hidden p-1 px-2">
+            <div className="overflow-hidden rounded-md p-1 px-6">
                 <motion.div
                     drag="x"
                     onDragStart={() => {
                         setHidden(true)
                     }}
                     dragListener={!hidden}
-                    onDragEnd={() => {
+                    onDragEnd={(_, { offset }) => {
+                        handlerPositionX(offset.x)
                         setHidden(false)
-                        handlerPositionX(0)
+                        setDirection(undefined)
                     }}
-                    onAnimationStart={(e: { x: number }) => {
-                        if (e.x === constraints.left || e.x === getPositionX()) return
+                    onAnimationStart={() => {
+                        if (!direction) return
                         setHidden(true)
                     }}
                     onAnimationComplete={() => {
-                        hidden && setHidden(false)
+                        if (!direction) return
+                        setHidden(false)
                     }}
-                    animate={{ x: x }}
+                    animate={{ x }}
                     ref={contentRef}
                     dragConstraints={constraints}
                     dragElastic={0.1}
@@ -84,7 +84,7 @@ const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
                         damping: 20,
                         duration: 0.2,
                     }}
-                    className="flex gap-1 cursor-pointer"
+                    className="flex gap-2 cursor-pointer [&_article]:flex-shrink-0 [&_article]:w-1/4  "
                 >
                     {products.map((i) => (
                         <Product key={i.id} {...i} />
@@ -96,31 +96,29 @@ const ProductsCarousel = ({ products }: { products: Array<ProductProps> }) => {
                 {
                     !(x === 0 || hidden) &&
                     <motion.span
-                        exit={{ opacity: 0, x: -20 }}
+                        exit={{ opacity: 0, x: -20, pointerEvents: "none" }}
                         transition={{
                             duration: 0.2
                         }}
                         initial={{ y: "-50%", x: -20 }}
                         animate={{ x: 0 }}
-                        onClick={() => handlerPositionX(400)}
-                        className={`${classname} -left-5 `}>
+                        onClick={left}
+                        className={`${classname} -left-4 `}>
                         chevron_left
                     </motion.span>
                 }
             </AnimatePresence>
-
-
             <AnimatePresence>
                 {!(x <= constraints.left || hidden) &&
                     <motion.span
-                        exit={{ opacity: 0, x: 20 }}
+                        exit={{ opacity: 0, x: 20, pointerEvents: "none" }}
                         transition={{
                             duration: 0.2
                         }}
                         initial={{ y: "-50%", x: 20 }}
                         animate={{ x: 0 }}
-                        onClick={() => handlerPositionX(-400)}
-                        className={`${classname} -right-5`}>
+                        onClick={rigth}
+                        className={`${classname} -right-4`}>
                         chevron_right
                     </motion.span>
                 }
