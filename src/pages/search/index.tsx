@@ -4,11 +4,11 @@ import DeferLoader from "@/components/DefererLoader"
 import PageWrapper from "@/components/PageWrapper"
 import ProductCard from "@/containers/product"
 import { productsTest1 } from "@/mocks/products.mocks"
-import { Await, ScrollRestoration, useAsyncValue, useLoaderData } from "react-router-dom"
+import { Await, ScrollRestoration, useLoaderData } from "react-router-dom"
 
 
 const Test = () => {
-  const { products } = useAsyncValue() as {products:[{id:number,title:string}]}
+  // const { products } = useAsyncValue() as {products:[{id:number,title:string}]}
 
   return productsTest1.map(i => <ProductCard key={i.id} {...i}/>)
 }

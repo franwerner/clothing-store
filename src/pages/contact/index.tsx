@@ -1,6 +1,5 @@
 import AnimatedTitle from "@/components/AnimatedTitle";
 import PageWrapper from "@/components/PageWrapper";
-import { ScrollRestoration } from "react-router-dom";
 import ContactForm from "./Form.contact";
 import ContactHeader from "./Header.contact";
 import ContactPin from "./Pin.contact";
@@ -14,7 +13,6 @@ const ContactPage = () => {
                 <ContactPin />
                 <ContactForm />
             </main>
-            <ScrollRestoration />
         </PageWrapper>
     )
 }

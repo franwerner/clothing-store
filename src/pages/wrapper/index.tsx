@@ -1,4 +1,4 @@
-import { useOutlet } from "react-router-dom";
+import { ScrollRestoration, useOutlet } from "react-router-dom";
 import NavBar from "./navbar";
 import Footer from "./footer";
 import { lazy } from "react";
@@ -20,6 +20,7 @@ const AppWrapper = () => {
             <NavBar />
             {Outlet ?? <LazyHomePage />}
             <Footer />
+            <ScrollRestoration />
         </div>
     );
 }

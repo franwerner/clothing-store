@@ -42,7 +42,7 @@ const Modal = ({ show, onShow }: { onShow: () => void, show: boolean }) => {
             backdrop="opaque" >
             <ModalContent >
                 <ModalHeader className="mx-2" >
-                    <h3 className="font-oswald  text-default-700 tracking-wide uppercase font-bold text-2xl">Filtar por:</h3>
+                    <h3 className=" text-default-700 uppercase  font-light text-2xl">Filtros</h3>
                 </ModalHeader>
                 <ModalBody className=" border-y-1 mx-2 flex-col inline-flex" >
                     <ProductsFilterCategories />
@@ -66,7 +66,7 @@ const ProductsModalFilter = () => {
             <div
                 onClick={onShow}
                 className="flex items-center md:hidden cursor-pointer ">
-                <h3 className="font-oswald  text-default-700 tracking-wide uppercase font-bold text-nowrap text-[18px]">Filtar por:</h3>
+                <h3 className=" text-default-700 font-normal text-xl text-nowrap uppercase">Filtar por</h3>
                 <span className="material-symbols-outlined rotate-90 text-[30px] text-default-600">
                     arrow_drop_up
                 </span>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
 @tailwind base;
 @tailwind components;
@@ -8,7 +8,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: Montserrat;
+    font-family:"Work Sans", serif;
 }
 
 .font-oswald {
@@ -24,7 +24,19 @@ body {
     height: 100%;
 }
 
+:root {
+    --navbar-height: 100px;
+    /* o cualquier valor que desees */
+}
+
 .swiper {
     width: 100%;
     height: 100%;
+}
+
+[data-hidde="true"]>header,
+[data-hidde="true"],
+[data-hidde="false"]>header,
+[data-hidde="false"] {
+    transition: transform  0.3s ease,height 0.3s ease
 }

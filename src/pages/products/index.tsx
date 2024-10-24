@@ -1,13 +1,12 @@
-import ProductsOrder from "./Order.products";
-import ProductsModalFilter from "./ModalFilter.products";
+import AnimatedTitle from "@/components/AnimatedTitle";
+import PageWrapper from "@/components/PageWrapper";
 import ProductsContainer from "./Container.products";
+import ProductsModalFilter from "./ModalFilter.products";
+import ProductsOrder from "./Order.products";
 import ProductsFilterCategories from "./products-filter/Categories.products-filter";
-import ProductsFilterWaits from "./products-filter/Waist.filter-products-filter";
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
-import AnimatedTitle from "@/components/AnimatedTitle";
-import { ScrollRestoration } from "react-router-dom";
-import PageWrapper from "@/components/PageWrapper";
+import ProductsFilterWaits from "./products-filter/Waist.filter-products-filter";
 
 const ProductsPage = () => {
     return (
@@ -31,7 +30,6 @@ const ProductsPage = () => {
                 </aside>
                 <ProductsContainer />
             </section>
-            <ScrollRestoration />
         </PageWrapper>
     );
 };

@@ -72,10 +72,10 @@ const FooterTop = () => {
                             className={`flex flex-col justify-start items-center group flex-1 max-md:py-3 md:px-3 gap-1"`}
                         >
                             <div className="flex justify-center items-center gap-2 ">
-                                <span className="material-symbols-outlined text-default-600  text-[25px] ">
+                                <span className="material-symbols-outlined  text-[25px] ">
                                     {icon}
                                 </span>
-                                <h3 className="text-[17px] font-oswald  text-default-600 font-semibold uppercase">{title}</h3>
+                                <h3 className="text-[17px] font-oswald  text-default-700 font-semibold uppercase">{title}</h3>
                             </div>
                             <p className="text-[14px] text-center  font-light">{subtitle}</p>
                         </div>

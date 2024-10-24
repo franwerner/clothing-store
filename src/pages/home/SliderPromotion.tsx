@@ -2,10 +2,7 @@ import { Autoplay, Navigation, Pagination, Parallax } from "swiper/modules"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 
-const SliderPromotion = ({
-    image,
-}: { image: string }) => {
-
+const SliderPromotion = () => {
     return (
         <Swiper
             style={{
@@ -29,7 +26,7 @@ const SliderPromotion = ({
                 prevEl: '.custom-prev',
             }}
             modules={[Parallax, Pagination, Navigation, Autoplay]}
-            className="!h-[calc(100dvh-180px)] w-[10px]"
+            className="!h-[calc(100dvh-var(--navbar-height))] w-[10px]"
         >
             <div
                 className="absolute left-0 w-[130%] bg-cover bg-center top-0 h-full"
@@ -50,7 +47,7 @@ const SliderPromotion = ({
             <SwiperSlide className="!flex items-center justify-center">
                 <h3 className="text-white text-4xl font-bold">COLOCAR PUBLICAD ACA</h3>
             </SwiperSlide>
- 
+
         </Swiper>
     )
 }

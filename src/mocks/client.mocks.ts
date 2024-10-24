@@ -4,3 +4,4 @@ interface Client {
    username : string
    
 }
+export default Client

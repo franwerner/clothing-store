@@ -1,19 +1,19 @@
 import contactList from "@/constant/contactList.contant"
 import navigationList from "@/constant/navigationList.contant"
-import router from "@/router"
 import { Link } from "@nextui-org/react"
+import { Link as LinkDom } from "react-router-dom"
 
 
 const Contact = () => {
     return (
         <div id="footer-contact" className="flex flex-col  items-center sm:items-start ">
-            <h3 className="font-oswald text-default-600   sm:text-start text-xl font-bold uppercase">Contactanos</h3>
+            <h3 className="font-oswald text-default-700   sm:text-start text-xl font-bold uppercase">Contactanos</h3>
             {
                 contactList.map(({ icon, method }, index) =>
                     <div
                         key={index}
                         className="flex gap-x-2 p-[3px]">
-                        <span className="material-symbols-outlined text-default-600">
+                        <span className="material-symbols-outlined">
                             {icon}
                         </span>
                         <p className="font-light">{method}</p>
@@ -29,17 +29,18 @@ const Navegation = () => {
         <nav
             id="footer-navigation"
             className="flex flex-col  items-center sm:items-start">
-            <h3 className="font-oswald text-default-600  text-xl font-bold uppercase">Navegación</h3>
+            <h3 className="font-oswald text-default-700   text-xl font-bold uppercase">Navegación</h3>
             <ul >
                 {
                     navigationList.map(({ name, url }, index) =>
                         <li
                             key={index}
-                            className="p-[3px] cursor-pointer ">
+                            className="p-[3px] cursor-pointer  flex flex-col ">
                             <Link
+                                to={url}
+                                as={LinkDom}
                                 color="foreground"
-                                className="hover:border-default-400 border-transparent border-b-1  font-light"
-                                onClick={() => router.navigate(url)}>
+                                className=" max-w-min  font-light">
                                 {name}
                             </Link>
                         </li>

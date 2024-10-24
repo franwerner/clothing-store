@@ -10,7 +10,7 @@ const ProductsFilterPrice = () => {
                 <Input
                     label="Min"
                     classNames={{
-                        inputWrapper: "h-2",
+                        inputWrapper: "h-2  bg-default-200",
                         label: " text-[13px]"
                     }}
                     color="default"
@@ -20,8 +20,8 @@ const ProductsFilterPrice = () => {
                 <Input
                     label="Max"
                     classNames={{
-                        inputWrapper: " h-2 flex",
-                        label: "text-[13px]"
+                        inputWrapper: " h-2 flex bg-default-200",
+                        label: "text-[13px] "
                     }}
                     color="default"
                     variant="flat"
