@@ -1,3 +1,4 @@
+import ActionButtonIcon from "@/components/ActionButtonIcon";
 import IProduct from "@/interfaces/Product.interfaces";
 import { productsTest1 } from "@/mocks/products.mocks";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
@@ -45,22 +46,14 @@ const Product = ({ discount, name, price, url }: IProduct) => {
                 </div>
             </section>
 
-            <section className="flex items-center w-100 gap-3 m-auto border-1 border-default-400 h-[32px] overflow-hidden w-min rounded-lg" >
-                <Button
-                    color="default"
-                    variant="solid"
-                    className="material-symbols-outlined text-1xl text-white bg-default-700  rounded-none"
-                    isIconOnly>
+            <section className="flex items-center w-100 gap-2 m-auto border-1 border-r-0 border-l-0 border-default-400 [&_button]:rounded-none h-[32px] overflow-hidden w-min rounded-lg" >
+                <ActionButtonIcon  size="md">
                     remove
-                </Button>
-                <p className="px-1">3</p>
-                <Button
-                    color="default"
-                    variant="solid"
-                    className="material-symbols-outlined text-1xl text-white bg-default-700  rounded-none"
-                    isIconOnly>
+                </ActionButtonIcon>
+                <p className="px-2">3</p>
+                <ActionButtonIcon size="md">
                     add
-                </Button>
+                </ActionButtonIcon>
             </section>
         </article>
     );

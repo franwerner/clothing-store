@@ -15,7 +15,6 @@ const productsTest1: Array<Product> = [
     { id: 12, name: "zapatos de cuero", discount: 17, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 70.00, stock: true },
     { id: 13, name: "sandalias de 1233", discount: 10, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 20.00, stock: true },
     { id: 14, name: "bufanda de lana", discount: 5, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 15.00, stock: false },
-    { id: 15, name: "gorra de béisbol", discount: 20, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 18.00, stock: true }
 ]
 const productsTest2: Array<Product> = [
     { id: 1, name: "camiseta básica", discount: 88, url: "https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp", price: 200000.00, stock: true },

@@ -49,7 +49,7 @@ const ProductSearchModal = ({ onShow, show, onChange, value }: ProductSearchModa
                         onChange={onChange}
                         value = {value}
                         name = {"search"}
-                        autoComplete="none"
+                        autoComplete={"off"}
                         isClearable
                         radius="lg"
                         classNames={{

@@ -31,7 +31,7 @@ const ContactPin = () => {
     return (
         <div className="w-full grid items-center justify-center">
             <PinLocaltionSVG />
-            <p className="text-center  text-default-600 p-1 text-lg ">{location?.method}</p>
+            <p className="text-center  text-default-900 font-medium p-1 text-lg ">{location?.method}</p>
         </div>
     );
 };

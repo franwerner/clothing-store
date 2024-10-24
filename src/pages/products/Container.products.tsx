@@ -10,14 +10,12 @@ const ProductsContainer = () => {
                 {
                     productsTest1.map(i => <Product key={i.id} {...i} />)
                 }
-
             </div>
             <div className="flex-1 flex justify-center p-4">
                 <ActionButton>
                     Cargar más productos
                 </ActionButton>
             </div>
-
         </main>
     );
 };

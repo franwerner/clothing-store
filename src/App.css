@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -14,9 +14,17 @@
 .font-oswald {
     font-family: Oswald;
 }
+
 .font-oswalds {
     font-family: Oswald;
 }
-html, body {
+
+html,
+body {
+    height: 100%;
+}
+
+.swiper {
+    width: 100%;
     height: 100%;
 }

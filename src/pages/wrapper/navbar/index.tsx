@@ -1,10 +1,11 @@
 import { Navbar as NavbarUI } from "@nextui-org/react"
 import SubNavbar from "./sub-navbar"
 import TopNavBar from "./top-navbar"
+import { memo } from "react"
 
 const calcHideOnScroll = "calc(-1 * (var(--navbar-height) - (var(--subnavbar-height) + var(--topnavbar-height)) + var(--topnavbar-height) - 7px ) "
 
-const NavBar = () => {
+const NavBar = memo(() => {
 
     return (
         <NavbarUI
@@ -12,7 +13,7 @@ const NavBar = () => {
             maxWidth="lg"
             style={{
                 //@ts-ignore
-                "--navbar-height": "180px",
+                "--navbar-height": "100px",
                 //@ts-ignore
                 "--subnavbar-height": "68px",
                 //@ts-ignore
@@ -42,9 +43,9 @@ const NavBar = () => {
             }}
             className=" bg-white">
             <TopNavBar />
-            <SubNavbar />
+            {/* <SubNavbar /> */}
         </NavbarUI>
     )
-}
+})
 
 export default NavBar

@@ -1,7 +1,9 @@
 import { useOutlet } from "react-router-dom";
-import HomePage from "../home";
 import NavBar from "./navbar";
 import Footer from "./footer";
+import { lazy } from "react";
+
+const LazyHomePage = lazy(()=> import("../home"))
 
 const AppWrapper = () => {
     const Outlet = useOutlet();
@@ -16,7 +18,7 @@ const AppWrapper = () => {
             }}
         >
             <NavBar />
-            {Outlet ?? <HomePage />}
+            {Outlet ?? <LazyHomePage />}
             <Footer />
         </div>
     );

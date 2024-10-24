@@ -18,7 +18,7 @@ const ProductCard = memo(({ discount, name, url, price, stock, id }: IProduct) =
             classNames={{
                 body: "p-0 pb-[80%]  relative flex-0 overflow-hidden  ",
                 footer: " flex-0 flex-wrap p-1 m-0 break-all flex-col bg-default-50 min-h-[95px] text-center  text-default-700 ",
-                base: `min-h-[280px] md:min-w-[180px] min-w-[160px]  bg-default-50 group cursor-pointer relative`,
+                base: `min-h-[280px]  md:min-w-[180px] min-w-[160px]  bg-default-50 group cursor-pointer relative`,
                 header: "p-0 relative block m-0  ",
             }}
         >

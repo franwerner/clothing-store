@@ -12,7 +12,7 @@ const ProductSearchStatic = ({ onChange, value }: ProductSearchStaticProps) => {
             <Input
                 isClearable
                 radius="lg"
-                autoComplete="none"
+                autoComplete={"off"}
                 name="search"
                 color="secondary"
                 classNames={{

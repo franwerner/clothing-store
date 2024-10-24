@@ -1,8 +1,9 @@
+import { memo } from "react"
 import FooterMain from "./Main.footer"
 import FooterTop from "./Top.footer"
 
 
-const Footer = () => {
+const Footer = memo(() => {
     return (
         <footer
         className="flex justify-center items-center flex-col min-h-[50dvh] mt-10 w-full  ">
@@ -10,6 +11,6 @@ const Footer = () => {
                 <FooterMain/>
         </footer>
     )
-}
+})
 
 export default Footer

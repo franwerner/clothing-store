@@ -18,7 +18,7 @@ const AnimatedTitle = ({ title }: AnimatedTitle) => {
     
     return (
         <div 
-        className="text-center gap-4  justify-between items-center flex pt-2 mt-6  ">
+        className="text-center gap-4  justify-between items-center flex py-8  ">
             <DividerAnimate />
             <motion.h1
                 transition={{
