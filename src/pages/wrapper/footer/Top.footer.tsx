@@ -56,15 +56,15 @@ const FooterTop = () => {
     return (
         <section
             id="footer-top"
-            className="max-w-[--page-width]   w-full p-2 sm:px-3 ">
-            <div id="social-media" className="border-b-1 ">
-                <AnimatedTitle title="Redes sociales" />
+            className="max-w-[--page-width] flex-1  flex items-center flex-col  justify-end w-full p-2 sm:px-3 ">
+            <div id="social-media" className="border-b-1 w-full ">
+                <AnimatedTitle title="Redes sociales" className="p-0" />
                 <div className="flex justify-center gap-6 py-5 ">
                     <InstagramSvg />
                     <WhatsappSvg />
                 </div>
             </div>
-            <div className="md:flex justify-center items-center   py-10 px-2">
+            <div className="md:flex justify-center items-center w-full   py-10 px-2">
                 {
                     infoList.map(({ icon, title, subtitle }, index) =>
                         <div

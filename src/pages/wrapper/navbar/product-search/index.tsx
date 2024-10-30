@@ -20,7 +20,7 @@ const Icon = memo(({ onShow }: { onShow: () => void }) => (
 ))
 
 const NavbarProductSearch = memo(() => {
-    const { form, onChange, resetValue } = useForm({ search: getUrlQueryParams("q", "busqueda") })
+    const { form, onChange, setValue } = useForm({ search: getUrlQueryParams("q", "productos/busqueda") })
     const [show, setShow] = useState(false)
     const onShow = useCallback(() => {
         setShow(prev => !prev)
@@ -30,8 +30,12 @@ const NavbarProductSearch = memo(() => {
         const unsuscribe = router.subscribe((r) => {
             const { pathname } = r.location
             const { state } = r.navigation
-            if (pathname !== "/busqueda" && state === "idle" && form.search) {
-                resetValue("search")
+            /**
+             * Los loaders de react-router hace un pre-carga de las ruta en la que se encuentra.
+             * Entonces para mitigar el reseteo erroneo de form, tiene que se una ruta en estado "idle"
+             */
+            if (pathname !== "/productos/busqueda" && state === "idle" && form.search) {
+                setValue("search", "")
             }
         })
         return () => {

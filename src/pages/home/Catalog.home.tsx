@@ -7,7 +7,7 @@ import router from "@/router";
 const HomeCatalog = () => {
     return (
         <main className=" flex flex-col justify-center gap-10" >
-            <AnimatedTitle title="Recomendaciones" />
+            <AnimatedTitle title="Recomendaciones" className="py-8" />
             {
                 suggestionsTest1.map(({ id, products, suggetion }) =>
                     <ProductSuggestions

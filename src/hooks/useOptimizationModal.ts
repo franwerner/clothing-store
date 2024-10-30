@@ -5,7 +5,7 @@ import { useEffect } from "react";
  * Quitando el root y esto ayuda a que solo se preocupe por animar el modal.
  */
 
-const useOptimizationModal = (show: boolean) => {
+const useOptimizationModal = (show?: boolean) => {
     useEffect(() => {
         const root = document.querySelector("#root") as HTMLDivElement
 

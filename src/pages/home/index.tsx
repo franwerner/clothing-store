@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div className="w-full flex-1  ">
       <SliderPromotion />
-      <PageWrapper>
+      <PageWrapper isDisableBreadcrums >
         <HomeCatalog />
       </PageWrapper>
     </div>

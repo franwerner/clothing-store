@@ -6,12 +6,12 @@ interface NavigationList {
 }
 const navigationList: Array<NavigationList> = [
     {
-        name: "Inicio",
+        name: "inicio",
         url: "/",
         icon: "home"
     },
     {
-        name: "Productos",
+        name: "productos",
         url: "/productos",
         icon: "shopping_bag"
     },
@@ -21,12 +21,12 @@ const navigationList: Array<NavigationList> = [
     //     icon: "sell"
     // },
     {
-        name: "Contacto",
+        name: "contacto",
         url: "/contacto",
         icon: "contact_support"
     },
     {
-        name: "Envios",
+        name: "envios",
         url: "/envios",
         icon: "local_shipping"
     },

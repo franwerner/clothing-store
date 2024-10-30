@@ -1,8 +1,8 @@
-import Product from "./Product.interfaces"
+import { ProductPreview } from "./Product.interfaces"
 
 interface ProductSuggestions {
     suggetion: { brand: string, category: string }
-    products: Array<Product>
+    products: Array<ProductPreview>
 }
 
 export default ProductSuggestions

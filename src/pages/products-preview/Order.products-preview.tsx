@@ -10,7 +10,7 @@ const orderList = [
     "Nuevo"
 ]
 
-const ProductsOrder = () => {
+const ProductsPreviewOrder = () => {
     return (
         <Select
             classNames={{
@@ -29,4 +29,4 @@ const ProductsOrder = () => {
     );
 };
 
-export default ProductsOrder
+export default ProductsPreviewOrder

@@ -1,3 +1,4 @@
+import router from "@/router";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { memo, useState } from "react";
 
@@ -24,11 +25,17 @@ const NavbarAccount = memo(() => {
                     </span>
                 </div>
             </DropdownTrigger>
-            <DropdownMenu itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }} color="default"  >
-                <DropdownItem showDivider key="login" >
+            <DropdownMenu
+                itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}
+                color="default"  >
+                <DropdownItem
+                    onClick={() => router.navigate("/cuenta?form=login")}
+                    showDivider
+                    key="login" >
                     Iniciar sesión
                 </DropdownItem>
                 <DropdownItem
+                    onClick={() => router.navigate("/cuenta?form=register")}
                     key="register">
                     Crear cuenta
                 </DropdownItem>

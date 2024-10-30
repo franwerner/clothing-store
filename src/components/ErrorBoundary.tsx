@@ -2,7 +2,6 @@ import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 function ErrorBoundary() {
     const error = useRouteError();
-    console.log(error)
     if (isRouteErrorResponse(error)) {
         return (
             <div>

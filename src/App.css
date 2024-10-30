@@ -40,3 +40,7 @@ body {
 [data-hidde="false"] {
     transition: transform  0.3s ease,height 0.3s ease
 }
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }

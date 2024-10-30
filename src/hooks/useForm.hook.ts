@@ -1,4 +1,3 @@
-import { isNumber } from "my-utilities"
 import { ChangeEvent, useCallback, useState } from "react"
 
 const useForm = <T extends object>(values: T) => {
@@ -13,16 +12,16 @@ const useForm = <T extends object>(values: T) => {
         }))
     }, [])
 
-    const resetValue = useCallback((property: keyof T) => {
+    const setValue = useCallback((property: keyof T, value:unknown) => {
         setForm((prev) => ({
             ...prev,
-            [property]: isNumber(values) ? 0 : ""
+            [property]: value
         }))
-    } , [])
+    }, [])
     return {
         onChange,
         form,
-        resetValue
+        setValue
     }
 }
 

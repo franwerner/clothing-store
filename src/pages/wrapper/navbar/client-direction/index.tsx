@@ -4,11 +4,11 @@ import ClientDirectionModal from "./Modal.client-direction"
 const Icon = memo(({ onShow }: { onShow: () => void }) => (
     <div
         onClick={onShow}
-        className=" flex flex-col cursor-pointer pl-1">
-        <span className="material-symbols-outlined text-red-500 text-[28px]">
-            location_on
+        className=" flex flex-col items-center -mt-1 cursor-pointer pl-1">
+        <span className="material-symbols-outlined   text-[35px]">
+        distance
         </span>
-        <small className="font-medium text-[15px]">3100</small>
+        <small className="font-medium -mt-1 text-[16px]">E3100</small>
     </div>
 ))
 
@@ -18,7 +18,6 @@ const NavbarClientDirection = memo(() => {
 
     const onShow = useCallback(() => setShow(prev => !prev), [])
 
-    console.log(show)
     return (
         <>
             <Icon onShow={onShow} />

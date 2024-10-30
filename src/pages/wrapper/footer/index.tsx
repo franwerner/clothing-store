@@ -6,7 +6,7 @@ import FooterTop from "./Top.footer"
 const Footer = memo(() => {
     return (
         <footer
-        className="flex justify-center items-center flex-col min-h-[50dvh] mt-10 w-full  ">
+        className="flex justify-center items-center flex-col flex-1  min-h-[50dvh] mt-10 w-full  ">
                 <FooterTop />
                 <FooterMain/>
         </footer>

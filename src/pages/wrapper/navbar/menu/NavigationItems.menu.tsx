@@ -1,7 +1,8 @@
 import navigationList, { NavigationList } from "@/constant/navigationList.contant";
+import useGetMainPaths from "@/hooks/useGetMainPaths.hooks";
 import { Link } from "@nextui-org/react";
 import { memo, useCallback } from "react";
-import { Link as LinkDom, useLocation } from "react-router-dom";
+import { Link as LinkDom } from "react-router-dom";
 
 const Item = memo(({ name, url, index, isActive, setMenu }: NavigationList & { index: number, isActive: boolean, setMenu: () => void }) => {
 
@@ -25,14 +26,14 @@ const Item = memo(({ name, url, index, isActive, setMenu }: NavigationList & { i
 
 const MenuNavigationItems = ({ onShow }: { onShow: () => void }) => {
 
-    const pathname = useLocation().pathname
-
     const setMenu = useCallback(onShow, [])
+
+    const key = useGetMainPaths()
 
     return navigationList.map((props, index) =>
         <Item
             key={props.name}
-            isActive={pathname === props.url}
+            isActive={key === props.url}
             setMenu={setMenu}
             index={index}
             {...props} />

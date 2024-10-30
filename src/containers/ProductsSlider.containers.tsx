@@ -1,68 +1,14 @@
-import IProduct from "@/interfaces/Product.interfaces";
-import { useState } from "react";
+import { ProductPreview } from "@/interfaces/Product.interfaces";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./product";
-import { motion } from "framer-motion";
 
-const classname = "material-symbols-outlined border-1 border-default-200 select-none  absolute top-1/2 z-10  -translate-y-1/2  cursor-pointer shadow-xl  pointer-events-auto  bg-white rounded-full text-default-700 p-[12px] text-[35px]"
-const SliderButtonNext = ({ isActive }: { isActive: boolean }) => {
-    return (
-        < motion.span
-            animate={{
-                opacity: isActive ? 1 : 0,
-                x: isActive ? 0 : 20,
-                y: -50
-            }}
-            transition={{ duration: 0.1 }}
-            className={`${classname} slider-btn-next right-0`}
-        >
-            chevron_right
-        </motion.span >
-    )
-}
-
-const SliderButtonPrev = ({ isActive }: { isActive: boolean }) => {
-    return (
-        <motion.span
-            animate={{
-                opacity: isActive ? 1 : 0,
-                x: isActive ? 0 : -20,
-                y: -50
-            }}
-            transition={{ duration: 0.1 }}
-            className={`${classname} slider-btn-prev`}
-        >
-            chevron_left
-        </motion.span>
-    )
-}
-
-
-const ProductsSlider = ({ products }: { products: Array<IProduct> }) => {
-
-    const [navigation, setNavigation] = useState(false)
-    const [progress, setProgress] = useState(0)
-
-    const prev = (!navigation && progress > 0)
-    const next = (!navigation && progress < 1)
+const ProductsSlider = ({ products }: { products: Array<ProductPreview> }) => {
 
     return (
         <Swiper
             slidesPerView={2}
             spaceBetween={10}
-            onSliderFirstMove={(e) => {
-                if (e.progress == 1 || e.progress == 0) return
-                setNavigation(true)
-            }}
-            onSlideChangeTransitionEnd={(e) => {
-                setProgress(e.progress)
-                setNavigation(false)
-            }}
-            onSlideChangeTransitionStart={() => {
-                setNavigation(true)
-            }}
-
             breakpoints={{
                 640: {
                     slidesPerView: 3,
@@ -75,11 +21,11 @@ const ProductsSlider = ({ products }: { products: Array<IProduct> }) => {
             }}
             speed={400}
             navigation={{
-                nextEl: '.slider-btn-next',
-                prevEl: '.slider-btn-prev',
-                enabled: !navigation,
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+                enabled: true,
             }}
-            className="w-full   h-full"
+            className="w-full   !py-1 h-full"
             modules={[Navigation]}
         >
             {
@@ -89,8 +35,8 @@ const ProductsSlider = ({ products }: { products: Array<IProduct> }) => {
                     </SwiperSlide>
                 )
             }
-            <SliderButtonPrev  isActive = {prev}/>
-            <SliderButtonNext isActive = {next}/>
+            <div className="swiper-button-prev !pointer-events-auto text-black p-4  "></div>
+            <div className="swiper-button-next !pointer-events-auto text-black p-4"></div>
         </Swiper>
     );
 };

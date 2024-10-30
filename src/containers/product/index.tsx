@@ -1,53 +1,87 @@
+import { ProductPreview } from "@/interfaces/Product.interfaces"
+import router from "@/router"
+import transformToCurrency from "@/utils/transformToCurrency.utils"
+import transformToUppercase from "@/utils/transformToUppercase.utils"
 import { Card, CardBody, CardFooter, CardHeader, Image } from "@nextui-org/react"
 import { memo } from "react"
 import ProductDiscountBand from "./DiscountBand.product"
-import ProductWithoutStock from "./WithoutStock.product"
-import transformToCurrency from "@/utils/transformToCurrency.utils"
-import transformToUppercase from "@/utils/transformToUppercase.utils"
-import IProduct from "@/interfaces/Product.interfaces"
+import classNames from "classnames"
 
 
-const ProductCard = memo(({ discount, name, url, price, stock, id }: IProduct) => {
+const ProductCard = memo(({ discount = 0, name, image, price, color, brand, category }: ProductPreview) => {
 
     const calculateDiscount = (discount / 100) * price
-
     return (
         <Card
             as="article"
-            id={id.toString()}
             classNames={{
-                body: "p-0 pb-[80%]  relative flex-0 overflow-hidden  ",
-                footer: " flex-0 flex-wrap p-1 m-0 break-all flex-col bg-default-50 min-h-[95px] text-center  ",
-                base: `min-h-[280px]  md:min-w-[180px] min-w-[160px]  bg-default-50 group cursor-pointer relative`,
-                header: "p-0 relative block m-0  ",
+                body: "p-0 pb-[80%] relative flex-0 overflow-hidden",
+                footer: "flex-0 flex-wrap p-1 m-0 break-all  flex-col min-h-[95px]",
+                base: "min-h-[300px] hover:scale-90 rounded-sm shadow-none border-1 border-default-200 lg:min-w-[200px]  cursor-pointer relative",
+                header: "p-0 relative block m-0",
             }}
-        >
-            <CardHeader>
-                {discount > 0 && <ProductDiscountBand discount={discount} />}
-                {!stock && <ProductWithoutStock />}
+            role="article"
+            aria-labelledby="product-name"
+            aria-describedby="product-price product-discount">
+            <CardHeader role="banner">
+                {discount > 0 &&
+                    <ProductDiscountBand
+                        discount={discount}
+                        aria-label={`Descuento de ${discount}%`}
+                    />
+                }
             </CardHeader>
-            <CardBody >
+
+            <CardBody
+                role="region"
+                aria-labelledby="product-image">
                 <Image
                     draggable={false}
                     classNames={{
                         wrapper: "static z-0"
                     }}
                     alt={name}
-                    src={url}
-                    className="absolute w-full  h-full object-contain "
+                    src={image}
+                    className="absolute w-full  h-full object-contain"
                 />
             </CardBody>
 
-            <CardFooter  >
-                <h3 className=" text-[15px] max-h-[80px] group-hover:text-default-900  font-semibold  text-wrap truncate uppercase ">{transformToUppercase(name)}</h3>
-                {
-                    discount > 0 && <div className="flex items-center  text-start gap-1  ">
-                        <span className="text-[12px]  font-light line-through">{transformToCurrency(price, "ARS")}</span>
-                        <small className="text-[10px] group-hover:font-semibold">{discount}% OFF</small>
-                    </div>
-                }
-                <span className="text-[16px] font-medium group-hover:font-semibold">{transformToCurrency(price - calculateDiscount, "ARS")}</span>
+            <CardFooter
+                className="justify-start"
+                role="contentinfo">
+                <h3
+                    className="text-[15px] max-h-[80px] leading-1 overflow-hidden">
+                    {transformToUppercase(name)}
+                </h3>
+                <span className="font-medium text-sm -mt-1 text-default-800">{`(${transformToUppercase(color)})`}</span>
+                <div className="flex flex-wrap justify-center  items-center gap-x-1">
+                    <span
+                        className={classNames(
+                            "text-[15px] font-bold",
+                            { "text-danger-600": discount }
+                        )}>
+                        {transformToCurrency(price - calculateDiscount, "ARS")}
+                    </span>
+                    {discount ?
+                        <div
+                            className="flex items-center text-start gap-1"
+                            aria-label="Precio original con descuento">
+                            <span
+                                className="text-[12px]  line-through">
+                                {transformToCurrency(price, "ARS")}
+                            </span>
+                        </div>
+                        : ""
+                    }
+                </div>
             </CardFooter>
+
+            <span
+                onClick={() => router.navigate(`/productos/${brand}/${category}/${name}`)}
+                className="link bg-transparent absolute h-full w-full"
+                aria-label={`Ver detalles de ${name}`}
+                role="link">
+            </span>
         </Card>
     )
 })

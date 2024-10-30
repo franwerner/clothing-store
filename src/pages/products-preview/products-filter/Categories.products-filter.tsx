@@ -1,7 +1,8 @@
 import ToggleContent from "@/components/ToggleContent";
-import transformToUppercase from "@/utils/transformToUppercase.utils";
 import router from "@/router";
+import transformToUppercase from "@/utils/transformToUppercase.utils";
 import { Link } from "@nextui-org/react";
+import { memo } from "react";
 
 interface Categories {
     id: number,
@@ -28,18 +29,19 @@ const CatetegoriesItem = ({ brand }: Categories) => {
         <Link
             color="foreground"
             className="cursor-pointer  bg-default-200 rounded-md min-w-[70px] mb-1 mx-1  text-center md:text-start  p-[5px] font-medium  text-[15px] text-nowrap md:p-0 md:font-normal md:bg-inherit hover:underline "
-            onClick={() => router.navigate(`/productos/${brand}`)}
+            onClick={() => router.navigate(`/productos/test/${brand}`)}
         >
             <span className="text-ellipsis overflow-hidden w-full max-w-[180px]">{transformToUppercase(brand)}</span>
         </Link>
     </li>
 }
 
-const ProductsFilterCategories = () => {
+const ProductsFilterCategories = memo(() => {
 
     const classname = "inline-flex flex-wrap md:block"
 
     const maxLength = 6
+
     return (
         <ToggleContent
             hiddenToggleButton={categories.length <= maxLength}
@@ -56,6 +58,6 @@ const ProductsFilterCategories = () => {
             }
         </ToggleContent>
     );
-};
+})
 
 export default ProductsFilterCategories

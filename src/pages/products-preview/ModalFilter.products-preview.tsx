@@ -1,11 +1,22 @@
 import { ModalBody, ModalContent, ModalHeader, Modal as ModalUI } from "@nextui-org/react";
-import { useState } from "react";
+import { memo, useState } from "react";
 import ProductsFilterCategories from "./products-filter/Categories.products-filter";
 import ProductsFilterWaits from "./products-filter/Waist.filter-products-filter";
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
 import { useQueryMd } from "@/hooks/useQuery.hook";
+import ProductsFilterDelete from "./products-filter/Delete.products-filter";
 
+const Icon = memo(({ onShow }: { onShow: () => void }) => {
+    return <div
+        onClick={onShow}
+        className="flex items-center md:hidden cursor-pointer ">
+        <h3 className=" text-default-700 font-normal text-xl text-nowrap uppercase">Filtar por</h3>
+        <span className="material-symbols-outlined rotate-90 text-[30px] text-default-600">
+            arrow_drop_up
+        </span>
+    </div>
+})
 
 const Modal = ({ show, onShow }: { onShow: () => void, show: boolean }) => {
 
@@ -45,6 +56,7 @@ const Modal = ({ show, onShow }: { onShow: () => void, show: boolean }) => {
                     <h3 className=" text-default-700 uppercase  font-light text-2xl">Filtros</h3>
                 </ModalHeader>
                 <ModalBody className=" border-y-1 mx-2 flex-col inline-flex" >
+                    <ProductsFilterDelete/>
                     <ProductsFilterCategories />
                     <ProductsFilterWaits />
                     <ProductsFilterColor />
@@ -55,7 +67,7 @@ const Modal = ({ show, onShow }: { onShow: () => void, show: boolean }) => {
     )
 }
 
-const ProductsModalFilter = () => {
+const ProductsPreviewModalFilter = () => {
 
     const [show, setShow] = useState(false)
 
@@ -63,17 +75,10 @@ const ProductsModalFilter = () => {
 
     return (
         <>
-            <div
-                onClick={onShow}
-                className="flex items-center md:hidden cursor-pointer ">
-                <h3 className=" text-default-700 font-normal text-xl text-nowrap uppercase">Filtar por</h3>
-                <span className="material-symbols-outlined rotate-90 text-[30px] text-default-600">
-                    arrow_drop_up
-                </span>
-            </div>
+            <Icon onShow={onShow} />
             <Modal onShow={onShow} show={show} />
         </>
     );
 };
 
-export default ProductsModalFilter
+export default ProductsPreviewModalFilter

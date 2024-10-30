@@ -1,11 +1,11 @@
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
 import MenuNavigationItems from "./NavigationItems.menu";
 import MenuAccount from "./Account.menu";
-import { useQueryMd } from "@/hooks/useQuery.hook";
+import { useQueryLg } from "@/hooks/useQuery.hook";
 import useOptimizationModal from "@/hooks/useOptimizationModal";
 
 const MenuModal = ({ onShow, show }: { onShow: () => void, show: boolean }) => {
-    const matches = useQueryMd().matches
+    const matches = useQueryLg().matches
     useOptimizationModal(show)
 
     return (
@@ -49,7 +49,7 @@ const MenuModal = ({ onShow, show }: { onShow: () => void, show: boolean }) => {
                     </ul>
                 </ModalBody>
                 <ModalFooter className="flex xs:gap-5 uppercase font-medium   p-2 justify-center items-center" >
-                    <MenuAccount />
+                    <MenuAccount onShow = {onShow} />
                 </ModalFooter>
             </ModalContent>
         </Modal>

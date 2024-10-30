@@ -4,7 +4,7 @@ import ShopCartTotal from "./Total.shopcart";
 import ActionButton from "@/components/ActionButton";
 import { Link as LinkDom } from "react-router-dom"
 
-const ShopcartModal = ({ show, onShow }: { show: boolean, onShow: () => void }) => {
+const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void }) => {
     return (
         <Modal
             classNames={{

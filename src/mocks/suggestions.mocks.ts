@@ -1,21 +1,21 @@
 import ProductSuggestions from "@/interfaces/ProductSuggestions.interfaces";
-import { productsTest1, productsTest2, productsTest3 } from "./products.mocks";
+import { productPreviewMock } from "./products.mocks";
 
 const suggestionsTest1: Array<ProductSuggestions & { id: number }> = [
     {
         id: 0,
         suggetion: { brand: "", category: "ofertas imperdibles" },
-        products: productsTest1
+        products: productPreviewMock
     },
     {
         id: 1,
         suggetion: { brand: "", category: "lo mas nuevo" },
-        products: productsTest2
+        products: productPreviewMock
     },
     {
         id: 2,
         suggetion: { brand: "ze indu", category: "truccker clasico" },
-        products: productsTest3
+        products: productPreviewMock
     },
 
 ]

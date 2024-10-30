@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 
-interface AnimatedTitle {
+interface AnimatedTitleProps {
     title: string
+    className?: string
 }
+
 
 const DividerAnimate = () => (
     <motion.span
@@ -14,11 +16,11 @@ const DividerAnimate = () => (
         className="h-[1px] bg-default-300" />
 )
 
-const AnimatedTitle = ({ title }: AnimatedTitle) => {
-    
+const AnimatedTitle = ({ title, className = "" }: AnimatedTitleProps) => {
+
     return (
-        <div 
-        className="text-center gap-4  justify-between items-center flex py-8  ">
+        <div
+            className={`text-center gap-4 animated-title justify-between items-center flex  ${className} `}>
             <DividerAnimate />
             <motion.h1
                 transition={{
@@ -30,7 +32,7 @@ const AnimatedTitle = ({ title }: AnimatedTitle) => {
                 animate={{
                     scale: 1,
                 }}
-                className="text-3xl text-nowrap font-oswald font-semibold uppercase text-default-700 ">
+                className="text-default-700 text-3xl text-nowrap font-oswald font-semibold uppercase">
                 {title}
             </motion.h1>
             <DividerAnimate />

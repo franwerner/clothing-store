@@ -3,10 +3,12 @@ import LoadPage from "@/components/LoadPage";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, defer } from "react-router-dom";
 
-const LazyProducts = lazy(() => import("@/pages/products"))
+const LazyProductsPreview = lazy(() => import("@/pages/products-preview"))
 const LazyContact = lazy(() => import("@/pages/contact"))
 const LazyAppWraper = lazy(() => import("@/pages/wrapper"))
-const LazySearch = lazy(() => import("@/pages/search"))
+const LazyProductsSearch = lazy(() => import("@/pages/products-search"))
+const LazyProductFullView = lazy(() => import("@/pages/product-fullview"))
+const LazyAccount = lazy(() => import("@/pages/account"))
 
 
 const router = createBrowserRouter([
@@ -20,13 +22,31 @@ const router = createBrowserRouter([
             {
                 path: "productos",
                 element: <Suspense fallback={<LoadPage />} >
-                    <LazyProducts />
+                    <LazyProductsPreview />
                 </Suspense>
             },
             {
-                path: "busqueda",
+                path: "productos/:brandName",
+                element: <Suspense fallback={<LoadPage />}>
+                    <LazyProductsPreview />
+                </Suspense>
+            },
+            {
+                path: "productos/:brandName/:categoryName/",
+                element: <Suspense fallback={<LoadPage />}>
+                    <LazyProductsPreview />
+                </Suspense>
+            },
+            {
+                path: "productos/:brandName/:categoryName/:productName",
+                element: <Suspense fallback={<LoadPage />}>
+                    <LazyProductFullView />
+                </Suspense>
+            },
+            {
+                path: "productos/busqueda",
                 element: <Suspense fallback={<LoadPage />} >
-                    <LazySearch />
+                    <LazyProductsSearch />
                 </Suspense>,
                 loader: async (e) => {
                     const res = new Promise((res) => {
@@ -35,7 +55,7 @@ const router = createBrowserRouter([
                         }, 1000);
                     })
                     return defer({
-                        "res":  res
+                        "res": res
                     })
                 },
             },
@@ -53,7 +73,12 @@ const router = createBrowserRouter([
                 path: "envios",
                 element: <p>envios</p>
             },
-
+            {
+                path: "cuenta",
+                element: <Suspense fallback={<LoadPage />}>
+                    <LazyAccount />
+                </Suspense>
+            },
         ]
     }
 ])

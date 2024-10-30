@@ -31,8 +31,7 @@ const NavBar = memo(() => {
                 className="w-full h-[100px]  absolute">
             </div>
             <NavbarUI
-                isBordered
-                isBlurred = {false}
+                isBlurred={false}
                 data-hidde={isHidden}
                 maxWidth="2xl"
                 style={{
@@ -57,11 +56,11 @@ const NavBar = memo(() => {
                 </NavbarBrand>
                 <NavbarContent
                     as="div"
-                    className=" data-[justify=start]:justify-end  max-md:max-w-min ">
+                    className=" data-[justify=start]:justify-end  max-lg:max-w-min ">
                     <NavbarProductSearch />
                     <NavbarAccount />
                     <NavbarShopCart />
-                    <NavbarClientDirection/>
+                    <NavbarClientDirection />
                 </NavbarContent>
             </NavbarUI>
         </>

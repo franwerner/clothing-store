@@ -58,7 +58,7 @@ const FooterMain = () => {
             style={{
                 boxShadow: "0px -1px 3px 0px rgba(0,0,0,0.25) "
             }}
-            className="flex-grow p-2 sm:px-3 flex w-full justify-center ">
+            className=" p-2 sm:px-3 flex w-full justify-center ">
             <div className="max-w-[--page-width] flex-grow flex-col gap-y-8 flex sm:flex-row p-12  justify-around">
                 <Navegation />
                 <Contact />
