@@ -8,18 +8,16 @@ const ProductFullViewColor = memo(({ variant, changeVariant }: { changeVariant: 
 
     const { color } = variants[variant]
     return (
-        <section id="product-color">
+        <section  id="product-color">
             <h3 className=" text-default-700 flex text-sm">Color: <span className="font-bold uppercase ml-1">{color}</span></h3>
-            <div className="inline-flex flex-wrap gap-2  items-start mt-3 justify-start">
+            <div className="inline-flex flex-wrap gap-2   items-start mt-3 justify-start">
                 {
                     variants.map(({ hexadecimal, colorID }, index) =>
                         <button
                             key={colorID}
                             className={classNames(
-                                "flex-1 group border-white h-8 min-w-8 max-w-8",
-                                {
-                                    "border-4" : variant != index
-                                }
+                                "flex-1 group   h-8 min-w-8  border-0 p-0 max-w-8",
+                               
                             )}
                             onClick={() => changeVariant(index)}>
                             <span
@@ -27,10 +25,10 @@ const ProductFullViewColor = memo(({ variant, changeVariant }: { changeVariant: 
                                     backgroundColor: hexadecimal
                                 }}
                                 className={classNames(
-                                    "w-full h-full border border-default-400 rounded-sm inline-block",
+                                    "w-full h-full border border-default-500 scale-75  rounded-sm inline-block",
                                     {
-                                        "rotate-180 transition-transform duration-200": variant === index,
-                                        "group-active:scale-85 active:scale-85 duration-100 transition-transform": variant !== index,
+                                        "rotate-180 transition-transform !scale-100 duration-200": variant === index,
+                                        " duration-100 transition-transform": variant !== index,
                                     }
                                 )}
                             ></span>

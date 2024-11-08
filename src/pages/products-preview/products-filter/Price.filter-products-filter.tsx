@@ -50,7 +50,6 @@ const ProductsFilterPrice = memo(() => {
                 <Input
                     label="Max"
                     onBlur={() => {
-                        console.log(max)
                         if (max < min) setValue("min", Math.max(0, max - 1))
                     }}
                     onChange={({ target }) => {
@@ -72,9 +71,9 @@ const ProductsFilterPrice = memo(() => {
                 </Input>
                 <ActionButtonIcon
                     onClick={() => {
-                        const SearchParams = new URLSearchParams(window.location.search)
-                        SearchParams.set("price", `${min}-${max}`)
-                        router.navigate(`${router.state.location.pathname}?${SearchParams}`)
+                        const searchParams = new URLSearchParams(window.location.search)
+                        searchParams.set("price", `${min}-${max}`)
+                        router.navigate(`?${searchParams}`)
                     }}
                 >
                     chevron_right

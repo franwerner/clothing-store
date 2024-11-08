@@ -4,30 +4,30 @@ import { FC, memo, useCallback } from "react"
 import { SetURLSearchParams, useSearchParams } from "react-router-dom"
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper"
 
-interface WaitsItem {
-  waistID: number,
+interface SizeItem {
+  product_size_id: number,
   size: number | string,
   quantity: number
 }
 
-const waits: Array<WaitsItem> = [
-  { quantity: 64, waistID: 1, size: 10 },
-  { quantity: 41, waistID: 2, size: 99 },
-  { quantity: 101, waistID: 3, size: 68 },
-  { quantity: 7, waistID: 4, size: 90 },
-  { quantity: 61, waistID: 5, size: 63 },
-  { quantity: 9, waistID: 6, size: 73 },
-  { quantity: 10, waistID: 7, size: 67 },
-  { quantity: 47, waistID: 8, size: 49 },
-  { quantity: 24, waistID: 9, size: 34 },
-  { quantity: 23, waistID: 10, size: 33 },
+const sizes: Array<SizeItem> = [
+  { quantity: 64, product_size_id: 1, size: 10 },
+  { quantity: 41, product_size_id: 2, size: 99 },
+  { quantity: 101, product_size_id: 3, size: 68 },
+  { quantity: 7, product_size_id: 4, size: 90 },
+  { quantity: 61, product_size_id: 5, size: 63 },
+  { quantity: 9, product_size_id: 6, size: 73 },
+  { quantity: 10, product_size_id: 7, size: 67 },
+  { quantity: 47, product_size_id: 8, size: 49 },
+  { quantity: 24, product_size_id: 9, size: 34 },
+  { quantity: 23, product_size_id: 10, size: 33 },
 ]
 
-const WaitsItem: FC<WaitsItem & { setSearchParams: SetURLSearchParams, isActive?: boolean }> = memo(({ quantity, size, setSearchParams, isActive }) => {
+const SizeItem: FC<SizeItem & { setSearchParams: SetURLSearchParams, isActive?: boolean }> = memo(({ quantity, size, setSearchParams, isActive }) => {
   return (
     <li
       onClick={() => {
-        const newParams = setSearchParamsFilter({ isActive, param: "waits", value: size })
+        const newParams = setSearchParamsFilter({ isActive, param: "size", value: size })
         setSearchParams(newParams)
       }}
       className={classNames(
@@ -40,7 +40,7 @@ const WaitsItem: FC<WaitsItem & { setSearchParams: SetURLSearchParams, isActive?
   )
 })
 
-const ProductsFilterWaits = () => {
+const ProductsFilterSizes = () => {
 
   const maxLength = 6
   const classname = `inline-flex flex-wrap md:grid md:grid-cols-2 `
@@ -49,28 +49,28 @@ const ProductsFilterWaits = () => {
 
   const setSearchParams = useCallback(fn, [])
 
-  const getWaits = (params.get("waits") || "").split("-")
+  const getWaits = (params.get("size") || "").split("-")
 
   return (
     <ToggleContent
-      id="aside-filter-waits"
+      id="aside-filter-size"
       as="section"
       className=" flex flex-col items-start  "
-      hiddenToggleButton={waits.length <= maxLength}
+      hiddenToggleButton={sizes.length <= maxLength}
     >
       <h3 className="font-oswald  text-default-700 bg-tra uppercase pb-1  font-bold text-[18px]">Talles</h3>
       <ToggleContent.visible className={` ${classname}`}>
-        {waits.slice(0, maxLength).map(e => <WaitsItem
-          key={e.waistID}
+        {sizes.slice(0, maxLength).map(e => <SizeItem
+          key={e.product_size_id}
           isActive={!!getWaits.find(i => i == e.size)}
           setSearchParams={setSearchParams}  {...e} />
         )}
       </ToggleContent.visible>
       <ToggleContent.hidden className={` overflow-hidden ${classname}`}>
-        {waits.slice(maxLength).map(e => <WaitsItem
+        {sizes.slice(maxLength).map(e => <SizeItem
           isActive={!!getWaits.find(i => i == e.size)}
           setSearchParams={setSearchParams}
-          key={e.waistID}
+          key={e.product_size_id}
           {...e} />)}
       </ToggleContent.hidden>
     </ToggleContent>
@@ -80,4 +80,4 @@ const ProductsFilterWaits = () => {
 
 
 
-export default ProductsFilterWaits
+export default ProductsFilterSizes

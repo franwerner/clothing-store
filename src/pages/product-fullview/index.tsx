@@ -8,7 +8,7 @@ import ProductFullViewColor from "./Color.product-fullview";
 import ProductImages from "./Images.product-fullview";
 import ProductFullViewInfo from "./Info.product-fullview";
 import ProductFullViewQuantity from "./Quantity.product-fullview";
-import ProductFullViewWaits from "./Waits.product-fullview";
+import ProductFullViewSizes from "./Sizes.product-fullview";
 
 const { variants, brand, category, discount, name, id, price } = productFullPreviewMock
 
@@ -28,7 +28,7 @@ const ProductFullView = () => {
             name: name,
             id: id,
             colorID,
-            waistID,
+            product_size_id,
             brand: brand,
             category: category,
             size: s,
@@ -51,9 +51,9 @@ const ProductFullView = () => {
 
     const { quantity } = form
 
-    const { images, waists, colorID, color } = variants[variant]
+    const { images, sizes, colorID, color } = variants[variant]
 
-    const { size: s, waistID, stock } = waists[size]
+    const { size: s, product_size_id, stock } = sizes[size]
 
     const emptyStock = !stock
 
@@ -83,7 +83,7 @@ const ProductFullView = () => {
                     <ProductFullViewColor
                         changeVariant={changeVariant}
                         variant={variant} />
-                    <ProductFullViewWaits
+                    <ProductFullViewSizes
                         changeSize={changeSize}
                         size={size}
                         variant={variant} />

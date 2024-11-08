@@ -7,8 +7,8 @@ import ProductsFilterCategories from "./products-filter/Categories.products-filt
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterDelete from "./products-filter/Delete.products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
-import ProductsFilterWaits from "./products-filter/Waist.filter-products-filter";
 import { useLocation } from "react-router-dom";
+import ProductsFilterSizes from "./products-filter/Size.filter-products-filter";
 
 const ProductsPreviewPage = () => {
 
@@ -34,7 +34,7 @@ const ProductsPreviewPage = () => {
                     className="gap-4 border-default-300  pr-1 flex-col hidden md:flex max-w-[180px]">
                     <ProductsFilterDelete />
                     <ProductsFilterCategories />
-                    <ProductsFilterWaits />
+                    <ProductsFilterSizes />
                     <ProductsFilterColor />
                     <ProductsFilterPrice />
                 </aside>

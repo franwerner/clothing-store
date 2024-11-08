@@ -2,7 +2,7 @@ import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
 import useForm from "@/hooks/useForm.hook"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import { ChangeEventHandler } from "react"
 
 
@@ -71,20 +71,24 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
 
     const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
 
+
+    const variants: Variants = {
+        hidden: {
+            opacity: 0,
+            scale: 0
+        },
+        show: {
+            scale: 1,
+            opacity: 1
+        }
+    }
+
     return (
         <motion.div
-            initial={{
-                opacity: 0,
-                scale: 0
-            }}
-            animate={{
-                scale: 1,
-                opacity: 1
-            }}
-            exit={{
-                scale: 0,
-                opacity: 0
-            }}
+            initial={"hidden"}
+            variants={variants}
+            animate={"show"}
+            exit={"hidden"}
             transition={{
                 duration: 0.2,
             }}
@@ -95,7 +99,7 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
             <Form form={form} onChange={onChange} />
             <p className="w-full text-center">
                 ¿Ya tienes una cuenta?
-                <span className="inline-block ml-1 font-semibold underline cursor-pointer" onClick={changeForm}>Inicia sesión</span></p>
+                <a className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80" onClick={changeForm}>Inicia sesión</a></p>
 
             <ActionButton className="min-w-[300px] sm:w-auto ">
                 Registrarse

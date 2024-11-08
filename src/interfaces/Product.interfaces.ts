@@ -21,13 +21,13 @@ interface ProductShopcart extends Product {
   color: string,
   image: string,
   colorID: number,
-  waistID: number
+  product_size_id: number
 }
 
 interface ProductVariant {
   colorID: number
-  waists: Array<{
-    waistID: number,
+  sizes: Array<{
+    product_size_id: number,
     size: string | number
     stock: boolean
   }>

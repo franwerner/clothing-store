@@ -11,14 +11,14 @@ const productFullPreviewMock: ProductFullPreview = {
             colorID: 1,
             color: "Negro",
             hexadecimal: "#000000",
-            waists: [
+            sizes: [
                 {
-                    waistID: 1,
+                    product_size_id: 1,
                     size: "sm",
                     stock: true
                 },
                 {
-                    waistID: 2,
+                    product_size_id: 2,
                     size: "md",
                     stock: false
                 }
@@ -42,14 +42,14 @@ const productFullPreviewMock: ProductFullPreview = {
             colorID: 2,
             color: "blanco",
             hexadecimal: "#FFFFFF",
-            waists: [
+            sizes: [
                 {
-                    waistID: 3,
+                    product_size_id: 3,
                     size: "sm",
                     stock: true
                 },
                 {
-                    waistID: 4,
+                    product_size_id: 4,
                     size: "md",
                     stock: true
                 }
@@ -69,14 +69,14 @@ const productFullPreviewMock: ProductFullPreview = {
             colorID: 3,
             color: "Verde",
             hexadecimal: "#00FF00",
-            waists: [
+            sizes: [
                 {
-                    waistID: 5,
+                    product_size_id: 5,
                     size: "lg",
                     stock: true 
                 },
                 {
-                    waistID: 6,
+                    product_size_id: 6,
                     size: "xl",
                     stock: true 
                 }
@@ -92,14 +92,14 @@ const productFullPreviewMock: ProductFullPreview = {
             colorID: 4,
             color: "Azul",
             hexadecimal: "#0000FF",
-            waists: [
+            sizes: [
                 {
-                    waistID: 7,
+                    product_size_id: 7,
                     size: "md",
                     stock: false 
                 },
                 {
-                    waistID: 8,
+                    product_size_id: 8,
                     size: "lg",
                     stock: false 
                 }
@@ -123,14 +123,14 @@ const productFullPreviewMock: ProductFullPreview = {
             colorID: 5,
             color: "Amarillo",
             hexadecimal: "#FFFF00",
-            waists: [
+            sizes: [
                 {
-                    waistID: 9,
+                    product_size_id: 9,
                     size: "sm",
                     stock: true
                 },
                 {
-                    waistID: 10,
+                    product_size_id: 10,
                     size: "lg",
                     stock: true
                 }

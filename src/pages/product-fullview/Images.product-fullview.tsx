@@ -66,9 +66,9 @@ const ProductFullViewImages = ({ images, variant }: ProductFullViewImagesProps) 
                 >
                     {
                         images.map(({ imageID, url }) =>
-                            <SwiperSlide className="flex justify-center items-center  bg-white" key={imageID}>
+                            <SwiperSlide className="flex justify-center items-center   bg-white" key={imageID}>
                                 <Image
-                                    className="object-contain rounded-none min-h-[350px] max-md:max-h-[350px]"
+                                    className="object-contain rounded-none min-h-[350px] max-h-[350px]"
                                     classNames={{ wrapper: "rounded-none " }}
                                     src={url}
                                 />

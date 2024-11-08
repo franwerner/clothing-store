@@ -19,7 +19,7 @@ const ProductsSearchPage = () => {
 
   return (
     <PageWrapper>
-      <AnimatedTitle title="Resultados" />
+      <AnimatedTitle title="Resultados" className=" pb-8" />
       <Await resolve={data.res}>
         <DeferLoader>
           <main className="flex flex-col flex-1">

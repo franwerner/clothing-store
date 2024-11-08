@@ -17,10 +17,13 @@ const NavBar = memo(() => {
             if (!ref.current) return
             const { y } = ref.current.getBoundingClientRect()
             const is = Math.abs(y) >= 100
-            setIsHidden(is)
+            isHidden !== is && setIsHidden(is)
+
         }
         window.addEventListener("scroll", fn)
-        return () => window.removeEventListener("scroll", fn)
+        return () => {
+            window.removeEventListener("scroll", fn)
+        }
     }, [isHidden])
 
     return (

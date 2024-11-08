@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import { useSearchParams } from "react-router-dom"
 
 const ProductsFilterDelete = () => {
@@ -9,16 +10,23 @@ const ProductsFilterDelete = () => {
 
     const someFilter = color || waits || price
 
-    return someFilter &&
-        <div
-            onClick={() => setSearchParams("")}
-            className="flex items-center gap-x-1 cursor-pointer ">
-            <span className=" underline text-sm text-default-700 uppercase">Eliminar filtros</span>
-            <span
-                className="material-symbols-outlined text-default-700 text-xl "
-            >filter_alt_off
-            </span>
-        </div>
+    return <div
+        onClick={() => {
+            ["color", "waits", "price"].forEach((i) => (params.delete(i)))
+            setSearchParams(params)
+        }}
+        className={
+            classNames(
+                "flex items-center gap-x-1 cursor-pointer opacity-100 transition-opacity duration-300",
+                {"!opacity-0 " : !someFilter}
+            )
+        }>
+        <span className=" underline text-sm text-default-700 uppercase">Eliminar filtros</span>
+        <span
+            className="material-symbols-outlined text-default-700 text-xl "
+        >filter_alt_off
+        </span>
+    </div>
 }
 
 export default ProductsFilterDelete

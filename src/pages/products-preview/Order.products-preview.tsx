@@ -1,32 +1,56 @@
+import router from "@/router";
 import { Select, SelectItem } from "@nextui-org/react";
+import { memo } from "react";
 
 const orderList = [
-    "Precio : menor a Mayor",
-    "Precio : mayor a Menor",
-    "A - Z",
-    "Z - A",
-    "Mas vendidos",
-    "Ofertas",
-    "Nuevo"
+    { key: "priceAsc", label: "Precio : menor a Mayor" },
+    { key: "priceDesc", label: "Precio : mayor a Menor" },
+    { key: "nameAsc", label: "A - Z" },
+    { key: "nameDesc", label: "Z - A" },
+    { key: "bestSellers", label: "Mas vendidos" },
+    { key: "offers", label: "Ofertas" },
+    { key: "newest", label: "Nuevo" }
 ]
 
-const ProductsPreviewOrder = () => {
+
+const ProductsPreviewOrder = memo(() => {
+
+    const getDefaultKey = () => {
+        const order =  new URLSearchParams(window.location.search).get("order")
+        return order && orderList.find(i => i.key == order)?.key || ""
+    }
+
     return (
         <Select
             classNames={{
                 trigger: "border-1 border-default-300 ",
+                base: "py-3"
             }}
             color="secondary"
             variant="bordered"
             className="max-w-xs "
-            defaultSelectedKeys={["Mas vendidos"]}
+            defaultSelectedKeys={[getDefaultKey()]}
             placeholder="Selecciona un orden"
             label="Ordenar por">
             {
-                orderList.map((name) => <SelectItem key={name}>{name}</SelectItem>)
+                orderList.map((i) =>
+                    <SelectItem
+                        onClick={() => {
+                            const searchParams = new URLSearchParams(window.location.search)
+                            const order = searchParams.get("order")
+                            if (order == i.key) {
+                                searchParams.delete("order")
+                            } else {
+                                searchParams.set("order", i.key)
+                            }
+                            router.navigate(`?${searchParams}`)
+                        }}
+                        key={i.key}>
+                        {i.label}
+                    </SelectItem>)
             }
         </Select>
     );
-};
+})
 
 export default ProductsPreviewOrder

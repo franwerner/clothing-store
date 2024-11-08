@@ -4,8 +4,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import AccountLoginForm from "./LoginForm.account";
 import AccountRegisterForm from "./RegisterForm.account";
 
-
-
 const AccountPage = () => {
     const [params] = useSearchParams()
     const form = params.get("form")
