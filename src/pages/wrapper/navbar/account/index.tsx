@@ -1,10 +1,14 @@
-import router from "@/router";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import { useSelector } from "@/store";
+import { Dropdown, DropdownTrigger } from "@nextui-org/react";
 import { memo, useState } from "react";
+import AccountLoggedIn from "./LoggedIn.account";
+import AccountLoggedOut from "./LoggedOut.account";
+
 
 const NavbarAccount = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const select = useSelector((store) => store.user.info)
     return (
         <Dropdown
             shadow="lg"
@@ -25,21 +29,11 @@ const NavbarAccount = memo(() => {
                     </span>
                 </div>
             </DropdownTrigger>
-            <DropdownMenu
-                itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}
-                color="default"  >
-                <DropdownItem
-                    onClick={() => router.navigate("/cuenta?form=login")}
-                    showDivider
-                    key="login" >
-                    Iniciar sesión
-                </DropdownItem>
-                <DropdownItem
-                    onClick={() => router.navigate("/cuenta?form=register")}
-                    key="register">
-                    Crear cuenta
-                </DropdownItem>
-            </DropdownMenu>
+            {
+                select?.user_id ?
+                    <AccountLoggedIn /> :
+                    <AccountLoggedOut />
+            }
         </Dropdown>
     );
 })

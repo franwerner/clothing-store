@@ -6,14 +6,20 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './App.css';
 import router from './router';
+import { ObserverStore } from "./store";
+import HydrateApp from "./components/hydrateApp";
 
 function App() {
 
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="ligth">
-        <RouterProvider router={router}>
-        </RouterProvider>
+        <ObserverStore>
+          <HydrateApp>
+            <RouterProvider router={router}>
+            </RouterProvider>
+          </HydrateApp>
+        </ObserverStore>
       </NextThemesProvider>
     </NextUIProvider>
   )

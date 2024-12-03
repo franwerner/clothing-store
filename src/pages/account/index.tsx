@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/PageWrapper";
 import { AnimatePresence } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AccountLoginForm from "./LoginForm.account";
+import AccountLoginForm from "./LoginForm";
 import AccountRegisterForm from "./RegisterForm.account";
 
 const AccountPage = () => {

@@ -1,6 +1,7 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
+import useRegister from "@/hooks/api/useRegister.api"
 import useForm from "@/hooks/useForm.hook"
 import { motion, Variants } from "framer-motion"
 import { ChangeEventHandler } from "react"
@@ -71,6 +72,7 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
 
     const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
 
+    const [{ isLoading }, { setRequest }] = useRegister(form)
 
     const variants: Variants = {
         hidden: {
@@ -101,7 +103,12 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
                 ¿Ya tienes una cuenta?
                 <a className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80" onClick={changeForm}>Inicia sesión</a></p>
 
-            <ActionButton className="min-w-[300px] sm:w-auto ">
+            <ActionButton
+                onClick={() => {
+                    setRequest()
+                }}
+                isLoading={isLoading}
+                className="min-w-[300px] sm:w-auto ">
                 Registrarse
             </ActionButton>
         </motion.div>
