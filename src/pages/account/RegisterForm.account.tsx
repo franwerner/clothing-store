@@ -3,8 +3,9 @@ import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
 import useRegister from "@/hooks/api/useRegister.api"
 import useForm from "@/hooks/useForm.hook"
+import router from "@/router"
 import { motion, Variants } from "framer-motion"
-import { ChangeEventHandler } from "react"
+import { ChangeEventHandler, useState } from "react"
 
 
 interface LoginFormProperties {
@@ -15,8 +16,9 @@ interface LoginFormProperties {
     confirm_password: string
 }
 
-const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeEventHandler<HTMLInputElement> }) => {
+const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: ChangeEventHandler<HTMLInputElement> }) => {
 
+    const group = groupBy(data)
     return (
         <form className="w-full sm:w-[400px] m-auto px-3">
             <BaseInput
@@ -25,6 +27,14 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
                 onChange={onChange}
                 name={"fullname"}
                 isRequired
+                isInvalid={!!group.fullname}
+                errorMessage={
+                    <div>
+                        {group.fullname && group.fullname.map((i, index) => {
+                            return <p>{i}</p>
+                        })}
+                    </div>
+                }
                 label={"Nombre y apellido"}
                 value={form.fullname}
             />
@@ -35,6 +45,14 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
                 name={"email"}
                 isRequired
                 label={"Correo electronico"}
+                isInvalid={!!group.email}
+                errorMessage={
+                    <div>
+                        {group.email && group.email.map((i, index) => {
+                            return <p>{i}</p>
+                        })}
+                    </div>
+                }
                 value={form.email}
             />
             <BaseInput
@@ -43,6 +61,14 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
                 onChange={onChange}
                 name={"phone"}
                 label={"Telefono"}
+                isInvalid={!!group.phone}
+                errorMessage={
+                    <div>
+                        {group.phone && group.phone.map((i, index) => {
+                            return <p>{i}</p>
+                        })}
+                    </div>
+                }
                 value={form.phone}
             />
             <BaseInput
@@ -52,6 +78,14 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
                 name={"password"}
                 isRequired
                 label={"Contraseña"}
+                isInvalid={!!group.password}
+                errorMessage={
+                    <div>
+                        {group.password && group.password.map((i, index) => {
+                            return <p>* {i}</p>
+                        })}
+                    </div>
+                }
                 value={form.password}
             />
             <BaseInput
@@ -60,6 +94,14 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
                 onChange={onChange}
                 name={"confirm_password"}
                 isRequired
+                isInvalid={!!group.confirm_password}
+                errorMessage={
+                    <div>
+                        {group.confirm_password && group.confirm_password.map((i, index) => {
+                            return <p>{i}</p>
+                        })}
+                    </div>
+                }
                 label={"Confirmar contraseña"}
                 value={form.confirm_password}
             />
@@ -68,11 +110,28 @@ const Form = ({ form, onChange }: { form: LoginFormProperties, onChange: ChangeE
     )
 }
 
-const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
+const groupBy = (arr: Array<{ source: string, reason: any }>) => {
+
+    if (!arr) return {}
+    return arr.reduce((acc, current) => {
+
+        const { source, reason } = current
+        const t = acc[source]
+        if (t) {
+            t.push(reason)
+        } else {
+            acc[source] = [reason]
+        }
+
+        return acc
+    }, {})
+}
+
+const AccountRegisterForm = () => {
 
     const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
 
-    const [{ isLoading }, { setRequest }] = useRegister(form)
+    const [{ isLoading, response }, { setRequest }] = useRegister(form)
 
     const variants: Variants = {
         hidden: {
@@ -90,7 +149,6 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
             initial={"hidden"}
             variants={variants}
             animate={"show"}
-            exit={"hidden"}
             transition={{
                 duration: 0.2,
             }}
@@ -98,10 +156,15 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
         >
             <AnimatedTitle title="Crea tu cuenta" className="w-full"></AnimatedTitle>
 
-            <Form form={form} onChange={onChange} />
+            <Form form={form} data={response.result.data} onChange={onChange} />
             <p className="w-full text-center">
                 ¿Ya tienes una cuenta?
-                <a className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80" onClick={changeForm}>Inicia sesión</a></p>
+                <a
+                    className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80"
+                    onClick={() => router.navigate("/cuenta/ingresar")}>
+                    Inicia sesión
+                </a>
+            </p>
 
             <ActionButton
                 onClick={() => {
@@ -116,3 +179,4 @@ const AccountRegisterForm = ({ changeForm }: { changeForm: () => void }) => {
 }
 
 export default AccountRegisterForm
+

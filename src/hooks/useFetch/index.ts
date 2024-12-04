@@ -18,10 +18,8 @@ interface UseFetchProps<T = any> extends Omit<RequestInit, "signal" | "body"> {
 }
 
 interface FetchResponse<T = any> {
-    status: {
-        code?: number | string,
-        success?: boolean
-    },
+    status?: number | string,
+    success?: boolean
     result: T
 }
 
@@ -33,12 +31,10 @@ const useFetch = <T extends object = {}>({
     const [isLoading, setLoading] = useState<boolean>(false)
     const [response, setResponse] = useState<FetchResponse<T>>({
         result: {} as T,
-        status: {
-            success: undefined,
-            code: undefined
-        }
+        success: undefined,
+        status: undefined
     })
-    const setRequest = async (props: Partial<UseFetchProps<T>> = {}) => {
+    const setRequest = (props: Partial<UseFetchProps<T>> = {}) => {
         const { target, query, onSuccess, onFailed, body = {}, delay, basename, ...rest } = { ...request, ...props }
         abortSignal()
         createSignal()
@@ -56,10 +52,8 @@ const useFetch = <T extends object = {}>({
                     const json = await res.json()
                     const response = {
                         result: json,
-                        status: {
-                            code: res.status,
-                            success: res.ok
-                        }
+                        status: res.status,
+                        success: res.ok,
                     }
                     isFunction(onSuccess) && res.ok && onSuccess(response)
                     isFunction(onFailed) && !res.ok && onFailed(response)
@@ -67,10 +61,8 @@ const useFetch = <T extends object = {}>({
                 } catch (error: any) {
                     const response = {
                         result: {} as T,
-                        status: {
-                            code: isString(error) || isNumber(error) ? error : "Unknown error",
-                            success: false
-                        }
+                        status: isString(error) || isNumber(error) ? error : "Unknown error",
+                        success: false
                     }
                     isFunction(onFailed) && onFailed(response)
                     setResponse(response)

@@ -43,7 +43,7 @@ const NavBar = memo(() => {
                     boxShadow: "0px 1px 10px 0px rgba(0,0,0,0.25)",
                 }}
                 classNames={{
-                    wrapper: `flex-wrap gap-1  flex flex-nowrap items-center justify-between w-full  `,
+                    wrapper: `flex-wrap gap-1 flex flex-nowrap items-center justify-between w-full  `,
                 }}>
                 <NavbarMenu />
                 <NavbarNavigation />

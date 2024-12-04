@@ -12,7 +12,7 @@ const AppWrapper = () => {
 
     return (
         <div
-            className="flex flex-col min-h-dvh   bg-justify-center bg-default-50  items-center"
+            className="flex flex-col min-h-dvh bg-justify-center bg-default-50  items-center"
             id="wrapper-app"
         >
             <NavBar />

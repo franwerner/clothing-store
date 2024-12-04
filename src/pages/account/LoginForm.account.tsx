@@ -4,9 +4,9 @@ import BaseInput from "@/components/BaseInput"
 import useLogin from "@/hooks/api/useLogin.api"
 import { UseFetchCustomResult } from "@/hooks/useFetchCustom.hooks"
 import useForm from "@/hooks/useForm.hook"
+import router from "@/router"
 import { motion, Variants } from "framer-motion"
 import { ChangeEventHandler, KeyboardEvent, KeyboardEventHandler } from "react"
-
 
 interface LoginFormProps {
     email: string
@@ -28,15 +28,14 @@ const Form = ({ form, onChange, result, onKeyUp }: { form: LoginFormProps, onCha
 
     return (
         <form
-            onKeyUp={onKeyUp}
-            className="w-full sm:w-[400px] m-auto px-3">
+            onKeyUp={onKeyUp} >
             <BaseInput
                 label="Email"
                 labelPlacement="inside"
                 onChange={onChange}
                 isInvalid={result.code == "email_not_found"}
                 value={form.email}
-                errorMessage={"Email incorrecto"}
+                errorMessage={result.message}
                 name="email"
             />
             <BaseInput
@@ -44,22 +43,21 @@ const Form = ({ form, onChange, result, onKeyUp }: { form: LoginFormProps, onCha
                 name="password"
                 labelPlacement="inside"
                 isInvalid={result.code == "wrong_password"}
-                errorMessage="Contraseña incorrecta"
+                errorMessage={result.message}
                 value={form.password}
                 label="contraseña"
                 type="password"
             />
-            <span className="w-full flex justify-end cursor-pointer underline">¿Olvidaste tu contraseña?</span>
         </form>
     )
 }
 
 
-const AccountLoginForm = ({ changeForm }: { changeForm: () => void }) => {
+const AccountLoginForm = () => {
 
     const { form, onChange } = useForm<LoginFormProps>({ email: "", password: "" });
 
-    const [{isLoading,response}, { setRequest }] = useLogin(form)
+    const [{ isLoading, response }, { setRequest }] = useLogin(form)
 
     const onKeyUp = (e: KeyboardEvent<HTMLFormElement>) => {
         if (e.key === "Enter" && !isLoading) {
@@ -72,7 +70,6 @@ const AccountLoginForm = ({ changeForm }: { changeForm: () => void }) => {
             initial={"hidden"}
             variants={variants}
             animate={"show"}
-            exit={"hidden"}
             transition={{
                 duration: 0.2,
             }}
@@ -82,17 +79,29 @@ const AccountLoginForm = ({ changeForm }: { changeForm: () => void }) => {
                 title="Bienvenido"
                 className="w-full" />
 
-            <Form form={form}
-                result={response.result}
-                onKeyUp={onKeyUp}
-                onChange={onChange} />
+            <div className="sm:w-[400px] w-full relative mb-1 m-auto ">
+                <Form form={form}
+                    result={response.result}
+                    onKeyUp={onKeyUp}
+                    onChange={onChange} />
+                <span
+                    onClick={() => router.navigate("/cuenta/recuperar")}
+                    className=" cursor-pointer absolute right-0  hover:font-semibold  underline">
+                    ¿Olvidaste tu contraseña?
+                </span>
+            </div>
+
             <p className="w-full text-center">
                 ¿No estas registrado?
-                <a className="inline-block ml-1 font-semibold underline cursor-pointer hover:opacity-80" onClick={changeForm}>Create una cuenta</a></p>
+                <a
+                    className="inline-block ml-1 font-semibold underline cursor-pointer hover:opacity-80"
+                    onClick={() => router.navigate("/cuenta/registrarse")}>
+                    Create una cuenta</a>
+            </p>
 
             <ActionButton
                 isLoading={isLoading}
-                className="min-w-[300px] sm:w-auto pointer-events-auto"
+                className="sm:min-w-[300px] pointer-events-auto"
                 onClick={() => {
                     setRequest()
                 }}

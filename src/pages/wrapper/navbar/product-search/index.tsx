@@ -32,7 +32,7 @@ const NavbarProductSearch = memo(() => {
             const { state } = r.navigation
             /**
              * Los loaders de react-router hace un pre-carga de las ruta en la que se encuentra.
-             * Entonces para mitigar el reseteo erroneo de form, tiene que se una ruta en estado "idle"
+             * Entonces para mitigar el reseteo erroneo de form, tiene que ser una ruta en estado "idle"
              */
             if (pathname !== "/productos/busqueda" && state === "idle" && form.search) {
                 setValue("search", "")

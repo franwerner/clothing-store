@@ -4,11 +4,10 @@ import { memo, useState } from "react";
 import AccountLoggedIn from "./LoggedIn.account";
 import AccountLoggedOut from "./LoggedOut.account";
 
-
 const NavbarAccount = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
-
     const select = useSelector((store) => store.user.info)
+
     return (
         <Dropdown
             shadow="lg"
@@ -30,7 +29,7 @@ const NavbarAccount = memo(() => {
                 </div>
             </DropdownTrigger>
             {
-                select?.user_id ?
+                select?.fullname ?
                     <AccountLoggedIn /> :
                     <AccountLoggedOut />
             }

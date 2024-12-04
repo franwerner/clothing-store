@@ -5,24 +5,28 @@ import { Button, DropdownItem, DropdownMenu } from "@nextui-org/react"
 
 const AccountLoggedIn = () => {
 
-    const { fullname, user_id } = useSelector((store) => store.user.info) || {}
-
-    const [{isLoading},{setRequest}] = useLogout(user_id)
-
+    const [{ isLoading }, { setRequest }] = useLogout()
+    const fullname = useSelector((store) => store.user.info?.fullname)
     return (
         <DropdownMenu
             itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}
             color="default">
-            <DropdownItem>
+            <DropdownItem
+                key={"fullname"}
+            >
                 {fullname}
             </DropdownItem>
             <DropdownItem
                 showDivider
-            >
-                Mis compras
-            </DropdownItem>
+                title="Mis compras"
+                key={"purchases"}
+            />
             <DropdownItem
-                onClick={() => setRequest()}
+                key={"logout"}
+                closeOnSelect = {false}
+                onClick={() => {
+                    setRequest()
+                }}
                 classNames={{
                     wrapper: "font-bold",
                 }}
@@ -32,7 +36,7 @@ const AccountLoggedIn = () => {
                     <Button
                         isLoading={isLoading}
                         isIconOnly
-                        className="material-symbols-outlined bg-transparent group-hover:text-white text-2xl w-6 h-6 ">
+                        className="material-symbols-outlined pointer-events-none bg-transparent group-hover:text-white text-2xl w-6 h-6 ">
                         logout
                     </Button>
                 }
@@ -41,6 +45,9 @@ const AccountLoggedIn = () => {
 
     )
 }
+
+
+
 
 
 export default AccountLoggedIn

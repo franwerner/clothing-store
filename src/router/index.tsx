@@ -2,13 +2,13 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import LoadPage from "@/components/LoadPage";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, defer } from "react-router-dom";
+import cuentaRouter from "./cuenta.router";
 
 const LazyProductsPreview = lazy(() => import("@/pages/products-preview"))
 const LazyContact = lazy(() => import("@/pages/contact"))
 const LazyAppWraper = lazy(() => import("@/pages/wrapper"))
 const LazyProductsSearch = lazy(() => import("@/pages/products-search"))
 const LazyProductFullView = lazy(() => import("@/pages/product-fullview"))
-const LazyAccount = lazy(() => import("@/pages/account"))
 
 
 const router = createBrowserRouter([
@@ -73,13 +73,11 @@ const router = createBrowserRouter([
                 path: "envios",
                 element: <p>envios</p>
             },
-            {
-                path: "cuenta",
-                element: <Suspense fallback={<LoadPage />}>
-                    <LazyAccount />
-                </Suspense>
-            },
+           {
+            ...cuentaRouter
+           }
         ]
+        
     }
 ])
 

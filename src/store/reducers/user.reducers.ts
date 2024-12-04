@@ -12,7 +12,8 @@ type Actions = {
 
 
 const userReducer = createReducer<State, Actions>({
-    state: {},
+    state: {
+    },
     actions: {
         set(state, payload) {
             state.info = payload

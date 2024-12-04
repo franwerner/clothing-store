@@ -1,20 +1,19 @@
 import PageWrapper from "@/components/PageWrapper";
-import { AnimatePresence } from "framer-motion";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import AccountLoginForm from "./LoginForm";
-import AccountRegisterForm from "./RegisterForm.account";
+import router from "@/router";
+import { useLayoutEffect } from "react";
+import { useOutlet } from "react-router-dom";
 
 const AccountPage = () => {
-    const [params] = useSearchParams()
-    const form = params.get("form")
-    const nav = useNavigate()
+    const Outlet = useOutlet()
+
+   useLayoutEffect(()=>{
+    if(!Outlet) router.navigate("/cuenta/ingresar")
+   },[Outlet])
+
     return (
         <PageWrapper>
             <main className="min-h-[60dvh] h-full flex relative flex-col items-center">
-                <AnimatePresence>
-                    {form === "login" && <AccountLoginForm changeForm={() => nav("/cuenta?form=register")} />}
-                    {form === "register" && <AccountRegisterForm changeForm={() => nav("/cuenta?form=login")} />}
-                </AnimatePresence>
+                {Outlet}
             </main>
         </PageWrapper>
     );

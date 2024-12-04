@@ -7,13 +7,13 @@ const AccountLoggedOut = () => {
             itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}
             color="default"  >
             <DropdownItem
-                onClick={() => router.navigate("/cuenta?form=login")}
+                onClick={() => router.navigate("/cuenta/ingresar")}
                 showDivider
                 key="login" >
                 Iniciar sesión
             </DropdownItem>
             <DropdownItem
-                onClick={() => router.navigate("/cuenta?form=register")}
+                onClick={() => router.navigate("/cuenta/registrarse")}
                 key="register">
                 Crear cuenta
             </DropdownItem>
