@@ -2,29 +2,25 @@ import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
 import useLogin from "@/hooks/api/useLogin.api"
-import { UseFetchCustomResult } from "@/hooks/useFetchCustom.hooks"
 import useForm from "@/hooks/useForm.hook"
 import router from "@/router"
-import { motion, Variants } from "framer-motion"
+import { motion } from "framer-motion"
 import { ChangeEventHandler, KeyboardEvent, KeyboardEventHandler } from "react"
+import AccountAnimationVariant from "./constant/animationVariant.contant"
+import { FetchCustomResult } from "@/hooks/useFetchCustom.hooks"
 
 interface LoginFormProps {
     email: string
     password: string
 }
-
-const variants: Variants = {
-    hidden: {
-        opacity: 0,
-        scale: 0
-    },
-    show: {
-        scale: 1,
-        opacity: 1
-    }
+interface FormProps {
+    form: LoginFormProps,
+    onChange: ChangeEventHandler<HTMLInputElement>,
+    result: FetchCustomResult,
+    onKeyUp: KeyboardEventHandler<HTMLFormElement>
 }
 
-const Form = ({ form, onChange, result, onKeyUp }: { form: LoginFormProps, onChange: ChangeEventHandler<HTMLInputElement>, result: UseFetchCustomResult, onKeyUp: KeyboardEventHandler<HTMLFormElement> }) => {
+const Form = ({ form, onChange, result, onKeyUp }: FormProps) => {
 
     return (
         <form
@@ -33,6 +29,7 @@ const Form = ({ form, onChange, result, onKeyUp }: { form: LoginFormProps, onCha
                 label="Email"
                 labelPlacement="inside"
                 onChange={onChange}
+                autoComplete="username"
                 isInvalid={result.code == "email_not_found"}
                 value={form.email}
                 errorMessage={result.message}
@@ -41,6 +38,7 @@ const Form = ({ form, onChange, result, onKeyUp }: { form: LoginFormProps, onCha
             <BaseInput
                 onChange={onChange}
                 name="password"
+                autoComplete="current-password"
                 labelPlacement="inside"
                 isInvalid={result.code == "wrong_password"}
                 errorMessage={result.message}
@@ -68,7 +66,7 @@ const AccountLoginForm = () => {
     return (
         <motion.div
             initial={"hidden"}
-            variants={variants}
+            variants={AccountAnimationVariant}
             animate={"show"}
             transition={{
                 duration: 0.2,

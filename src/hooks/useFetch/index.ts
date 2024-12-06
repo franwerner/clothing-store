@@ -1,40 +1,46 @@
+import { isFunction } from "my-utilities"
 import { useEffect, useState } from "react"
-import queryToString from "./utils/queryToString.utilts"
-import { isFunction, isNumber, isString } from "my-utilities"
 import useAbortSignal from "./useAbortSignal.useFetch"
 import useDelay from "./useDelay.useFetch"
+import queryToString from "./utils/queryToString.utilts"
 
 type Target = string | URL | globalThis.Request
 
 type FetchQuery = { [key: string]: string | number | undefined }
-interface UseFetchProps<T = any> extends Omit<RequestInit, "signal" | "body"> {
+interface UseFetchProps<T = any, U = any,> extends Omit<RequestInit, "signal" | "body"> {
     target: Target,
     basename?: string
     query?: FetchQuery,
-    onSuccess?: (response: FetchResponse<T>) => void,
-    onFailed?: (response: FetchResponse<T>) => void
+    onSuccess?: (response: FetchResponse<T>) => void
+    onFailed?: (response: FetchResponse<U>) => void
     body?: { [key: string]: any }
     delay?: number
 }
 
 interface FetchResponse<T = any> {
-    status?: number | string,
+    status?: number,
     success?: boolean
     result: T
 }
 
-const useFetch = <T extends object = {}>({
+/**
+ * T = Valores success.
+ * U = Valores failed
+ * Esto no permite definir que recibira tanto onSuccess y onFailed.
+ * la propiedad `result` recibira una combinacion de estos 2 tipos.
+ */
+const useFetch = <T extends object = {}, U extends object = {}>({
     ...request
-}: UseFetchProps<T>) => {
+}: UseFetchProps<T, U>) => {
     const { abortSignal, createSignal, setSignalUsed, getSignal } = useAbortSignal()
     const { cleanDelay, createDelay } = useDelay()
     const [isLoading, setLoading] = useState<boolean>(false)
-    const [response, setResponse] = useState<FetchResponse<T>>({
-        result: {} as T,
+    const [response, setResponse] = useState<FetchResponse<T | U>>({
+        result: {} as T | U,
         success: undefined,
         status: undefined
     })
-    const setRequest = (props: Partial<UseFetchProps<T>> = {}) => {
+    const setRequest = (props: Partial<UseFetchProps<T,U>> = {}) => {
         const { target, query, onSuccess, onFailed, body = {}, delay, basename, ...rest } = { ...request, ...props }
         abortSignal()
         createSignal()
@@ -51,7 +57,7 @@ const useFetch = <T extends object = {}>({
                     })
                     const json = await res.json()
                     const response = {
-                        result: json,
+                        result: json || {},
                         status: res.status,
                         success: res.ok,
                     }
@@ -60,8 +66,8 @@ const useFetch = <T extends object = {}>({
                     setResponse(response)
                 } catch (error: any) {
                     const response = {
-                        result: {} as T,
-                        status: isString(error) || isNumber(error) ? error : "Unknown error",
+                        result: {} as U,
+                        status: 500,
                         success: false
                     }
                     isFunction(onFailed) && onFailed(response)
@@ -93,8 +99,6 @@ const useFetch = <T extends object = {}>({
 }
 
 export type {
-    UseFetchProps,
-    FetchResponse,
-    FetchQuery
+    FetchQuery, FetchResponse, UseFetchProps
 }
 export default useFetch

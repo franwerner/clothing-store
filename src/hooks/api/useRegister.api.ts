@@ -1,16 +1,30 @@
-import User from "@/interfaces/User.interface"
+import { UserSchema } from "clothing-store-shared/schema"
 import useFetchCustom from "../useFetchCustom.hooks"
+import { useAlertContext } from "@/components/AlertGlobal"
+import router from "@/router"
+import { useDispatch } from "@/store"
 
-interface useRegisterProps {
+const useRegister = (props: Omit<UserSchema.Insert, "ip" | "permission">) => {
 
-}
+    const alertHandler = useAlertContext()
 
-const useRegister = (props: useRegisterProps) => {
+    const dispatch = useDispatch()
 
-    const res = useFetchCustom<User>({
+    const res = useFetchCustom<UserSchema.FormatUser, any, UserSchema.Insert>({
         target: "users/register",
         method: "POST",
-        body: props
+        body: props,
+        onFailed: (e) => {
+            if (e.result.code === "limit_account_per_ip") {
+                alertHandler({ severity: "warning", title: e.result.message })
+            }
+        },
+        onSuccess: (e) => {
+            if (!e.result.data) return
+            alertHandler({ severity: "success", text: e.result.message })
+            dispatch(({ user }) => user.set(e.result.data))
+            router.navigate("/cuenta/confirmacion")
+        }
     })
 
     return res

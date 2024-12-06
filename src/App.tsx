@@ -8,6 +8,7 @@ import './App.css';
 import router from './router';
 import { ObserverStore } from "./store";
 import HydrateApp from "./components/hydrateApp";
+import AlertGlobal from "./components/AlertGlobal";
 
 
 function App() {
@@ -17,8 +18,10 @@ function App() {
       <NextThemesProvider attribute="class" defaultTheme="ligth">
         <ObserverStore>
           <HydrateApp>
-            <RouterProvider router={router}>
-            </RouterProvider>
+            <AlertGlobal>
+              <RouterProvider router={router}>
+              </RouterProvider>
+            </AlertGlobal>
           </HydrateApp>
         </ObserverStore>
       </NextThemesProvider>

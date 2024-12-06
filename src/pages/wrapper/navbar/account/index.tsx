@@ -6,7 +6,7 @@ import AccountLoggedOut from "./LoggedOut.account";
 
 const NavbarAccount = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
-    const select = useSelector((store) => store.user.info)
+    const user_id = useSelector((store) => store.user.info?.user_id)
 
     return (
         <Dropdown
@@ -29,7 +29,7 @@ const NavbarAccount = memo(() => {
                 </div>
             </DropdownTrigger>
             {
-                select?.fullname ?
+                user_id ?
                     <AccountLoggedIn /> :
                     <AccountLoggedOut />
             }

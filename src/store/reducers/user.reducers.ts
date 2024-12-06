@@ -1,12 +1,12 @@
-import User from "@/interfaces/User.interface"
+import { UserSchema } from "clothing-store-shared/schema"
 import { createReducer } from "react-observer-context"
 
 type State = {
-    info?: User
+    info?: UserSchema.FormatUser
 }
 
 type Actions = {
-    set: User
+    set: UserSchema.FormatUser
     remove: undefined
 }
 

@@ -4,10 +4,13 @@ import BaseInput from "@/components/BaseInput"
 import useRegister from "@/hooks/api/useRegister.api"
 import useForm from "@/hooks/useForm.hook"
 import router from "@/router"
-import { motion, Variants } from "framer-motion"
-import { ChangeEventHandler, useState } from "react"
-
-
+import groupZodData from "@/utils/groupZodData.utilts"
+import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
+import { UserSchema } from "clothing-store-shared/schema"
+import { ResponseDataZodInError } from "clothing-store-shared/types"
+import { motion } from "framer-motion"
+import { ChangeEventHandler } from "react"
+import AccountAnimationVariant from "./constant/animationVariant.contant"
 interface LoginFormProperties {
     fullname: string
     email: string
@@ -16,9 +19,18 @@ interface LoginFormProperties {
     confirm_password: string
 }
 
-const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: ChangeEventHandler<HTMLInputElement> }) => {
+const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
+    return (
+        <div>
+            {messages && messages.map((i) => <p key={i}>* {i}</p>)}
+        </div>
+    )
+}
 
-    const group = groupBy(data)
+const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: ChangeEventHandler<HTMLInputElement>, data?: ResponseDataZodInError<UserSchema.Insert> }) => {
+
+    const group = groupZodData(data)
+
     return (
         <form className="w-full sm:w-[400px] m-auto px-3">
             <BaseInput
@@ -28,13 +40,7 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
                 name={"fullname"}
                 isRequired
                 isInvalid={!!group.fullname}
-                errorMessage={
-                    <div>
-                        {group.fullname && group.fullname.map((i, index) => {
-                            return <p>{i}</p>
-                        })}
-                    </div>
-                }
+                errorMessage={<InputErrorMessage messages={group.fullname} />}
                 label={"Nombre y apellido"}
                 value={form.fullname}
             />
@@ -46,13 +52,7 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
                 isRequired
                 label={"Correo electronico"}
                 isInvalid={!!group.email}
-                errorMessage={
-                    <div>
-                        {group.email && group.email.map((i, index) => {
-                            return <p>{i}</p>
-                        })}
-                    </div>
-                }
+                errorMessage={<InputErrorMessage messages={group.email} />}
                 value={form.email}
             />
             <BaseInput
@@ -62,46 +62,30 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
                 name={"phone"}
                 label={"Telefono"}
                 isInvalid={!!group.phone}
-                errorMessage={
-                    <div>
-                        {group.phone && group.phone.map((i, index) => {
-                            return <p>{i}</p>
-                        })}
-                    </div>
-                }
+                errorMessage={<InputErrorMessage messages={group.phone} />}
                 value={form.phone}
             />
             <BaseInput
-                placeholder="Example-2525"
+                placeholder="Olgahats-2525"
                 labelPlacement="inside"
                 onChange={onChange}
                 name={"password"}
                 isRequired
+                 autoComplete="off"
                 label={"Contraseña"}
                 isInvalid={!!group.password}
-                errorMessage={
-                    <div>
-                        {group.password && group.password.map((i, index) => {
-                            return <p>* {i}</p>
-                        })}
-                    </div>
-                }
+                errorMessage={<InputErrorMessage messages={group.password} />}
                 value={form.password}
             />
             <BaseInput
-                placeholder="Example-2525"
+                placeholder="Olgahats-2525"
                 labelPlacement="inside"
                 onChange={onChange}
+                autoComplete="off"
                 name={"confirm_password"}
                 isRequired
-                isInvalid={!!group.confirm_password}
-                errorMessage={
-                    <div>
-                        {group.confirm_password && group.confirm_password.map((i, index) => {
-                            return <p>{i}</p>
-                        })}
-                    </div>
-                }
+                isInvalid={form.confirm_password !== form.password}
+                errorMessage={"* Las contraseñas deben ser iguales."}
                 label={"Confirmar contraseña"}
                 value={form.confirm_password}
             />
@@ -110,53 +94,36 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
     )
 }
 
-const groupBy = (arr: Array<{ source: string, reason: any }>) => {
-
-    if (!arr) return {}
-    return arr.reduce((acc, current) => {
-
-        const { source, reason } = current
-        const t = acc[source]
-        if (t) {
-            t.push(reason)
-        } else {
-            acc[source] = [reason]
-        }
-
-        return acc
-    }, {})
-}
 
 const AccountRegisterForm = () => {
 
     const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
 
-    const [{ isLoading, response }, { setRequest }] = useRegister(form)
-
-    const variants: Variants = {
-        hidden: {
-            opacity: 0,
-            scale: 0
-        },
-        show: {
-            scale: 1,
-            opacity: 1
-        }
-    }
-
+    const { email, fullname, password, phone } = form
+    const [{ isLoading, response }, { setRequest }] = useRegister({
+        email,
+        fullname,
+        password,
+        phone
+    })
+    
+    
     return (
         <motion.div
             initial={"hidden"}
-            variants={variants}
+            variants={AccountAnimationVariant}
             animate={"show"}
             transition={{
                 duration: 0.2,
             }}
             className=" w-full items-start flex flex-col gap-6  justify-center"
         >
-            <AnimatedTitle title="Crea tu cuenta" className="w-full"></AnimatedTitle>
-
-            <Form form={form} data={response.result.data} onChange={onChange} />
+            <AnimatedTitle title="Crea tu cuenta" className="w-full"/>
+            <Form
+                form={form}
+                data={isZodErrorResponse(response) ? response.result.data : undefined}
+                onChange={onChange}
+            />
             <p className="w-full text-center">
                 ¿Ya tienes una cuenta?
                 <a
@@ -168,6 +135,7 @@ const AccountRegisterForm = () => {
 
             <ActionButton
                 onClick={() => {
+                    if (form.password !== form.confirm_password) return
                     setRequest()
                 }}
                 isLoading={isLoading}
