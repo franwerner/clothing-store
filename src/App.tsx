@@ -10,20 +10,19 @@ import { ObserverStore } from "./store";
 import HydrateApp from "./components/hydrateApp";
 import AlertGlobal from "./components/AlertGlobal";
 
-
 function App() {
 
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="ligth">
-        <ObserverStore>
-          <HydrateApp>
-            <AlertGlobal>
+        <AlertGlobal>
+          <ObserverStore>
+            <HydrateApp>
               <RouterProvider router={router}>
               </RouterProvider>
-            </AlertGlobal>
-          </HydrateApp>
-        </ObserverStore>
+            </HydrateApp>
+          </ObserverStore>
+        </AlertGlobal>
       </NextThemesProvider>
     </NextUIProvider>
   )

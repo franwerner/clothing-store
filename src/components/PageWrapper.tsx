@@ -35,7 +35,7 @@ const PagreWrapperBreadCrums = () => {
                             const route = split.slice(0, index + 1).reduce((acc, current) => acc + `${current}/`, "")
                             router.navigate(route)
                         }}
-                        className="capitalize font-medium" key={index}>{decodeURIComponent(path) || "inicio"}
+                        className="capitalize font-medium" key={index}>{decodeURIComponent(path).replaceAll("-"," ") || "inicio"}
                     </BreadcrumbItem>)
             }
         </Breadcrumbs>
@@ -50,8 +50,10 @@ const PageWrapper = ({
     isDisableBreadcrums,
 }: PageWrapperProps) => {
 
+    
+
     return (
-        <div className={`w-full  overflow-x-hidden px-2 m-auto sm:px-3  min-h-[50dvh] max-w-[${sizes[size]}px]  ${className} `}>
+        <div id="page-wrapper" className={`w-full  overflow-x-hidden px-2 m-auto sm:px-3  min-h-[50dvh] max-w-[${sizes[size]}px]  ${className} `}>
             {
                 !isDisableBreadcrums && <PagreWrapperBreadCrums />
             }

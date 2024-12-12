@@ -1,27 +1,26 @@
 import { motion } from "framer-motion";
 
 interface AnimatedTitleProps {
-    title: string
-    className?: string
+    title: React.ReactNode
 }
 
-
-const DividerAnimate = () => (
-    <motion.span
-        initial={{ width: "0%" }}
-        animate={{ width: "100%" }}
-        transition={{
-            duration: 1
-        }}
-        className="h-[1px] bg-default-300" />
-)
-
-const AnimatedTitle = ({ title, className = "" }: AnimatedTitleProps) => {
-
+const DividerAnimate = ({ x }: { x: string }) => {
     return (
-        <div
-            className={`text-center gap-4 animated-title justify-between items-center flex  ${className} `}>
-            <DividerAnimate />
+        <motion.span
+            initial={{ x: x }}
+            animate={{ x: 0 }}
+            style={{ flexGrow: 1 }}
+            transition={{
+                duration: 0.5,
+            }}
+            className="h-[1px] bg-default-300" />
+    );
+};
+
+const AnimatedTitle = ({ title }: AnimatedTitleProps) => {
+    return (
+        <div className="text-center gap-4 overflow-hidden animated-title justify-center  items-center flex w-full">
+            <DividerAnimate x="-100%" />
             <motion.h1
                 transition={{
                     delay: 0.2
@@ -32,12 +31,11 @@ const AnimatedTitle = ({ title, className = "" }: AnimatedTitleProps) => {
                 animate={{
                     scale: 1,
                 }}
-                className="text-default-700 text-3xl text-nowrap font-oswald font-semibold uppercase">
+                className="text-default-700 text-3xl max-xs:truncate text-nowrap font-oswald font-semibold uppercase ">
                 {title}
             </motion.h1>
-            <DividerAnimate />
+            <DividerAnimate x="100%" />
         </div>
     );
 };
-
 export default AnimatedTitle;

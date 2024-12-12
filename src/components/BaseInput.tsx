@@ -1,13 +1,13 @@
 import { Input, InputProps } from "@nextui-org/react"
 import { memo } from "react"
 
-const BaseInput = memo((props: InputProps) => (
+const BaseInput = memo(({classNames,...props}: InputProps) => (
     <Input
         classNames={{
             label: "uppercase font-semibold  text-default-600",
             "inputWrapper": "after:bg-secondary-300",
             base: "min-w-auto",
-            ...props.classNames
+            ...classNames
         }}
         errorMessage=""
         type={"text"}

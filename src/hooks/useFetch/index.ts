@@ -1,20 +1,23 @@
 import { isFunction } from "my-utilities"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import useAbortSignal from "./useAbortSignal.useFetch"
 import useDelay from "./useDelay.useFetch"
 import queryToString from "./utils/queryToString.utilts"
+import "./utils/paramsToString.utilts"
+import paramsToString from "./utils/paramsToString.utilts"
 
-type Target = string | URL | globalThis.Request
+type Target = string
 
-type FetchQuery = { [key: string]: string | number | undefined }
+type UrlQueryParams = { [key: string]: string | number | undefined }
 interface UseFetchProps<T = any, U = any,> extends Omit<RequestInit, "signal" | "body"> {
     target: Target,
     basename?: string
-    query?: FetchQuery,
+    query?: UrlQueryParams,
     onSuccess?: (response: FetchResponse<T>) => void
     onFailed?: (response: FetchResponse<U>) => void
     body?: { [key: string]: any }
-    delay?: number
+    delay?: number,
+    params?: UrlQueryParams
 }
 
 interface FetchResponse<T = any> {
@@ -33,6 +36,10 @@ const useFetch = <T extends object = {}, U extends object = {}>({
     ...request
 }: UseFetchProps<T, U>) => {
     const { abortSignal, createSignal, setSignalUsed, getSignal } = useAbortSignal()
+    const refMounting = useRef(true)
+    /**
+     * Garantizamos que el componente se encuentre montado para que en casos de que el fetch de error o se aplique un abort la logica se ejecuta en el contexto correcto.
+     */
     const { cleanDelay, createDelay } = useDelay()
     const [isLoading, setLoading] = useState<boolean>(false)
     const [response, setResponse] = useState<FetchResponse<T | U>>({
@@ -40,20 +47,22 @@ const useFetch = <T extends object = {}, U extends object = {}>({
         success: undefined,
         status: undefined
     })
-    const setRequest = (props: Partial<UseFetchProps<T,U>> = {}) => {
-        const { target, query, onSuccess, onFailed, body = {}, delay, basename, ...rest } = { ...request, ...props }
+    const setRequest = (props: Omit<Partial<UseFetchProps<T, U>>, "target"> = {}) => {
+        const { target, query, onSuccess, onFailed, body = {}, params = {}, delay,method = "GET",basename, ...rest } = { ...request, ...props }
         abortSignal()
         createSignal()
         createDelay(async () => {
             {
-                const concatTarget = `${basename}${target}${queryToString(query)}`
+                const concatTarget = `${paramsToString(params, basename + target)}${queryToString(query)}`.replaceAll("//", "/")
+
                 try {
                     setLoading(true)
                     setSignalUsed(true)
                     const res = await fetch(concatTarget, {
                         ...rest,
-                        ...(rest.method === "GET" ? {} : { body: JSON.stringify(body) }),
+                        ...(method === "GET" ? {} : { body: JSON.stringify(body) }),
                         signal: getSignal().signal,
+                        method
                     })
                     const json = await res.json()
                     const response = {
@@ -61,10 +70,12 @@ const useFetch = <T extends object = {}, U extends object = {}>({
                         status: res.status,
                         success: res.ok,
                     }
+                    if (!refMounting.current) return
                     isFunction(onSuccess) && res.ok && onSuccess(response)
                     isFunction(onFailed) && !res.ok && onFailed(response)
                     setResponse(response)
                 } catch (error: any) {
+                    if (!refMounting.current) return
                     const response = {
                         result: {} as U,
                         status: 500,
@@ -74,6 +85,7 @@ const useFetch = <T extends object = {}, U extends object = {}>({
                     setResponse(response)
                 }
                 finally {
+                    if (!refMounting.current) return
                     setSignalUsed(false)
                     setLoading(false)
                 }
@@ -81,7 +93,9 @@ const useFetch = <T extends object = {}, U extends object = {}>({
         }, delay)
     }
     useEffect(() => {
+        refMounting.current = true
         return () => {
+            refMounting.current = false
             cleanDelay()
             abortSignal()
         }
@@ -99,6 +113,12 @@ const useFetch = <T extends object = {}, U extends object = {}>({
 }
 
 export type {
-    FetchQuery, FetchResponse, UseFetchProps
+    UrlQueryParams,
+    FetchResponse,
+    UseFetchProps,
+    Target
 }
+
 export default useFetch
+
+

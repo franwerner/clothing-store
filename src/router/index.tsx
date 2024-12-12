@@ -1,15 +1,15 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LoadPage from "@/components/LoadPage";
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, defer } from "react-router-dom";
+import { createBrowserRouter, defer, redirect } from "react-router-dom";
 import cuentaRouter from "./cuenta.router";
+import tokenRedirect from "@/helper/tokenRedirect.helper";
 
 const LazyProductsPreview = lazy(() => import("@/pages/products-preview"))
 const LazyContact = lazy(() => import("@/pages/contact"))
 const LazyAppWraper = lazy(() => import("@/pages/wrapper"))
 const LazyProductsSearch = lazy(() => import("@/pages/products-search"))
 const LazyProductFullView = lazy(() => import("@/pages/product-fullview"))
-
 
 const router = createBrowserRouter([
     {
@@ -73,11 +73,18 @@ const router = createBrowserRouter([
                 path: "envios",
                 element: <p>envios</p>
             },
-           {
-            ...cuentaRouter
-           }
+            {
+                ...cuentaRouter
+            },
+            {
+                path: "token",
+                loader: () => {
+                    const { href } = tokenRedirect()
+                    return redirect(href)
+                }
+            }
         ]
-        
+
     }
 ])
 

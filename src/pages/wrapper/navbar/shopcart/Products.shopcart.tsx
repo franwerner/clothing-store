@@ -132,7 +132,7 @@ const ShopCartProducts = () => {
         <section
             id="shoptcart-product"
             className="flex-1 gap-2 flex flex-col  rounded-md bg-default-50 ">
-            <AnimatePresence  >
+            <AnimatePresence mode="sync"  >
                 {
                     products.length > 0 ?
                         products.map((props) =>

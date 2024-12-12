@@ -1,4 +1,4 @@
-import useOptimizationModal from "@/hooks/useOptimizationModal";
+import useOptimizationModal from "@/hooks/useOptimizationModal.hook";
 import { Badge } from "@nextui-org/react";
 import { memo, useCallback, useState } from "react";
 import ShopcartModal from "./Modal.shopcart";

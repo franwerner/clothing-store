@@ -1,7 +1,7 @@
 import { useRef } from "react"
 
 const useAbortSignal = () => {
-    const ref = useRef<AbortController & { inUsed?: boolean }>({} as AbortController & { inUsed?: boolean })
+    const ref = useRef<AbortController & { inUsed?: boolean, id?: number }>({ id: 0 } as AbortController & { inUsed?: boolean, id: number })
     const abortSignal = () => {
         if (ref.current.abort && ref.current.inUsed && !ref.current.signal.aborted) {
             ref.current.abort("abort-cleanup")
@@ -24,7 +24,7 @@ const useAbortSignal = () => {
         setSignalUsed,
         abortSignal,
         createSignal,
-        getSignal
+        getSignal,
     }
 }
 

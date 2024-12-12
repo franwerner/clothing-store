@@ -7,7 +7,8 @@ type State = {
 
 type Actions = {
     set: UserSchema.FormatUser
-    remove: undefined
+    remove: undefined,
+    update: Partial<UserSchema.FormatUser>
 }
 
 
@@ -20,6 +21,14 @@ const userReducer = createReducer<State, Actions>({
         },
         remove(state) {
             state.info = undefined
+        },
+        update(state, payload) {
+            if (state.info) {
+                state.info = {
+                    ...state.info,
+                    ...payload
+                }
+            }
         }
     }
 })

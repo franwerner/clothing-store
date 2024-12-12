@@ -1,8 +1,9 @@
 import { UserSchema } from "clothing-store-shared/schema"
-import useFetchCustom from "../useFetchCustom.hooks"
+import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useAlertContext } from "@/components/AlertGlobal"
 import router from "@/router"
 import { useDispatch } from "@/store"
+import localStorageHandler from "@/utils/localStorageHandler.utilts"
 
 const useRegister = (props: Omit<UserSchema.Insert, "ip" | "permission">) => {
 
@@ -11,19 +12,21 @@ const useRegister = (props: Omit<UserSchema.Insert, "ip" | "permission">) => {
     const dispatch = useDispatch()
 
     const res = useFetchCustom<UserSchema.FormatUser, any, UserSchema.Insert>({
-        target: "users/register",
+        target: "/users/register",
         method: "POST",
         body: props,
         onFailed: (e) => {
             if (e.result.code === "limit_account_per_ip") {
-                alertHandler({ severity: "warning", title: e.result.message })
+                alertHandler({ severity: "warning", text: e.result.message })
             }
         },
-        onSuccess: (e) => {
-            if (!e.result.data) return
-            alertHandler({ severity: "success", text: e.result.message })
-            dispatch(({ user }) => user.set(e.result.data))
-            router.navigate("/cuenta/confirmacion")
+        onSuccess: ({ result }) => {
+            const { data, message } = result
+            if (!data) return
+            localStorageHandler.setItem({ userHasLoggedIn: true })
+            alertHandler({ severity: "success", text: message })
+            dispatch(({ user }) => user.set(data))
+            router.navigate("/cuenta/reenviar")
         }
     })
 

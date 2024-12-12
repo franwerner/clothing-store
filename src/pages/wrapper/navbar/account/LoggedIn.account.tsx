@@ -1,4 +1,5 @@
-import useLogout from "@/hooks/api/useLogout.api"
+import useLogout from "@/api/hook/users/useLogout.users"
+import router from "@/router"
 import { useSelector } from "@/store"
 import { Button, DropdownItem, DropdownMenu } from "@nextui-org/react"
 
@@ -12,18 +13,24 @@ const AccountLoggedIn = () => {
             itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}
             color="default">
             <DropdownItem
+                onClick={() => {
+                    router.navigate("/cuenta")
+                }}
                 key={"fullname"}
             >
                 {fullname}
             </DropdownItem>
             <DropdownItem
+                onClick={() => {
+                    router.navigate("/cuenta/mis-compras")
+                }}
                 showDivider
                 title="Mis compras"
                 key={"purchases"}
             />
             <DropdownItem
                 key={"logout"}
-                closeOnSelect = {false}
+                closeOnSelect={false}
                 onClick={() => {
                     setRequest()
                 }}

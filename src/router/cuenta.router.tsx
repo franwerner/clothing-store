@@ -3,10 +3,12 @@ import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router-dom"
 
 const LazyAccount = lazy(() => import("@/pages/account"))
-const LazyLogin = lazy(() => import("@/pages/account/LoginForm.account"))
-const LazyRegister = lazy(() => import("@/pages/account/RegisterForm.account"))
-const LazyRecover = lazy(() => import("@/pages/account/RecoverForm.account"))
-const LazyConfirmation = lazy(() => import("@/pages/account/Confirmation.account"))
+const LazyLogin = lazy(() => import("@/pages/account/Login.account"))
+const LazyRegister = lazy(() => import("@/pages/account/Register.account"))
+const LazyRequestRecoverPassword = lazy(() => import("@/pages/account/RequestRecoverPassword.account"))
+const LazyRequestEmailVerification = lazy(() => import("@/pages/account/RequestEmailVerification.account"))
+const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEmail.account"))
+const LazyPasswordReset = lazy(() => import("@/pages/account/PasswordReset.account"))
 
 
 const cuentaRouter: RouteObject = {
@@ -19,7 +21,8 @@ const cuentaRouter: RouteObject = {
             path: "ingresar",
             element: <Suspense fallback={<LoadPage />}>
                 <LazyLogin />
-            </Suspense>
+            </Suspense>,
+
         },
         {
             path: "registrarse",
@@ -30,14 +33,26 @@ const cuentaRouter: RouteObject = {
         {
             path: "recuperar",
             element: <Suspense fallback={<LoadPage />}>
-                <LazyRecover />
+                <LazyRequestRecoverPassword />
             </Suspense>
         },
         {
-            path: "confirmacion",
+            path: "reenviar",
             element: <Suspense fallback={<LoadPage />}>
-                <LazyConfirmation/>
+                <LazyRequestEmailVerification />
+            </Suspense>,
+        }, {
+            path: "confirmacion-email",
+            element: <Suspense fallback={<LoadPage />}>
+                <LazyConfirmationEmail />
             </Suspense>
+        }, {
+            path: "restablecer-contraseña",
+            element: <Suspense fallback={<LoadPage />}>
+                <LazyPasswordReset />
+            </Suspense>
+        }, {
+            path: "mis-compras"
         }
     ]
 }

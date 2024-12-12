@@ -2,7 +2,7 @@ import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextu
 import MenuNavigationItems from "./NavigationItems.menu";
 import MenuAccount from "./Account.menu";
 import { useQueryLg } from "@/hooks/useQuery.hook";
-import useOptimizationModal from "@/hooks/useOptimizationModal";
+import useOptimizationModal from "@/hooks/useOptimizationModal.hook";
 
 const MenuModal = ({ onShow, show }: { onShow: () => void, show: boolean }) => {
     const matches = useQueryLg().matches

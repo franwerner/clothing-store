@@ -1,7 +1,7 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
-import useRegister from "@/hooks/api/useRegister.api"
+import useRegister from "@/api/hook/users/register/useRegister.register"
 import useForm from "@/hooks/useForm.hook"
 import router from "@/router"
 import groupZodData from "@/utils/groupZodData.utilts"
@@ -9,14 +9,23 @@ import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
 import { UserSchema } from "clothing-store-shared/schema"
 import { ResponseDataZodInError } from "clothing-store-shared/types"
 import { motion } from "framer-motion"
-import { ChangeEventHandler } from "react"
+import { ChangeEventHandler, KeyboardEventHandler } from "react"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
+import BaseAccountForm from "./components/BaseAccountForm"
+
 interface LoginFormProperties {
     fullname: string
     email: string
     phone: string
     password: string
     confirm_password: string
+}
+
+interface FormProps {
+    onKeyUp: KeyboardEventHandler<HTMLFormElement>
+    form: LoginFormProperties
+    onChange: ChangeEventHandler<HTMLInputElement>
+    data?: ResponseDataZodInError<UserSchema.Insert>
 }
 
 const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
@@ -27,12 +36,14 @@ const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
     )
 }
 
-const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: ChangeEventHandler<HTMLInputElement>, data?: ResponseDataZodInError<UserSchema.Insert> }) => {
+const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
 
     const group = groupZodData(data)
 
     return (
-        <form className="w-full sm:w-[400px] m-auto px-3">
+        <BaseAccountForm
+            onKeyUp={onKeyUp}
+            className="m-auto">
             <BaseInput
                 placeholder="Franco Werner"
                 labelPlacement="inside"
@@ -71,7 +82,7 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
                 onChange={onChange}
                 name={"password"}
                 isRequired
-                 autoComplete="off"
+                autoComplete="off"
                 label={"Contraseña"}
                 isInvalid={!!group.password}
                 errorMessage={<InputErrorMessage messages={group.password} />}
@@ -90,12 +101,12 @@ const Form = ({ form, onChange, data }: { form: LoginFormProperties, onChange: C
                 value={form.confirm_password}
             />
 
-        </form>
+        </BaseAccountForm>
     )
 }
 
 
-const AccountRegisterForm = () => {
+const AccountRegister = () => {
 
     const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
 
@@ -106,45 +117,55 @@ const AccountRegisterForm = () => {
         password,
         phone
     })
-    
-    
-    return (
-        <motion.div
-            initial={"hidden"}
-            variants={AccountAnimationVariant}
-            animate={"show"}
-            transition={{
-                duration: 0.2,
-            }}
-            className=" w-full items-start flex flex-col gap-6  justify-center"
-        >
-            <AnimatedTitle title="Crea tu cuenta" className="w-full"/>
-            <Form
-                form={form}
-                data={isZodErrorResponse(response) ? response.result.data : undefined}
-                onChange={onChange}
-            />
-            <p className="w-full text-center">
-                ¿Ya tienes una cuenta?
-                <a
-                    className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80"
-                    onClick={() => router.navigate("/cuenta/ingresar")}>
-                    Inicia sesión
-                </a>
-            </p>
 
-            <ActionButton
-                onClick={() => {
-                    if (form.password !== form.confirm_password) return
-                    setRequest()
+    const onRegister = () => {
+        if (form.password !== form.confirm_password) return
+        setRequest()
+    }
+
+    return (
+        <>
+            <AnimatedTitle title="Crea tu cuenta" />
+            <motion.section
+                initial={"hidden"}
+                variants={AccountAnimationVariant}
+                animate={"show"}
+                transition={{
+                    duration: 0.2,
                 }}
-                isLoading={isLoading}
-                className="min-w-[300px] sm:w-auto ">
-                Registrarse
-            </ActionButton>
-        </motion.div>
+                className=" w-full items-start flex flex-col gap-6  justify-center"
+            >
+                <Form
+                    form={form}
+                    onKeyUp={(e) => {
+                        if (e.key == "Enter") {
+                            onRegister()
+                        }
+                    }}
+                    data={isZodErrorResponse(response) ? response.result.data : undefined}
+                    onChange={onChange}
+                />
+                <p className="w-full text-center">
+                    ¿Ya tienes una cuenta?
+                    <a
+                        className="inline-block ml-1 font-semibold underline cursor-pointer  hover:opacity-80"
+                        onClick={() => router.navigate("/cuenta/ingresar")}>
+                        Inicia sesión
+                    </a>
+                </p>
+
+                <ActionButton
+                    onClick={() => {
+                        onRegister()
+                    }}
+                    isLoading={isLoading}
+                    className="min-w-[300px] sm:w-auto ">
+                    Registrarse
+                </ActionButton>
+            </motion.section>
+        </>
     )
 }
 
-export default AccountRegisterForm
+export default AccountRegister
 

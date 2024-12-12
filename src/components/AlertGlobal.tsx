@@ -48,7 +48,7 @@ const AlertGlobal = ({ children }: { children: ReactNode }) => {
             {
                 createPortal(
                     <div
-                        className="fixed top-5 [&_div]:m-1 z-50 right-5"
+                        className="fixed bottom-5 [&_div]:m-1 z-50 right-5"
                         id="alert-container">
                         {
                             alerts.map(({ color, severity = "info", title = "", variant = "solid", id, text = "" }) => {
