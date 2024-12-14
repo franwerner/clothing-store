@@ -1,7 +1,7 @@
 import contactList from "@/constant/contactList.contant"
 import navigationList from "@/constant/navigationList.contant"
 import { Link } from "@nextui-org/react"
-import { Link as LinkDom } from "react-router-dom"
+import { Link as LinkDom } from "react-router"
 
 
 const Contact = () => {

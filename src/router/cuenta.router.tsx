@@ -1,6 +1,6 @@
 import LoadPage from "@/components/LoadPage"
 import { lazy, Suspense } from "react"
-import { RouteObject } from "react-router-dom"
+import { RouteObject } from "react-router"
 
 const LazyAccount = lazy(() => import("@/pages/account"))
 const LazyLogin = lazy(() => import("@/pages/account/Login.account"))

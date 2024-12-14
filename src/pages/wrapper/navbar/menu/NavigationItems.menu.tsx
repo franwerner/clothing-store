@@ -2,7 +2,7 @@ import navigationList, { NavigationList } from "@/constant/navigationList.contan
 import useGetMainPaths from "@/hooks/useGetMainPaths.hooks";
 import { Link } from "@nextui-org/react";
 import { memo, useCallback } from "react";
-import { Link as LinkDom } from "react-router-dom";
+import { Link as LinkDom } from "react-router";
 
 const Item = memo(({ name, url, index, isActive, setMenu }: NavigationList & { index: number, isActive: boolean, setMenu: () => void }) => {
 

@@ -1,7 +1,7 @@
 import router from "@/router";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 type Sizes = "md" | "lg" | "xl"
 

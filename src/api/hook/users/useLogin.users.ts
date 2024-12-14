@@ -25,7 +25,6 @@ const useLogin = ({ email, password }: UseLoginFormProps) => {
         onSuccess: (response) => {
             localStorageHandler.setItem({ userHasLoggedIn: true })
             const { data } = response.result
-            if (!data) return
             dispatch(({ user }) => user.set(data))
             if (!data.email_confirmed) {
                 router.navigate("/cuenta/reenviar")

@@ -1,7 +1,7 @@
 import useConfirmationEmail from "@/api/hook/users/register/useConfirmationEmail.register"
 import { Spinner } from "@nextui-org/react"
 import { useEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router"
 
 const ConfirmationEmail = () => {
     const [params] = useSearchParams()

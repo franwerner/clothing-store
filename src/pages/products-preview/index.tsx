@@ -7,7 +7,7 @@ import ProductsFilterCategories from "./products-filter/Categories.products-filt
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterDelete from "./products-filter/Delete.products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import ProductsFilterSizes from "./products-filter/Size.filter-products-filter";
 
 const ProductsPreviewPage = () => {

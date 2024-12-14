@@ -3,6 +3,8 @@ import { ResponseToClientError, ResponseToClientSuccess } from "clothing-store-s
 import { isFunction, isNumber } from "my-utilities"
 import useFetch, { UseFetchProps } from "./useFetch"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
+import { useDispatch } from "@/store"
+import router from "@/router"
 
 type FetchCustomResult<T = any, U = any, K = any> = ResponseToClientSuccess<T> | ResponseToClientError<U, K>
 
@@ -12,6 +14,7 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: UseFe
     ResponseToClientError<U, K>
 >) => {
     const alertHandler = useAlertContext()
+    const dispatch = useDispatch()
     return useFetch<
         ResponseToClientSuccess<T>,
         ResponseToClientError<U, K>
@@ -22,15 +25,18 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: UseFe
         },
         onFailed: (response) => {
             const code = response.result.code
-            if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip","token_not_found"].includes(code))) {
+            if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip", "token_not_found"].includes(code))) {
                 alertHandler({ severity: "warning", text: response.result.message })
             }
             else if (code === "session_expired") {
                 alertHandler({ severity: "info", text: response.result.message })
                 localStorageHandler.removeItem("userHasLoggedIn")
+                dispatch(({ user }) => user.remove())
+                router.navigate("/cuenta/ingresar")
             }
             else if (isNumber(response.status) && response.status >= 500 || code === "session_unauthorized") {
                 alertHandler({ severity: "danger", title: "Servidor no responde.", text: response.status })
+                router.navigate("/")
             }
             isFunction(onFailed) && onFailed(response)
         },

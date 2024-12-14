@@ -1,5 +1,5 @@
 import navigationList from "@/constant/navigationList.contant"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router"
 
 const useGetMainPaths = () => {
     const { pathname } = useLocation()

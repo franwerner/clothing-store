@@ -22,7 +22,6 @@ const useRegister = (props: Omit<UserSchema.Insert, "ip" | "permission">) => {
         },
         onSuccess: ({ result }) => {
             const { data, message } = result
-            if (!data) return
             localStorageHandler.setItem({ userHasLoggedIn: true })
             alertHandler({ severity: "success", text: message })
             dispatch(({ user }) => user.set(data))

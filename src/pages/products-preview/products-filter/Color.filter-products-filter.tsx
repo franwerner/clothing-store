@@ -2,7 +2,7 @@ import ToggleContent from "@/components/ToggleContent";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import classNames from "classnames";
 import { memo, useCallback } from "react";
-import { SetURLSearchParams, useSearchParams } from "react-router-dom";
+import { SetURLSearchParams, useSearchParams } from "react-router";
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper";
 
 interface Color {

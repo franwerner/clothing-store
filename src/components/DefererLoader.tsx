@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { useNavigation } from "react-router-dom"
+import { useNavigation } from "react-router"
 import LoadPage from "./LoadPage"
 
 interface DefererLoaderProps {

@@ -12,16 +12,21 @@ const useForm = <T extends object>(values: T) => {
         }))
     }, [])
 
-    const setValue = useCallback((property: keyof T, value:unknown) => {
+    const setValue = useCallback((property: keyof T, value: unknown) => {
         setForm((prev) => ({
             ...prev,
             [property]: value
         }))
     }, [])
+
+    const resetForm = useCallback(() => {
+        setForm(values)
+    }, [])
     return {
         onChange,
         form,
-        setValue
+        setValue,
+        resetForm
     }
 }
 

@@ -1,7 +1,7 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import LoadPage from "@/components/LoadPage";
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, defer, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router";
 import cuentaRouter from "./cuenta.router";
 import tokenRedirect from "@/helper/tokenRedirect.helper";
 
@@ -48,16 +48,6 @@ const router = createBrowserRouter([
                 element: <Suspense fallback={<LoadPage />} >
                     <LazyProductsSearch />
                 </Suspense>,
-                loader: async (e) => {
-                    const res = new Promise((res) => {
-                        setTimeout(async () => {
-                            res((await fetch(`https://dummyjson.com/products/search?q=${new URL(e.request.url).searchParams.get("q")}`)).json())
-                        }, 1000);
-                    })
-                    return defer({
-                        "res": res
-                    })
-                },
             },
             {
                 path: "ofertas",

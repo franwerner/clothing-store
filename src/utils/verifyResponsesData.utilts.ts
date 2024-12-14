@@ -31,7 +31,7 @@ function isRateLimiterResponse<T, U, K>(
 
 function isSuccessResponse<T, U, K>(
     response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<{ data: T }> {
+): response is FetchResponse<ResponseToClientBase & { data: T }> {
     return !!(response.success && response.result.data)
 }
 

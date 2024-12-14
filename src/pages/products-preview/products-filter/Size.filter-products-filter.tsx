@@ -1,7 +1,7 @@
 import ToggleContent from "@/components/ToggleContent"
 import classNames from "classnames"
 import { FC, memo, useCallback } from "react"
-import { SetURLSearchParams, useSearchParams } from "react-router-dom"
+import { SetURLSearchParams, useSearchParams } from "react-router"
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper"
 
 interface SizeItem {

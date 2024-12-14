@@ -79,7 +79,7 @@ const AccountLogin = () => {
                 <ActionButton
                     isLoading={isLoading}
                     className="sm:min-w-[300px] pointer-events-auto"
-                    onClick={() => {
+                    onPress={() => {
                         setRequest()
                     }}
                 >

@@ -8,7 +8,7 @@ import groupZodData from "@/utils/groupZodData.utilts"
 import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
 import { motion } from "framer-motion"
 import { useLayoutEffect } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams } from "react-router"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
 import BaseAccountForm from "./components/BaseAccountForm"
 

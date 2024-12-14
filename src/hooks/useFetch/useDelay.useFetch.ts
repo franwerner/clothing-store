@@ -1,16 +1,17 @@
 import { useRef } from "react"
-
 const useDelay = () => {
     const ref = useRef<number | undefined>(undefined)
     const cleanDelay = () => {
         clearTimeout(ref.current)
     }
-    const createDelay =  (cb: Function, delay: number = 0) => {
+    const createDelay = (cb: () => void, delay: number = 0) => {
         cleanDelay()
-        const setTime = setTimeout(() => {
+        if (delay == 0){
             cb()
-        }, delay) as unknown as number
-        ref.current = setTime
+        }else {
+            const setTime = setTimeout(cb, delay) as unknown as number
+            ref.current = setTime
+        }
     }
     return {
         createDelay,

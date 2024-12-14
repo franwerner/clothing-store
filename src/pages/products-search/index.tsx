@@ -4,7 +4,7 @@ import DeferLoader from "@/components/DefererLoader"
 import PageWrapper from "@/components/PageWrapper"
 import ProductCard from "@/containers/product"
 import { productPreviewMock } from "@/mocks/products.mocks"
-import { Await, ScrollRestoration, useLoaderData } from "react-router-dom"
+import { Await, ScrollRestoration, useLoaderData } from "react-router"
 
 
 const Test = () => {

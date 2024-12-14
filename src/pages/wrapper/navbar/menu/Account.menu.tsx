@@ -1,6 +1,6 @@
 import { Divider, Link } from "@nextui-org/react";
 import { memo, ReactNode, useCallback } from "react";
-import { Link as LinkDom, useSearchParams } from "react-router-dom";
+import { Link as LinkDom, useSearchParams } from "react-router";
 
 const LinkAccount = memo(({ url, children, isActive, onClick }: { url: string, children: ReactNode, isActive: Boolean, onClick: () => void }) => (
     <Link

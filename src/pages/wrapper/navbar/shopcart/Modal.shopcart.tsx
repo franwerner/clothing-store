@@ -2,7 +2,7 @@ import { Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "
 import ShopCartProducts from "./Products.shopcart";
 import ShopCartTotal from "./Total.shopcart";
 import ActionButton from "@/components/ActionButton";
-import { Link as LinkDom } from "react-router-dom"
+import { Link as LinkDom } from "react-router"
 
 const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void }) => {
     return (
