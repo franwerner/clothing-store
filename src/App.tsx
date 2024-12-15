@@ -11,7 +11,6 @@ import HydrateApp from "./components/hydrateApp";
 import AlertGlobal from "./components/AlertGlobal";
 
 function App() {
-
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="ligth">

@@ -1,6 +1,6 @@
 import { Divider, Link } from "@nextui-org/react";
 import { memo, ReactNode, useCallback } from "react";
-import { Link as LinkDom, useSearchParams } from "react-router";
+import { Link as LinkDom, useLocation, useNavigate, useNavigation, useSearchParams } from "react-router";
 
 const LinkAccount = memo(({ url, children, isActive, onClick }: { url: string, children: ReactNode, isActive: Boolean, onClick: () => void }) => (
     <Link
@@ -18,27 +18,26 @@ const LinkAccount = memo(({ url, children, isActive, onClick }: { url: string, c
 ))
 
 const MenuAccount = ({ onShow }: { onShow: () => void }) => {
-
-    const [params] = useSearchParams()
+   
+    const {pathname} = useLocation()
 
     const onClick = useCallback(onShow, [])
 
-    const form = params.get("form")
     return (
         <>
             <LinkAccount
-                url="/cuenta?form=login"
+                url="/cuenta/ingresar"
                 onClick={onClick}
-                isActive={form == "login"}>
+                isActive={pathname.search("cuenta/ingresar") >= 0}>
                 Iniciar sesión
             </LinkAccount>
             <Divider
                 className="h-10"
                 orientation="vertical" />
             <LinkAccount
-                url="/cuenta?form=register"
+                url="/cuenta/registrarse"
                 onClick={onClick}
-                isActive={form == "register"}>
+                isActive={pathname.search("cuenta/registrarse") >= 0}>
                 Crear cuenta
             </LinkAccount>
         </>

@@ -14,7 +14,7 @@ const NavbarMenu = memo(() => {
         <>
             <NavbarMenuToggle
                 data-open={show}
-                onClick={() => setShow(true)}
+                onPress={() => setShow(true)}
                 className="lg:hidden h-10 " />
             <MenuModal onShow={onShow} show={show} />
         </>

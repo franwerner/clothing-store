@@ -36,6 +36,7 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: UseFe
             }
             else if (isNumber(response.status) && response.status >= 500 || code === "session_unauthorized") {
                 alertHandler({ severity: "danger", title: "Servidor no responde.", text: response.status })
+            }else if(code === "session_unauthorized"){
                 router.navigate("/")
             }
             isFunction(onFailed) && onFailed(response)

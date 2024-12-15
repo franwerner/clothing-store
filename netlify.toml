@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://ca14-181-98-174-76.ngrok-free.app/:splat"
+  status = 200
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

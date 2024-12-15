@@ -97,6 +97,7 @@ const useFetch = <T extends object = {}, U extends object = {}>({
                         signal: getSignal().signal,
                         method
                     })
+
                     const json = await res.json() //Si la señal se aborta, inclusive despues de que el fetch se resuelvan esto dara error.
                     const response = {
                         result: json,
@@ -106,15 +107,17 @@ const useFetch = <T extends object = {}, U extends object = {}>({
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return
                     isFunction(onSuccess) && res.ok && onSuccess(response)
                     isFunction(onFailed) && !res.ok && onFailed(response)
+
                     setResponse(response)
                 } catch (error: any) {
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return
                     const response = {
                         result: {} as U,
-                        status: undefined,
+                        status: error === "abort-cleanup" ? undefined : 500,
                         success: false
                     }
                     setResponse(response)
+                    isFunction(onFailed) && onFailed(response)
                 }
                 finally {
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return

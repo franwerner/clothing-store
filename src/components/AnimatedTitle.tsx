@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-
 interface AnimatedTitleProps {
     title: React.ReactNode
+    className ?: string
 }
 
 const DividerAnimate = ({ x }: { x: string }) => {
@@ -17,9 +17,9 @@ const DividerAnimate = ({ x }: { x: string }) => {
     );
 };
 
-const AnimatedTitle = ({ title }: AnimatedTitleProps) => {
+const AnimatedTitle = ({ title,className = "" }: AnimatedTitleProps) => {
     return (
-        <div className="text-center gap-4 overflow-hidden animated-title justify-center  items-center flex w-full">
+        <div className={`text-center gap-4 [ overflow-hidden animated-title justify-center  items-center flex w-full ${className}`}>
             <DividerAnimate x="-100%" />
             <motion.h1
                 transition={{
@@ -31,7 +31,7 @@ const AnimatedTitle = ({ title }: AnimatedTitleProps) => {
                 animate={{
                     scale: 1,
                 }}
-                className="text-default-700 text-3xl max-xs:truncate text-nowrap font-oswald font-semibold uppercase ">
+                className="text-default-700 text-3xl animatedTitle max-xs:truncate text-nowrap font-oswald font-semibold uppercase ">
                 {title}
             </motion.h1>
             <DividerAnimate x="100%" />

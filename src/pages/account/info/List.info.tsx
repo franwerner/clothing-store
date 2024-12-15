@@ -68,7 +68,7 @@ const InfoItems = memo(({
                         errorMessage={errorMessage && <div className="flex flex-col">{errorMessage.map(i => <span key={i}>* {i}</span>)}</div>}
                     />
                     :
-                    <div>
+                    <div className="flex flex-col max-sm:items-center">
                         <span className="text-sm text-default-500 ">{label}</span>
                         <h3 className="truncate text-start text-md text-default-600">{value}</h3>
                     </div>
@@ -76,9 +76,6 @@ const InfoItems = memo(({
         </div>
     )
 })
-
-
-
 
 const InfoList = ({ data, form, isEdit, onChange }: InfoListProps) => {
 
@@ -123,7 +120,7 @@ const InfoList = ({ data, form, isEdit, onChange }: InfoListProps) => {
     }, [user_info])
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2  gap-4 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2  mx-auto  gap-4 sm:gap-10">
             {
                 items.map(i => {
                     return i.name ? <InfoItems

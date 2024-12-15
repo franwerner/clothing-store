@@ -15,7 +15,7 @@ const AccountInfo = () => {
     const { expired_at, isAuthorized } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
     const [{ isLoading, response }, { setRequest }] = useUpdateInfoUser()
     const { fullname, phone, email } = useSelector(({ user }) => user.info) || {}
-    const { form, onChange, resetForm } = useForm({
+    const { form, onChange, setValue } = useForm({
         fullname,
         phone,
         password: ""
@@ -36,15 +36,17 @@ const AccountInfo = () => {
 
     return (
         <>
-            <AnimatedTitle title="Información de la cuenta" />
+            <AnimatedTitle
+                className="max-sm:[&_.animatedTitle]:text-2xl"
+                title="Información de la cuenta" />
             {
                 isEdit && <span
-                onClick={() => {
-                    setIsEdit(false)
-                }}
-                className="material-symbols-outlined absolute hover:scale-90 cursor-pointer right-0 top-12">
-                close
-            </span>
+                    onClick={() => {
+                        setIsEdit(false)
+                    }}
+                    className="material-symbols-outlined absolute hover:scale-90 cursor-pointer right-0 top-12">
+                    close
+                </span>
             }
             <InfoList
                 data={isZodErrorResponse(response) ? response.result.data : []}
@@ -57,13 +59,23 @@ const AccountInfo = () => {
                     "bg-success-400": isEdit,
                     "opacity-50  pointer-events-none": !isContainKeys && isEdit
                 })}
+                startContent={
+                    <p className="flex gap-2 items-center">
+                        {isEdit ? "Guardar cambios" : "Editar información"}
+                        {
+                            !isLoading && <span className={"material-symbols-outlined"}>
+                                {isEdit ? "cloud_upload" : "edit"}
+                            </span>
+                        }
+                    </p>
+                }
                 isLoading={isLoading}
                 onPress={() => {
                     if (isEdit) {
                         setRequest({
                             body,
                             onSuccess: () => {
-                                resetForm()
+                                setValue("password", "")
                             }
                         })
                     } else if (Date.now() > expired_at || !isAuthorized) {
@@ -73,15 +85,6 @@ const AccountInfo = () => {
                         setIsEdit(true)
                     }
                 }}>
-                {
-                    <p className="flex items-center gap-2">
-                        {isEdit ? "Guardar cambios" : "Editar información"}
-                        <span className={"material-symbols-outlined"}>
-                            {isEdit ? "cloud_upload" : "edit"}
-                        </span>
-                    </p>
-                }
-
             </ActionButton>
             {
                 isOpen && <InfoModalAuth
