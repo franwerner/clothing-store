@@ -35,7 +35,7 @@ const ProductsPreviewOrder = memo(() => {
             {
                 orderList.map((i) =>
                     <SelectItem
-                        onClick={() => {
+                        onPress={() => {
                             const searchParams = new URLSearchParams(window.location.search)
                             const order = searchParams.get("order")
                             if (order == i.key) {

@@ -1,49 +1,25 @@
-import { Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import ActionButton from "@/components/ActionButton";
+import { Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, Link } from "@nextui-org/react";
+import { Link as LinkDom } from "react-router";
 import ShopCartProducts from "./Products.shopcart";
 import ShopCartTotal from "./Total.shopcart";
-import ActionButton from "@/components/ActionButton";
-import { Link as LinkDom } from "react-router"
 
 const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void }) => {
     return (
-        <Modal
-            classNames={{
-                wrapper: "flex justify-end  ",
-                base: "sm:m-0 m-0  min-h-dvh rounded-none",
-
-            }}
+        <Drawer
             isOpen={show}
             onOpenChange={onShow}
-            size="lg"
             backdrop="opaque"
-            placement="top"
             scrollBehavior="inside"
-            motionProps={{
-                variants: {
-                    enter: {
-                        opacity: 1,
-                        transition: {
-                            duration: 0.1,
-                            ease: "easeInOut",
-                        },
-                    },
-                    exit: {
-                        opacity: 0,
-                        transition: {
-                            duration: 0.1,
-                            ease: "easeInOut",
-                        },
-                    },
-                }
-            }}>
-            <ModalContent>
-                <ModalHeader>
+            >
+            <DrawerContent>
+                <DrawerHeader>
                     <p className="text-xl sm:text-2xl uppercase font-light ">Carrito de compras</p>
-                </ModalHeader>
-                <ModalBody className="p-2 flex-1  ">
+                </DrawerHeader>
+                <DrawerBody className="p-2 flex-1  ">
                     <ShopCartProducts />
-                </ModalBody>
-                <ModalFooter className="flex flex-col  justify-start items-center ">
+                </DrawerBody>
+                <DrawerFooter className="flex flex-col  justify-start items-center ">
                     <ShopCartTotal />
                     <ActionButton className="w-full">
                         Iniciar compra
@@ -58,9 +34,9 @@ const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void })
                         }}>
                         Ver  productos disponibles.
                     </Link>
-                </ModalFooter>
-            </ModalContent>
-        </Modal >
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer >
     );
 };
 

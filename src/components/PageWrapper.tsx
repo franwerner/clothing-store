@@ -51,7 +51,6 @@ const PageWrapper = ({
 }: PageWrapperProps) => {
 
     
-
     return (
         <div id="page-wrapper" className={`w-full  overflow-x-hidden px-2 m-auto sm:px-3  min-h-[50dvh] max-w-[${sizes[size]}px]  ${className} `}>
             {

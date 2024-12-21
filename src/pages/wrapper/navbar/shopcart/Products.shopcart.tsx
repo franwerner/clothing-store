@@ -115,11 +115,11 @@ const VoidShopcart = () => {
         <div
             id="void-shopcart"
             className="flex flex-1  justify-center items-center h-full rounded-md p-4 ">
-            <motion.p
+            <motion.h3
                 layout
-                className=" uppercase text-xl  p-3 rounded-lg underline">
+                className=" uppercase text-lg  rounded-lg underline">
                 ¡El carrito de compras esta vacio!
-            </motion.p>
+            </motion.h3>
         </div>
     )
 }

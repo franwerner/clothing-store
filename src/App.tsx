@@ -10,6 +10,7 @@ import { ObserverStore } from "./store";
 import HydrateApp from "./components/hydrateApp";
 import AlertGlobal from "./components/AlertGlobal";
 
+
 function App() {
   return (
     <NextUIProvider>

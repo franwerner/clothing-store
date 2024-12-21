@@ -9,6 +9,8 @@ const LazyRequestRecoverPassword = lazy(() => import("@/pages/account/RequestRec
 const LazyRequestEmailVerification = lazy(() => import("@/pages/account/RequestEmailVerification.account"))
 const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEmail.account"))
 const LazyPasswordReset = lazy(() => import("@/pages/account/PasswordReset.account"))
+const LazyOrder = lazy(() => import("@/pages/account/orders/[order]"))
+const LazyOrders = lazy(() => import("@/pages/account/orders"))
 
 
 const cuentaRouter: RouteObject = {
@@ -51,9 +53,18 @@ const cuentaRouter: RouteObject = {
             element: <Suspense fallback={<LoadPage />}>
                 <LazyPasswordReset />
             </Suspense>
+        },
+        {
+            path: "mis-compras",
+            element: <Suspense fallback={<LoadPage />}>
+                <LazyOrders />
+            </Suspense>
         }, {
-            path: "mis-compras"
-        }
+            path: "mis-compras/:order_id",
+            element: <Suspense fallback={<LoadPage />}>
+                <LazyOrder />
+            </Suspense>
+        },
     ]
 }
 
