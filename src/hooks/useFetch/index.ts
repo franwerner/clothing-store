@@ -7,7 +7,7 @@ import paramsToString from "./utils/paramsToString.utilts"
 import queryToString from "./utils/queryToString.utilts"
 import unifyProps from "./utils/unifyProps.utilts"
 
-type UrlQueryParams = { [key: string]: string | number | undefined }
+type UrlQueryParams = { [key: string]: string | number | undefined | null | boolean }
 
 type UseFetchPropsDynamic<T, U> = Omit<Partial<UseFetchProps<T, U>>, "target" | "basename">
 

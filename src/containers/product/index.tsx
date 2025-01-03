@@ -1,4 +1,3 @@
-import { ProductPreview } from "@/interfaces/Product.interfaces"
 import router from "@/router"
 import transformToCurrency from "@/utils/transformToCurrency.utils"
 import transformToUppercase from "@/utils/transformToUppercase.utils"
@@ -6,9 +5,10 @@ import { Card, CardBody, CardFooter, CardHeader, Image } from "@nextui-org/react
 import { memo } from "react"
 import ProductDiscountBand from "./DiscountBand.product"
 import classNames from "classnames"
+import { ProductPreview } from "clothing-store-shared/types"
 
 
-const ProductCard = memo(({ discount = 0, name, image, price, color, brand, category }: ProductPreview) => {
+const ProductCard = memo(({ discount = 0, product, url, price, color, brand, category }: ProductPreview) => {
 
     const calculateDiscount = (discount / 100) * price
     return (
@@ -21,7 +21,7 @@ const ProductCard = memo(({ discount = 0, name, image, price, color, brand, cate
                 header: "p-0 relative block m-0",
             }}
             role="article"
-            aria-labelledby="product-name"
+            aria-labelledby="product-product"
             aria-describedby="product-price product-discount">
             <CardHeader role="banner">
                 {discount > 0 &&
@@ -40,8 +40,8 @@ const ProductCard = memo(({ discount = 0, name, image, price, color, brand, cate
                     classNames={{
                         wrapper: "static z-0"
                     }}
-                    alt={name}
-                    src={image}
+                    alt={product}
+                    src={url || ""}
                     className="absolute w-full  h-full object-contain"
                 />
             </CardBody>
@@ -51,7 +51,7 @@ const ProductCard = memo(({ discount = 0, name, image, price, color, brand, cate
                 role="contentinfo">
                 <h3
                     className="text-[15px] max-h-[80px] leading-1 overflow-hidden">
-                    {transformToUppercase(name)}
+                    {transformToUppercase(product)}
                 </h3>
                 <span className="font-medium text-sm -mt-1 text-default-800">{`(${transformToUppercase(color)})`}</span>
                 <div className="flex flex-wrap justify-center  items-center gap-x-1">
@@ -77,9 +77,9 @@ const ProductCard = memo(({ discount = 0, name, image, price, color, brand, cate
             </CardFooter>
 
             <span
-                onClick={() => router.navigate(`/productos/${brand}/${category}/${name}`)}
+                onClick={() => router.navigate(`/productos/${brand}/${category}/${product}`)}
                 className="link bg-transparent absolute h-full w-full"
-                aria-label={`Ver detalles de ${name}`}
+                aria-label={`Ver detalles de ${product}`}
                 role="link">
             </span>
         </Card>

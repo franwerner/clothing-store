@@ -1,10 +1,10 @@
 import { Divider, Link } from "@nextui-org/react";
 import { memo, ReactNode, useCallback } from "react";
-import { Link as LinkDom, useLocation, useNavigate, useNavigation, useSearchParams } from "react-router";
+import { Link as LinkDom, useLocation } from "react-router";
 
 const LinkAccount = memo(({ url, children, isActive, onClick }: { url: string, children: ReactNode, isActive: Boolean, onClick: () => void }) => (
     <Link
-        onClick={onClick}
+        onPress={onClick}
         className={`
               text-center p-2 text-md sm:p-3 sm:text-lg rounded-sm
             ${isActive ? "bg-default-800 border-b-3 cursor-pointer border-default-900 text-white " : "text-black hover:bg-default-200"}

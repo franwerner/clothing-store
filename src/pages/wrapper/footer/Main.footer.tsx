@@ -40,7 +40,7 @@ const Navegation = () => {
                                 to={url}
                                 as={LinkDom}
                                 color="foreground"
-                                className=" max-w-min  font-light">
+                                className=" max-w-min capitalize font-light">
                                 {name}
                             </Link>
                         </li>

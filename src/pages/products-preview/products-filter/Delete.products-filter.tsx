@@ -7,18 +7,19 @@ const ProductsFilterDelete = () => {
     const color = params.get("color") || ""
     const waits = params.get("waits") || ""
     const price = params.get("price") || ""
+    const size = params.get("size") || ""
 
-    const someFilter = color || waits || price
+    const someFilter = color || waits || price || size
 
     return <div
         onClick={() => {
-            ["color", "waits", "price"].forEach((i) => (params.delete(i)))
+            ["color", "waits", "price","size"].forEach((i) => (params.delete(i)))
             setSearchParams(params)
         }}
         className={
             classNames(
                 "flex items-center gap-x-1 cursor-pointer opacity-100 transition-opacity duration-300",
-                {"!opacity-0 " : !someFilter}
+                {"!opacity-0" : !someFilter}
             )
         }>
         <span className=" underline text-sm text-default-700 uppercase">Eliminar filtros</span>

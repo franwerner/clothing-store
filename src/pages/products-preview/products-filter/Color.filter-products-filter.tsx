@@ -1,36 +1,19 @@
 import ToggleContent from "@/components/ToggleContent";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import classNames from "classnames";
+import { ProductColorPreview } from "clothing-store-shared/types";
 import { memo, useCallback } from "react";
 import { SetURLSearchParams, useSearchParams } from "react-router";
+import { useProductPreviewContext } from "..";
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper";
 
-interface Color {
-    colorID: number,
-    quantity: number,
-    color: string,
-    hexadecimal: string,
-}
 
-const colors: Color[] = [
-    { colorID: 1, quantity: 5, color: "red", hexadecimal: "#FF0000" },
-    { colorID: 2, quantity: 3, color: "blue", hexadecimal: "#0000FF" },
-    { colorID: 3, quantity: 8, color: "green", hexadecimal: "#008000" },
-    { colorID: 4, quantity: 2, color: "yellow", hexadecimal: "#FFFF00" },
-    { colorID: 5, quantity: 7, color: "orange", hexadecimal: "#FFA500" },
-    { colorID: 6, quantity: 4, color: "purple", hexadecimal: "#800080" },
-    { colorID: 7, quantity: 6, color: "pink", hexadecimal: "#FFC0CB" },
-    { colorID: 8, quantity: 1, color: "brown", hexadecimal: "#A52A2A" },
-    { colorID: 9, quantity: 9, color: "cyan", hexadecimal: "#00FFFF" },
-    { colorID: 10, quantity: 10, color: "magenta", hexadecimal: "#FF00FF" },
-]
-
-const ColorItem = memo(({ setSearchParams, color, quantity, hexadecimal, isActive }: Color & { setSearchParams: SetURLSearchParams, isActive?: boolean }) => {
+const ColorItem = memo(({ setSearchParams, color, quantity, hexadecimal, isActive, color_id }: ProductColorPreview & { setSearchParams: SetURLSearchParams, isActive?: boolean }) => {
 
     return (
         <li
             onClick={() => {
-                const newURL = setSearchParamsFilter({ isActive, param: "color", value: color })
+                const newURL = setSearchParamsFilter({ isActive, param: "color", value: color_id })
                 setSearchParams(newURL)
             }}
             className={classNames(
@@ -57,6 +40,8 @@ const ProductsFilterColor = () => {
 
     const classname = `inline-flex flex-wrap md:block`
 
+    const { colors, isLoading } = useProductPreviewContext()
+
     const [params, fn] = useSearchParams()
 
     const setSearchParams = useCallback(fn, [])
@@ -68,23 +53,28 @@ const ProductsFilterColor = () => {
             hiddenToggleButton={colors.length <= maxLength}
             as="section"
             id="aside-filter-color">
-            <h3 className="font-oswald   text-default-700  uppercase pb-1 font-bold text-[18px]">Color</h3>
+            <h3 className={classNames(
+                "font-oswald   text-default-700 bg-tra uppercase pb-1  font-bold text-[18px]",
+                {
+                    "animate-pulse": isLoading
+                }
+            )}>Colores</h3>
             <ToggleContent.visible className={classname}>
                 {colors.slice(0, maxLength).map(i => <ColorItem
                     setSearchParams={setSearchParams}
-                    isActive={!!getColor.find((e) => i.color == e)}
-                    key={i.colorID} {...i} />)}
+                    isActive={!!getColor.find((e) => i.color_id == e)}
+                    key={i.color_id} {...i} />)}
             </ToggleContent.visible>
             <ToggleContent.hidden className={`overflow-hidden ${classname} `}>
                 {colors.slice(maxLength).map(i => <ColorItem
                     setSearchParams={setSearchParams}
-                    isActive={!!getColor.find((e) => i.color == e)}
-                    key={i.colorID}
+                    isActive={!!getColor.find((e) => i.color_id == e)}
+                    key={i.color_id}
                     {...i}
                 />)}
             </ToggleContent.hidden>
         </ToggleContent>
-    );
-};
+    )
+}
 
 export default ProductsFilterColor

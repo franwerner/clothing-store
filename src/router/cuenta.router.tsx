@@ -55,6 +55,12 @@ const cuentaRouter: RouteObject = {
             </Suspense>
         },
         {
+            path: "orden-transaccion",
+            element: <Suspense fallback={<LoadPage />}>
+                <p>asdasd</p>
+            </Suspense>
+        },
+        {
             path: "mis-compras",
             element: <Suspense fallback={<LoadPage />}>
                 <LazyOrders />

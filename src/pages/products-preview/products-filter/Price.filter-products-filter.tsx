@@ -1,46 +1,63 @@
 import ActionButtonIcon from "@/components/ActionButtonIcon";
 import useForm from "@/hooks/useForm.hook";
-import router from "@/router";
 import { Input } from "@nextui-org/react";
-import { memo, useMemo } from "react";
+import { memo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useProductPreviewContext } from "..";
+import classNames from "classnames";
 
 const ProductsFilterPrice = memo(() => {
 
-    const defaultValue = useMemo(() => {
-        const price = new URLSearchParams(window.location.search).get("price") || ""
-        const [min = 0, max = 0] = price.split("-")
-            .map(i => Number(i || 0))
-        return {
-            "min": Math.min(min, max),
-            "max": Math.max(min, max)
+    const [searchParams, fn] = useSearchParams()
+
+    const price = searchParams.get("price")
+
+    const { isLoading } = useProductPreviewContext()
+
+    const [defaultMin, defaultMax ] = price ? price.split("-") : []
+
+    const verificateDefaultMax = Number(defaultMin) > Number(defaultMax) ? 0 : defaultMax
+
+    useEffect(() => {
+        if (price === null) {
+            setValue("min", 0)
+            setValue("max", 0)
         }
-    }, [])
+    }, [price === null])
 
-    const { form, setValue } = useForm(defaultValue)
+    const { form, setValue, onChange } = useForm({
+        min: defaultMin,
+        max: verificateDefaultMax
+    })
 
-    const { max, min } = form
+    const { max: _max, min: _min } = form
+
+    const max = Number(_max)
+    const min = Number(_min)
+    
 
     return (
         <section
             id="aside-filter-price" >
-            <h3 className="font-oswald  text-default-700  uppercase pb-1 font-bold text-[18px]">Precio</h3>
+            <h3 className={classNames(
+                "font-oswald text-default-700 uppercase pb-1 font-bold text-[18px]",
+                {
+                    "animate-pulse": isLoading
+                }
+            )}>
+                Precio
+            </h3>
             <div className="flex items-center mt-1 gap-2 ">
                 <Input
-                    onBlur={() => {
-                        if (min > max) setValue("max", min + 1)
-                    }}
-                    onChange={({ target }) => {
-                        const minValue = Number(target.value)
-                        const verificateMin = Math.max(0, minValue)
-                        setValue("min", verificateMin)
-                    }}
+                    onChange={onChange}
                     name="min"
                     type="number"
-                    value={min.toString()}
+                    isDisabled={isLoading}
+                    value={min < 0 ? "0" : min.toString()}
                     label="Min"
                     classNames={{
                         inputWrapper: "h-2 bg-default-200 bg-white border border-default-300",
-                        label: " text-[13px]",
+                        label: "text-[13px]",
                         input: "!font-semibold"
                     }}
                     color="default"
@@ -49,17 +66,11 @@ const ProductsFilterPrice = memo(() => {
                 </Input>
                 <Input
                     label="Max"
-                    onBlur={() => {
-                        if (max < min) setValue("min", Math.max(0, max - 1))
-                    }}
-                    onChange={({ target }) => {
-                        const maxValue = Number(target.value)
-                        const verificateMax = Math.max(maxValue, 0)
-                        setValue("max", verificateMax)
-                    }}
+                    onChange={onChange}
+                    isDisabled={isLoading}
                     name="max"
                     type="number"
-                    value={max.toString()}
+                    value={max < 0 ? "0" : max.toString()}
                     classNames={{
                         inputWrapper: "h-2 bg-default-200 bg-white border border-default-300",
                         label: " text-[13px]",
@@ -70,10 +81,19 @@ const ProductsFilterPrice = memo(() => {
                 >
                 </Input>
                 <ActionButtonIcon
-                    onClick={() => {
-                        const searchParams = new URLSearchParams(window.location.search)
-                        searchParams.set("price", `${min}-${max}`)
-                        router.navigate(`?${searchParams}`)
+                    isLoading={isLoading}
+                    onPress={() => {
+                        const r = [Math.abs(min), Math.abs(max)]
+                        if (min == 0 && max == 0) {
+                            searchParams.delete("price")
+                        }
+                        else if (min > max) {
+                            searchParams.set("price", min.toString())
+                            setValue("max", 0)
+                        } else {
+                            searchParams.set("price", r.join("-"))
+                        }
+                        fn(searchParams)
                     }}
                 >
                     chevron_right

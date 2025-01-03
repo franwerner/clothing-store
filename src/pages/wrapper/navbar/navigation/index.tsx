@@ -9,6 +9,7 @@ const NavbarNavigation = memo(() => {
 
     const key = useGetMainPaths()
 
+
     return (
         <NavbarContent
             as="div"

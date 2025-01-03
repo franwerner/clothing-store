@@ -1,49 +1,54 @@
 
-import { ProductShopcart } from "@/interfaces/Product.interfaces"
-import { shopCartProductsMock } from "@/mocks/shopcart.mocks"
+import { ShopcartProductSchema } from "clothing-store-shared/schema"
+import { Shopcart } from "clothing-store-shared/types"
 import { createReducer } from "react-observer-context"
 
-type State = {
-    products: Array<ProductShopcart>,
-    modal: boolean
-}
-
 type Actions = {
-    set: ProductShopcart
-    remove: number
-    changeQuantity: { quantity: number, waistID: number }
+    hydrateShopcart: Shopcart
+    remove: string
+    changeQuantity: { quantity: number, id: string }
+    addProducts: Array<ShopcartProductSchema.BaseInShopcart>
 }
 
-
-const shopcartReducer = createReducer<State, Actions>({
+const shopcartReducer = createReducer<Shopcart, Actions>({
     state: {
-        products: shopCartProductsMock,
-        modal: false
+        expired_at: 0,
+        products: [],
     },
     actions: {
-        set(state, payload) {
-            const copiedProductos = [...state.products]
-            const findProduct = copiedProductos.findIndex((i) => i.waistID === payload.waistID)
-            if (findProduct >= 0) {
-                copiedProductos[findProduct].quantity += payload.quantity
-            } else {
-                copiedProductos.push(payload)
-            }
-            state.products = copiedProductos
+        hydrateShopcart(state, payload) {
+            const { expired_at, products } = payload
+            state.expired_at = expired_at
+            state.products = products
         },
         remove: (state, payload) => {
-            const filter = state.products.filter(i => i.waistID !== payload)
+            const filter = state.products.filter(i => i.id !== payload)
             state.products = filter
         },
-        changeQuantity: (state, { quantity, waistID }) => {
-            const products = state.products.map(i => {
-                if (i.waistID == waistID) {
-                    const isLessThanZero = quantity + i.quantity < 0 ? 0 : quantity + i.quantity
-                    return { ...i, quantity: isLessThanZero }
+        addProducts(state, payload) {
+            const products = structuredClone(state.products)
+            for (const e of payload) {
+                const { color_fk, product_fk, size_fk, quantity } = e
+                const isRepeated = products.find(i => i.color_fk == color_fk && i.product_fk == product_fk && i.size_fk == size_fk)
+                if (isRepeated) {
+                    isRepeated.quantity = quantity
+                } else {
+                    products.push(e)
                 }
-                return i
-            })
+            }
             state.products = products
+        },
+        changeQuantity: (state, payload) => {
+            state.products = state.products.map(i => {
+                if (i.id == payload.id) {
+                    return {
+                        ...i,
+                        quantity: payload.quantity
+                    }
+                } else {
+                    return i
+                }
+            })
         },
     }
 })

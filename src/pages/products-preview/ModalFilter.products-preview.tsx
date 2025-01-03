@@ -1,7 +1,7 @@
 import { useQueryMd } from "@/hooks/useQuery.hook";
 import { ModalBody, ModalContent, ModalHeader, Modal as ModalUI } from "@nextui-org/react";
 import { memo, useState } from "react";
-import ProductsFilterCategories from "./products-filter/Categories.products-filter";
+import ProductsFilterCategories from "./products-filter/Sections.products-filter";
 import ProductsFilterColor from "./products-filter/Color.filter-products-filter";
 import ProductsFilterDelete from "./products-filter/Delete.products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";

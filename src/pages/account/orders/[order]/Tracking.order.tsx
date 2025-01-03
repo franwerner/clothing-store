@@ -2,58 +2,18 @@
 import classNames from "classnames"
 import { motion } from "framer-motion"
 import { memo } from "react"
+import iconTracking from "../constant/iconTracking.constant"
+import adaptDateFormat from "../utils/adaptDateFormat.utilts"
+import checkOrderProgress from "../utils/checkOrderProgress.utils"
+import colorTracking from "../constant/colorTracking.constant"
 
 type OrderProgressType = "payment" | "store" | "shipping" | "client"
 
 interface OrderProgress {
     type: OrderProgressType
-    status: "rejected" | "pending" | "completed" | "in_process"
+    status: "rejected" | "pending" | "completed"
     status_code: string
     description: string
-}
-
-const colors = {
-    "in_process": {
-        primary: "#514cff",
-        secondary: "#c2ccff"
-    },
-    "rejected": {
-        primary: "#FF4C4C",
-        secondary: "#ffc5c5"
-    },
-    "pending": {
-        primary: "#dfdfdf",
-        secondary: "#ededed"
-    },
-    "completed": {
-        primary: "#38cc6f",
-        secondary: "#c0f2d1"
-    }
-}
-
-const daysToSpanish = {
-    0: "Dom",
-    1: "Lun",
-    2: "Mar",
-    3: "Mié",
-    4: "Jue",
-    5: "Vie",
-    6: "Sáb"
-}
-
-const monthsToSpanish = {
-    0: "Ene",
-    1: "Feb",
-    2: "Mar",
-    3: "Abr",
-    4: "May",
-    5: "Jun",
-    6: "Jul",
-    7: "Ago",
-    8: "Sep",
-    9: "Oct",
-    10: "Nov",
-    11: "Dic"
 }
 
 const translateType: Record<OrderProgressType, string> = {
@@ -65,7 +25,8 @@ const translateType: Record<OrderProgressType, string> = {
 
 const Items = ({ status, description, index, isCurrentTraccking, type }: OrderProgress & { index: number, isCurrentTraccking: boolean }) => {
     const tType = translateType[type]
-    const { primary, secondary } = isCurrentTraccking ? colors[status] : colors["pending"]
+    const icon = isCurrentTraccking ? iconTracking[status] : iconTracking["pending"]
+    const color = isCurrentTraccking ? colorTracking[status] : colorTracking["pending"]
 
     return (
         <li className="relative flex gap-x-5 items-start">
@@ -88,27 +49,24 @@ const Items = ({ status, description, index, isCurrentTraccking, type }: OrderPr
                         "*:hidden": !isCurrentTraccking || status === "pending"
                     }
                 )}>
-                <span className=" font-bold text-sm text-end">04 Jan,20</span>
+                <span className=" font-bold text-sm text-end">{adaptDateFormat(new Date())}</span>
                 <span className="text-sm text-default-500 ">08:20 AM</span>
             </motion.div>
 
             <div className="flex overflow-hidden flex-col h-full items-center ">
                 <motion.span
                     initial={{
-                        backgroundColor: "#dfdfdf",
-                        border: "3px solid",
-                        borderColor: "#ededed"
+                        backgroundColor: "#ededed",
                     }}
                     transition={{
                         duration: 0.4,
                         delay: 0.4 * index
                     }}
                     animate={{
-                        backgroundColor: primary,
-                        border: "3px solid",
-                        borderColor: secondary
+                        backgroundColor: color
                     }}
-                    className="relative h-[24px] p-[3px] flex justify-center items-center  w-[24px] rounded-full z-10">
+                    className="relative h-[32px] text-white text-[21px] p-[3px] flex justify-center items-center  w-[32px] rounded-full material-symbols-outlined z-10">
+                    {icon}
                 </motion.span>
                 {index !== 3 && <div className="flex flex-1 relative">
                     <motion.span
@@ -117,13 +75,13 @@ const Items = ({ status, description, index, isCurrentTraccking, type }: OrderPr
                             delay: 0.4 * index,
                         }}
                         initial={{
-                            y: -200
+                            y: isCurrentTraccking ? -200 : 0
                         }}
                         animate={{
                             y: 0
                         }}
                         style={{
-                            backgroundColor: secondary
+                            backgroundColor: color,
                         }}
                         className="w-[5px] absolute h-full" />
                     <span
@@ -169,7 +127,7 @@ const OrderProgressMocks: Array<OrderProgress> = [
     },
     {
         type: "shipping",
-        status: "in_process",
+        status: "rejected",
         description: "Envio cancelado asdsa sadasdsads a asd asds asdasd asdasdasdsad asds asdasdsadasd asdasdasdas asdasddsdsdsasdsadsadsasdasdsdds ",
         status_code: "is_reject_ads",
     },
@@ -183,9 +141,6 @@ const OrderProgressMocks: Array<OrderProgress> = [
 
 const OrderTracking = memo(() => {
 
-    const checkOrderProgress = (index: number) => {
-        return OrderProgressMocks.slice(0, index).every(i => i.status === "completed")
-    }
 
     return (
         <section
@@ -195,7 +150,7 @@ const OrderTracking = memo(() => {
                 {
                     OrderProgressMocks.map((i, index) => <Items
                         key={i.type}
-                        isCurrentTraccking={checkOrderProgress(index)}
+                        isCurrentTraccking={checkOrderProgress(index, OrderProgressMocks)}
                         index={index} {...i}
                     />)
                 }

@@ -2,22 +2,27 @@ import { Button } from "@nextui-org/react"
 import classNames from "classnames";
 
 interface ProductFullViewButtonShopcartProps {
-    button: boolean
+    button?: boolean
     isDisabled: boolean,
-    dispatchProductoToCart: () => void
+    isLoading: boolean,
+    addProductToCart: () => void
 }
 
 const ProductFullViewButtonShopcart = ({
-    button,
+    button = false,
     isDisabled,
-    dispatchProductoToCart
+    isLoading,
+    addProductToCart,
 }: ProductFullViewButtonShopcartProps) => {
+
+
     return (
         <section>
             <Button
                 color="success"
+                isLoading={isLoading}
                 variant={button ? "bordered" : "solid"}
-                onClick={dispatchProductoToCart}
+                onPress={() => addProductToCart()}
                 isDisabled={isDisabled}
                 className={classNames(
                     "w-full h-16 bg-white text-lg font-medium rounded-sm border uppercase",

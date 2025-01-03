@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, redirect } from "react-router";
 import cuentaRouter from "./cuenta.router";
 import tokenRedirect from "@/helper/tokenRedirect.helper";
+import panelRouter from "./panel.router";
 
 const LazyProductsPreview = lazy(() => import("@/pages/products-preview"))
 const LazyContact = lazy(() => import("@/pages/contact"))
@@ -26,19 +27,19 @@ const router = createBrowserRouter([
                 </Suspense>
             },
             {
-                path: "productos/:brandName",
+                path: "productos/:brand",
                 element: <Suspense fallback={<LoadPage />}>
                     <LazyProductsPreview />
                 </Suspense>
             },
             {
-                path: "productos/:brandName/:categoryName/",
+                path: "productos/:brand/:category/",
                 element: <Suspense fallback={<LoadPage />}>
                     <LazyProductsPreview />
                 </Suspense>
             },
             {
-                path: "productos/:brandName/:categoryName/:productName",
+                path: "productos/:brand/:category/:product",
                 element: <Suspense fallback={<LoadPage />}>
                     <LazyProductFullView />
                 </Suspense>
@@ -63,9 +64,9 @@ const router = createBrowserRouter([
                 path: "envios",
                 element: <p>envios</p>
             },
-            {
-                ...cuentaRouter
-            },
+         
+            { ...cuentaRouter, },
+            { ...panelRouter },
             {
                 path: "token",
                 loader: () => {

@@ -9,10 +9,10 @@ import router from "@/router"
 type FetchCustomResult<T = any, U = any, K = any> = ResponseToClientSuccess<T> | ResponseToClientError<U, K>
 
 
-const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: UseFetchProps<
+const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<UseFetchProps<
     ResponseToClientSuccess<T>,
-    ResponseToClientError<U, K>
->) => {
+    ResponseToClientError<U, K>>, "basename">
+) => {
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
     return useFetch<
@@ -36,7 +36,7 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: UseFe
             }
             else if (isNumber(response.status) && response.status >= 500 || code === "session_unauthorized") {
                 alertHandler({ severity: "danger", title: "Servidor no responde.", text: response.status })
-            }else if(code === "session_unauthorized"){
+            } else if (code === "session_unauthorized") {
                 router.navigate("/")
             }
             isFunction(onFailed) && onFailed(response)

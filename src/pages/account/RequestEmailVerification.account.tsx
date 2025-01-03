@@ -25,6 +25,9 @@ const AccountRequestEmailVerification = () => {
     return (
         <>
             <AnimatedTitle title={email} />
+            <div className="bg-danger-400  shadow-lg top-0 rounded-lg p-5">
+                <p className=" text-center text-sm  text-white uppercase">Recuerda que debes confirmar tu registro para habilitar la opción de realizar compras y demas beneficios.</p>
+            </div>
             <motion.section
                 variants={AccountAnimationVariant}
                 animate="show"
@@ -32,14 +35,11 @@ const AccountRequestEmailVerification = () => {
                 transition={{
                     duration: 0.2,
                 }}
-                className=" w-full items-center flex  flex-col flex-1 justify-center"
+                className=" w-full items-center flex   flex-col flex-1 justify-center"
             >
-                <div className="bg-danger-400 absolute shadow-lg top-0 rounded-lg p-5">
-                    <p className=" text-center text-sm  text-white uppercase">Recuerda que debes confirmar tu registro para habilitar la opción de realizar compras y demas beneficios.</p>
-                </div>
                 <ActionButton
                     className="xs:min-w-[300px]"
-                    onClick={() => {
+                    onPress={() => {
                         setRequest()
                     }}
                     isLoading={isLoading}>

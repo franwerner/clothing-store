@@ -1,24 +1,24 @@
 import Shipping from "@/interfaces/Shipping.interfaces";
-import calculateShopCart from "@/services/calculateShopCart.services";
 import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import { Progress } from "@nextui-org/react";
+import calculateShopCart from "./utils/calculateShopCart.utils";
 
 const shippingMock: Shipping = {
     freeShipping: 100000,
-    shipping: 30000
+    shipping: 0
 }
 
 const ShopCartTotal = () => {
-
-    const products = useSelector(({ shopcart }) => shopcart.products)
+    
+    const products = useSelector(({shopcart}) => shopcart.products)
 
     const { freeShippingAmountNeeded, subTotal, total } = calculateShopCart(shippingMock, products)
 
     return (
         <section
             id="shopcart-total"
-            className="flex flex-col w-full pb-5  items-center "
+            className="flex flex-col w-full pb-5 items-center "
         >
             <Progress
                 label="none"
@@ -37,12 +37,10 @@ const ShopCartTotal = () => {
                 de recibir el
                 <span className="font-bold text-center overflow-hidden text-ellipsis text-sm  uppercase"> envio gratis!</span>
             </div>
-
-
             <section className="w-full h-full grid  border-b-0">
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Envio</p>
-                    <span className="font-medium">{transformToCurrency(!freeShippingAmountNeeded ? 0 : shippingMock.shipping, "ARS")}</span>
+                    <span className="font-medium text-danger text-sm">*Se calcula al inciar la compra.</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Subtotal</p>

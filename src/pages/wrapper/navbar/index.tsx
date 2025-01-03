@@ -59,11 +59,11 @@ const NavBar = memo(() => {
                 </NavbarBrand>
                 <NavbarContent
                     as="div"
-                    className=" data-[justify=start]:justify-end  max-lg:max-w-min ">
+                    className="data-[justify=start]:justify-end  max-lg:max-w-min ">
                     <NavbarProductSearch />
                     <NavbarAccount />
                     <NavbarShopCart />
-                    <NavbarClientDirection />
+                    <NavbarClientDirection/>
                 </NavbarContent>
             </NavbarUI>
         </>

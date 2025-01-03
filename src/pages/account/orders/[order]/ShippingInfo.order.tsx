@@ -1,6 +1,7 @@
 import transformToCurrency from "@/utils/transformToCurrency.utils"
 
 const details = [
+    {label : "ID" ,value : "fc123asdk12012mñññlllda123mg"},
     { label: "Empresa", value: "Correo argentino" },
     { label: "Destino", value: "Urquiza 1280 dpto 1" },
     { label: "Envio", value: transformToCurrency(1231231, "ARS") },

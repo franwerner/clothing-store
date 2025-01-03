@@ -28,7 +28,8 @@ const AnimatedTitle = ({ title,className = "" }: AnimatedTitleProps) => {
                 initial={{
                     scale: 0
                 }}
-                animate={{
+                viewport={{once : true}}
+                whileInView={{
                     scale: 1,
                 }}
                 className="text-default-700 text-3xl animatedTitle max-xs:truncate text-nowrap font-oswald font-semibold uppercase ">

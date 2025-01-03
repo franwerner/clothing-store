@@ -1,7 +1,6 @@
 import PageWrapper from "@/components/PageWrapper";
 import useForm from "@/hooks/useForm.hook";
 import { productFullPreviewMock } from "@/mocks/productFullPreview.mocks";
-import { useDispatch } from "@/store";
 import { useCallback, useEffect, useState } from "react";
 import ProductFullViewButtonShopcart from "./ButtonShopcart.product-fullview";
 import ProductFullViewColor from "./Color.product-fullview";
@@ -9,36 +8,17 @@ import ProductImages from "./Images.product-fullview";
 import ProductFullViewInfo from "./Info.product-fullview";
 import ProductFullViewQuantity from "./Quantity.product-fullview";
 import ProductFullViewSizes from "./Sizes.product-fullview";
+import useShopcartAddProducts from "@/api/hook/users/shopcart/useAddProducts.shopcart";
 
-const { variants, brand, category, discount, name, id, price } = productFullPreviewMock
+const { variants } = productFullPreviewMock
 
 const ProductFullView = () => {
-
     const [variant, setVariant] = useState(0)
     const [size, setSize] = useState<number>(0)
     const { form, setValue } = useForm({ quantity: 0 })
     const [button, setButton] = useState(false)
 
-    const dispatch = useDispatch()
-
-    const dispatchProductoToCart = () => {
-        if (emptyStock || !form.quantity) return
-        setButton(true)
-        dispatch((actions) => actions.shopcart.set({
-            name: name,
-            id: id,
-            colorID,
-            product_size_id,
-            brand: brand,
-            category: category,
-            size: s,
-            color: color,
-            image: images[0].url,
-            discount: discount,
-            quantity: form.quantity,
-            price: price,
-        }))
-    }
+    const [{ isLoading }, { setRequest }] = useShopcartAddProducts([{ color_fk: 3, product_fk: 575, size_fk: 7, quantity: 1 }])
 
     const changeVariant = useCallback((n: number) => {
         setVariant(n)
@@ -51,9 +31,9 @@ const ProductFullView = () => {
 
     const { quantity } = form
 
-    const { images, sizes, colorID, color } = variants[variant]
+    const { images, sizes } = variants[variant]
 
-    const { size: s, product_size_id, stock } = sizes[size]
+    const { stock } = sizes[size]
 
     const emptyStock = !stock
 
@@ -92,8 +72,8 @@ const ProductFullView = () => {
                         isDisabled={button || emptyStock}
                         setQuantity={setQuantity} />
                     <ProductFullViewButtonShopcart
-                        button={button}
-                        dispatchProductoToCart={dispatchProductoToCart}
+                        isLoading={isLoading}
+                        addProductToCart={setRequest}
                         isDisabled={emptyStock || !form.quantity} />
                 </main>
             </div>

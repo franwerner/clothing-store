@@ -1,30 +1,42 @@
-import { ProductShopcart } from "@/interfaces/Product.interfaces";
-import { useDispatch, useSelector } from "@/store";
+import useShopcartChangeProductQuantity from "@/api/hook/users/shopcart/useChangeProductQuantity.shopcart";
+import useShopcartRemoveProduct from "@/api/hook/users/shopcart/useRemoveProduct.shopcart";
+import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
-import { Button, Image } from "@nextui-org/react";
+import { Button, Image, Spinner } from "@nextui-org/react";
 import classNames from "classnames";
+import { ShopcartProductSchema } from "clothing-store-shared/schema";
 import { AnimatePresence, motion } from "framer-motion";
 import { memo } from "react";
 
-
 const Product = memo(({
-    discount = 0,
-    name,
-    price = 0,
-    image,
-    quantity = 0,
-    size,
     color,
-    waistID
-}: ProductShopcart) => {
+    product,
+    id,
+    price,
+    quantity,
+    size,
+    url,
+    discount = 0,
+}: ShopcartProductSchema.BaseInShopcart) => {
 
     const priceWithQuantity = price * quantity
     const calculateDiscount = priceWithQuantity * (discount / 100)
 
-    const dispatch = useDispatch()
+    const [{ isLoading: changeLoading }, { setRequest }] = useShopcartChangeProductQuantity()
 
-    const changeQuantity = (n: number) => dispatch(({ shopcart }) => shopcart.changeQuantity({ quantity: n, waistID }))
-    const removeProduct = () => dispatch(({ shopcart }) => shopcart.remove(waistID))
+    const [{ isLoading: removeLoading }, remove] = useShopcartRemoveProduct(id)
+
+    const quantityHandler = (newQuantity: number) => {
+        if (quantity + newQuantity <= 0) return
+        setRequest({
+            body: {
+                product: {
+                    id,
+                    quantity: quantity + newQuantity
+                }
+            }
+        })
+    }
 
     return (
         <motion.article
@@ -37,16 +49,18 @@ const Product = memo(({
             role="article"
             className="relative border border-default-200 xs:flex border-b-2 shadow rounded-md p-2"
         >
-            <Image
-                radius="none"
-                alt={name}
-                title={name}
-                classNames={{
-                    img: "object-contain w-full max-h-[120px] xs:max-h-[90px]",
-                    wrapper: "max-xs:m-auto flex-shrink-0",
-                }}
-                src={image}
-            />
+            {
+                url && <Image
+                    radius="none"
+                    alt={product}
+                    title={product}
+                    classNames={{
+                        img: "object-contain w-full max-h-[120px] xs:max-h-[90px]",
+                        wrapper: "max-xs:m-auto flex-shrink-0",
+                    }}
+                    src={url}
+                />
+            }
             <section className="px-1 flex flex-col">
                 <div className="inline-flex max-xs:justify-center break-all w-full items-center gap-1">
                     <span
@@ -64,15 +78,16 @@ const Product = memo(({
                 <h3
                     id="product-title"
                     className="flex-1 text-[14px]  max-xs:text-center break-all">
-                    {name}
-                    <span aria-hidden="true" className="ml-1 text-default-800 font-bold">
+                    {product}
+                    <span aria-hidden="true" className="ml-1 capitalize text-default-800 font-bold">
                         {`(${color}, ${size})`}
                     </span>
                 </h3>
                 <div aria-label="quantity controls" className="flex max-xs:justify-center items-center">
                     <Button
-                        onClick={() => changeQuantity(-1)}
+                        onPress={() => quantityHandler(-1)}
                         variant="bordered"
+                        isDisabled={changeLoading}
                         color="default"
                         className="material-symbols-outlined text-lg border border-default-700 hover:scale-90"
                         isIconOnly
@@ -81,15 +96,18 @@ const Product = memo(({
                     >
                         remove
                     </Button>
-                    <span aria-live="polite" className="min-w-[25px] text-center font-semibold text-black">
-                        {quantity}
-                    </span>
+                    {
+                        changeLoading ? <Spinner size="sm" color="secondary" className="p-1" /> : <span className="min-w-[30px] text-center font-semibold text-black">
+                            {quantity}
+                        </span>
+                    }
                     <Button
-                        onClick={() => changeQuantity(1)}
+                        onPress={() => quantityHandler(+1)}
                         variant="bordered"
                         color="default"
                         className="material-symbols-outlined text-lg border border-default-700 hover:scale-90"
                         isIconOnly
+                        isDisabled={changeLoading}
                         size="sm"
                         aria-label="increase quantity"
                     >
@@ -98,19 +116,20 @@ const Product = memo(({
                 </div>
             </section>
 
-            <button
-                onClick={removeProduct}
-                className="material-symbols-outlined z-10 text-end absolute right-0 top-0 p-1 cursor-pointer transition duration-100 active:scale-90"
+            <Button
+                isIconOnly
+                onPress={() => remove.setRequest()}
+                isLoading={removeLoading}
+                className="material-symbols-outlined bg-transparent text-2xl z-10 text-end absolute right-0 top-0 p-1 cursor-pointer transition duration-100 active:scale-90"
                 aria-label="remove product"
             >
                 close
-            </button>
+            </Button>
         </motion.article>
     )
 })
 
 const VoidShopcart = () => {
-
     return (
         <div
             id="void-shopcart"
@@ -126,7 +145,9 @@ const VoidShopcart = () => {
 
 const ShopCartProducts = () => {
 
-    const products = useSelector((state) => state.shopcart.products) || []
+    const products = useSelector(({ shopcart }) => shopcart.products)
+
+    const isProducts = Array.isArray(products) ? products : []
 
     return (
         <section
@@ -134,10 +155,10 @@ const ShopCartProducts = () => {
             className="flex-1 gap-2 flex flex-col  rounded-md bg-default-50 ">
             <AnimatePresence mode="sync"  >
                 {
-                    products.length > 0 ?
-                        products.map((props) =>
+                    isProducts.length > 0 ?
+                        isProducts.map((props) =>
                             <Product
-                                key={props.waistID}
+                                key={props.id}
                                 {...props} />) :
                         <VoidShopcart />
                 }

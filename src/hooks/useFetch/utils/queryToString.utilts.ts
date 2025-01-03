@@ -4,7 +4,7 @@ const queryToString = (querys: UrlQueryParams  = {}) => {
     let queryToString = ""
     for (const key in querys) {
         const value = querys[key]
-       if(value || value === 0){
+       if(value || value !== undefined ){
         if (queryToString) {
             queryToString += `&${key}=${value}`
         } else {
