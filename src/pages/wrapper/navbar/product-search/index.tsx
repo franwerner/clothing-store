@@ -8,7 +8,7 @@ import useDebouncedSearch from "./hooks/useDecouncedSearch.hooks";
 
 const Icon = memo(({ onShow }: { onShow: () => void }) => (
     <Button
-        onClick={onShow}
+        onPress={onShow}
         aria-label="magnify"
         isIconOnly
         size="lg"
@@ -20,7 +20,7 @@ const Icon = memo(({ onShow }: { onShow: () => void }) => (
 ))
 
 const NavbarProductSearch = memo(() => {
-    const { form, onChange, setValue } = useForm({ search: getUrlQueryParams("q", "productos/busqueda") })
+    const { form, onChange, setValue } = useForm({ search: getUrlQueryParams("search", "productos/busqueda") })
     const [show, setShow] = useState(false)
     const onShow = useCallback(() => {
         setShow(prev => !prev)

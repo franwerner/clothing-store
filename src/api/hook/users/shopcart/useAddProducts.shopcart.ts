@@ -18,12 +18,16 @@ const useShopcartAddProducts = (products: Array<ShopcartProductSchema.BaseOutSho
         onSuccess: ({ result }) => {
             const data = result.data
             dispatch(({ shopcart }) => shopcart.addProducts(data))
+            alertHandler({
+                color: "success",
+                text: result.message
+            })
         },
-        onFailed : ({result}) => {
-             alertHandler({
-                color : "danger",
-                text : result.message
-             })
+        onFailed: ({ result }) => {
+            alertHandler({
+                color: "danger",
+                text: result.message
+            })
         }
     })
 }

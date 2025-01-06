@@ -1,7 +1,6 @@
 import PageWrapper from "@/components/PageWrapper";
 import useForm from "@/hooks/useForm.hook";
-import { productFullPreviewMock } from "@/mocks/productFullPreview.mocks";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ProductFullViewButtonShopcart from "./ButtonShopcart.product-fullview";
 import ProductFullViewColor from "./Color.product-fullview";
 import ProductImages from "./Images.product-fullview";
@@ -9,16 +8,34 @@ import ProductFullViewInfo from "./Info.product-fullview";
 import ProductFullViewQuantity from "./Quantity.product-fullview";
 import ProductFullViewSizes from "./Sizes.product-fullview";
 import useShopcartAddProducts from "@/api/hook/users/shopcart/useAddProducts.shopcart";
+import useGetProductFullview from "./api/useGetProductFullview.api";
+import LoadPage from "@/components/LoadPage";
+import { ProductFullview } from "clothing-store-shared/types";
+import pickOnlyColors from "./utils/pickOnlyColors.utilts";
+import findColorByName from "./utils/findColorByName.utils";
 
-const { variants } = productFullPreviewMock
 
-const ProductFullView = () => {
-    const [variant, setVariant] = useState(0)
-    const [size, setSize] = useState<number>(0)
+const Details = ({ colors, product }: ProductFullview.Base) => {
+
+    const [variant, setVariant] = useState(() => findColorByName(colors))
+
+    const [size, setSize] = useState(0)
     const { form, setValue } = useForm({ quantity: 0 })
-    const [button, setButton] = useState(false)
 
-    const [{ isLoading }, { setRequest }] = useShopcartAddProducts([{ color_fk: 3, product_fk: 575, size_fk: 7, quantity: 1 }])
+    const { images, sizes, color } = colors[variant]
+
+    const { quantity } = form
+
+    const { stock, size_id } = sizes[size]
+
+    const [{ isLoading }, { setRequest }] = useShopcartAddProducts([{
+        color_fk: color.color_id,
+        product_fk: product.product_id,
+        size_fk: size_id,
+        quantity
+    }])
+
+    const onlyColors = useMemo(() => pickOnlyColors(colors), [])
 
     const changeVariant = useCallback((n: number) => {
         setVariant(n)
@@ -29,57 +46,70 @@ const ProductFullView = () => {
 
     const setQuantity = (value: number) => setValue("quantity", value)
 
-    const { quantity } = form
-
-    const { images, sizes } = variants[variant]
-
-    const { stock } = sizes[size]
-
     const emptyStock = !stock
 
     useEffect(() => {
         if (quantity && emptyStock) setQuantity(0)
     }, [variant, size])
 
-    useEffect(() => {
-        if (!button) return
-        const timeout = setTimeout(() => {
-            setButton(false)
-            setQuantity(0)
-        }, 1300)
-        return () => clearTimeout(timeout)
-    }, [button])
+    return (
+        <div className="md:flex block shadow-md  gap-x-3 min-h-[60dvh] ">
+            <ProductImages
+                variant={variant}
+                images={images} />
+            <main className={`flex-1 flex flex-col gap-5  bg-white  p-6 `}>
+                <ProductFullViewInfo
+                    discount={product.discount}
+                    price={product.price}
+                    product={product.product}
+                    emptyStock={emptyStock} />
+                <ProductFullViewColor
+                    changeVariant={changeVariant}
+                    color={variant}
+                    colors={onlyColors}
+                />
+                <ProductFullViewSizes
+                    changeSize={changeSize}
+                    size={size}
+                    sizes={sizes} />
+                <ProductFullViewQuantity
+                    quantity={quantity}
+                    isDisabled={emptyStock}
+                    setQuantity={setQuantity} />
+                <ProductFullViewButtonShopcart
+                    isLoading={isLoading}
+                    addProductToCart={setRequest}
+                    isDisabled={emptyStock || !quantity} />
+            </main>
+        </div>
+    )
+}
+
+const ProductNotFound = () => {
+    return (
+        <div className="uppercase flex-1 flex justify-center   flex-col items-center">
+            <div className="bg-danger-50 px-10 py-8 rounded-lg grid justify-center">
+                <h3 className="text-danger font-bold text-3xl text-center ">404</h3>
+                <p className="text-center">Producto no encontrado o no se encuentra disponible.</p>
+            </div>
+        </div>
+    )
+}
+
+const ProductFullView = () => {
+    const { isLoading, details, success,code } = useGetProductFullview()
 
     return (
         <PageWrapper
-            className="sm:px-0 md:p-3 [&_#breadcrumbs]:!py-4"
+            className="sm:px-0 md:p-3 flex flex-col [&_#breadcrumbs]:!py-4"
             size="xl">
-            <div className="md:flex block shadow-md  gap-x-3 min-h-[60dvh] ">
-                <ProductImages
-                    variant={variant}
-                    images={images} />
-                <main className={`flex-1 flex flex-col gap-5 ${button ? "pointer-events-none" : ""}  bg-white  p-6 `}>
-                    <ProductFullViewInfo emptyStock={emptyStock} />
-                    <ProductFullViewColor
-                        changeVariant={changeVariant}
-                        variant={variant} />
-                    <ProductFullViewSizes
-                        changeSize={changeSize}
-                        size={size}
-                        variant={variant} />
-                    <ProductFullViewQuantity
-                        quantity={quantity}
-                        isDisabled={button || emptyStock}
-                        setQuantity={setQuantity} />
-                    <ProductFullViewButtonShopcart
-                        isLoading={isLoading}
-                        addProductToCart={setRequest}
-                        isDisabled={emptyStock || !form.quantity} />
-                </main>
-            </div>
-
+            {
+                isLoading || (!code && !success ) ? <LoadPage /> :
+                    !success ? <ProductNotFound /> :
+                        <Details {...details} />
+            }
         </PageWrapper>
-    );
-};
+    )
+}
 
 export default ProductFullView

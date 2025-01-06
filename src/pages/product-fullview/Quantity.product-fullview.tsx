@@ -15,7 +15,7 @@ const ProductFullViewQuantity = ({ quantity, setQuantity, isDisabled }: ProductQ
             className="flex  h-10">
             <Button
                 isDisabled={isDisabled}
-                onClick={() => {
+                onPress={() => {
                     const op = quantity - 1
                     if (op < 0) return
                     setQuantity(op)
@@ -42,7 +42,7 @@ const ProductFullViewQuantity = ({ quantity, setQuantity, isDisabled }: ProductQ
             />
             <Button
                 isDisabled={isDisabled}
-                onClick={() => {
+                onPress={() => {
                     if (isDisabled || quantity >= 100) return
                     setQuantity(quantity + 1)
                 }}

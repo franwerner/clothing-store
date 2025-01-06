@@ -3,7 +3,6 @@ import useForm from "@/hooks/useForm.hook";
 import { Input } from "@nextui-org/react";
 import { memo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useProductPreviewContext } from "..";
 import classNames from "classnames";
 
 const ProductsFilterPrice = memo(() => {
@@ -11,8 +10,6 @@ const ProductsFilterPrice = memo(() => {
     const [searchParams, fn] = useSearchParams()
 
     const price = searchParams.get("price")
-
-    const { isLoading } = useProductPreviewContext()
 
     const [defaultMin, defaultMax ] = price ? price.split("-") : []
 
@@ -40,10 +37,7 @@ const ProductsFilterPrice = memo(() => {
         <section
             id="aside-filter-price" >
             <h3 className={classNames(
-                "font-oswald text-default-700 uppercase pb-1 font-bold text-[18px]",
-                {
-                    "animate-pulse": isLoading
-                }
+                "font-oswald text-default-700 uppercase pb-1 font-bold text-[18px]"
             )}>
                 Precio
             </h3>
@@ -52,7 +46,6 @@ const ProductsFilterPrice = memo(() => {
                     onChange={onChange}
                     name="min"
                     type="number"
-                    isDisabled={isLoading}
                     value={min < 0 ? "0" : min.toString()}
                     label="Min"
                     classNames={{
@@ -67,7 +60,6 @@ const ProductsFilterPrice = memo(() => {
                 <Input
                     label="Max"
                     onChange={onChange}
-                    isDisabled={isLoading}
                     name="max"
                     type="number"
                     value={max < 0 ? "0" : max.toString()}
@@ -81,7 +73,6 @@ const ProductsFilterPrice = memo(() => {
                 >
                 </Input>
                 <ActionButtonIcon
-                    isLoading={isLoading}
                     onPress={() => {
                         const r = [Math.abs(min), Math.abs(max)]
                         if (min == 0 && max == 0) {

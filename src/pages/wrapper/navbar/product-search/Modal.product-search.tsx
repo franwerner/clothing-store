@@ -39,7 +39,7 @@ const ProductSearchModal = ({ onShow, show, onChange, value }: ProductSearchModa
             }}
             backdrop="opaque" >
             <ModalContent className="p-3 px-5">
-                <ModalBody className="flex-row items-center justify-between" >
+                <ModalBody className="flex-row items-center justify-between">
 
                     <Input
                         onChange={onChange}
@@ -49,7 +49,7 @@ const ProductSearchModal = ({ onShow, show, onChange, value }: ProductSearchModa
                         autoComplete={"off"}
                         radius="lg"
                         classNames={{
-                            input: " text-[16px] uppercase  ",
+                            input: " text-[16px] uppercase",
                         }}
                         color="default"
                         placeholder="Buscar producto..."

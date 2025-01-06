@@ -1,25 +1,29 @@
+import router from "@/router"
 import classNames from "classnames"
-import { useSearchParams } from "react-router"
+import { useParams, useSearchParams } from "react-router"
 
 const ProductsFilterDelete = () => {
 
-    const [params, setSearchParams] = useSearchParams()
-    const color = params.get("color") || ""
-    const waits = params.get("waits") || ""
-    const price = params.get("price") || ""
-    const size = params.get("size") || ""
+    const [searchParams, setSearchParams] = useSearchParams()
 
-    const someFilter = color || waits || price || size
+    const {brand,category} = useParams()
+
+    const color = searchParams.get("color") || ""
+    const price = searchParams.get("price") || ""
+    const size = searchParams.get("size") || ""
+
+    const someFilter = color  || price || size || brand || category
 
     return <div
         onClick={() => {
-            ["color", "waits", "price","size"].forEach((i) => (params.delete(i)))
-            setSearchParams(params)
+            ["color", "price","size"].forEach((i) => (searchParams.delete(i)))
+            setSearchParams(searchParams)
+            router.navigate("/productos")
         }}
         className={
             classNames(
-                "flex items-center gap-x-1 cursor-pointer opacity-100 transition-opacity duration-300",
-                {"!opacity-0" : !someFilter}
+                "flex items-center gap-x-1 cursor-pointer transition-all duration-200",
+                {"!scale-0 h-0" : !someFilter}
             )
         }>
         <span className=" underline text-sm text-default-700 uppercase">Eliminar filtros</span>

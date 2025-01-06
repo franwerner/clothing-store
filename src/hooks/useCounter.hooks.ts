@@ -1,12 +1,15 @@
+import { isFunction } from "my-utilities"
 import { useEffect, useState } from "react"
 
 interface UseCounterProps {
     hours?: number
     minutes?: number
     seconds?: number,
+    milliseconds?:number
     type?: "increment" | "decrement",
     stop?: boolean,
-    step?: number
+    step?: number,
+    onFinish ?: () => void
 }
 
 const hourInSeconds = 3600
@@ -16,16 +19,19 @@ const useCounter = ({
     minutes = 0,
     hours = 0,
     seconds = 0,
+    milliseconds = 0,
     type = "increment",
     stop = false,
-    step = 1
+    step = 1,
+    onFinish
 }: UseCounterProps = {}) => {
 
     const verifyStep = step <= 1 ? 1 : step 
 
     const hoursToSeconds = Math.abs(hours) * hourInSeconds
     const minutesToSeconds = Math.abs(minutes) * minuteInSeconds
-    const calculateSeconds = (hoursToSeconds + minutesToSeconds + Math.abs(seconds))
+    const millisecondsToSeconds = Math.abs(milliseconds) / 1000
+    const calculateSeconds = (hoursToSeconds + minutesToSeconds + Math.abs(seconds) + millisecondsToSeconds)
     const [count, setCount] = useState(type == "decrement" ? calculateSeconds : 0)
 
     const hoursResidue = Math.floor(count / hourInSeconds)
@@ -40,7 +46,9 @@ const useCounter = ({
                 const nextCount = type === "decrement" ? prev - verifyStep : prev + verifyStep
                 if (nextCount <= 0 || nextCount >= calculateSeconds) {
                     clearInterval(interval)
+                    isFunction(onFinish) && onFinish()
                     return type === "decrement" ? 0 : calculateSeconds
+                    
                 } else {
                     return nextCount
                 }
@@ -49,12 +57,17 @@ const useCounter = ({
         return () => clearInterval(interval)
     }, [stop])
 
+    const resetCounter = () => {
+        setCount(type == "decrement" ? calculateSeconds : 0)
+    }
+
 
     return {
         hours: hoursResidue,
         minutes: minutesResidue,
         seconds: secondsResidue,
-        isFinish: count <= 0
+        isFinish: count <= 0,
+        resetCounter
     }
 }
 

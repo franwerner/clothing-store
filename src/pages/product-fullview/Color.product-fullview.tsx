@@ -1,23 +1,28 @@
-import { productFullPreviewMock } from "@/mocks/productFullPreview.mocks";
 import classNames from "classnames";
+import { ProductFullview } from "clothing-store-shared/types";
 import { memo } from "react";
 
-const { variants } = productFullPreviewMock
+interface ProductFullViewColorProps {
+    changeVariant: (index: number) => void
+    colors: Array<ProductFullview.Color>
+    color: number,
+}
 
-const ProductFullViewColor = memo(({ variant, changeVariant }: { changeVariant: (index: number) => void, variant: number }) => {
+const ProductFullViewColor = memo(({ color: colorIndex, changeVariant, colors }: ProductFullViewColorProps) => {
 
-    const { color } = variants[variant]
+    const { color } = colors[colorIndex]
+
     return (
-        <section  id="product-color">
+        <section id="product-color">
             <h3 className=" text-default-700 flex text-sm">Color: <span className="font-bold uppercase ml-1">{color}</span></h3>
             <div className="inline-flex flex-wrap gap-2   items-start mt-3 justify-start">
                 {
-                    variants.map(({ hexadecimal, colorID }, index) =>
+                    colors.map(({ hexadecimal, product_color_id }, index) =>
                         <button
-                            key={colorID}
+                            key={product_color_id}
                             className={classNames(
                                 "flex-1 group   h-8 min-w-8  border-0 p-0 max-w-8",
-                               
+
                             )}
                             onClick={() => changeVariant(index)}>
                             <span
@@ -27,8 +32,8 @@ const ProductFullViewColor = memo(({ variant, changeVariant }: { changeVariant: 
                                 className={classNames(
                                     "w-full h-full border border-default-500 scale-75  rounded-sm inline-block",
                                     {
-                                        "rotate-180 transition-transform !scale-100 duration-200": variant === index,
-                                        " duration-100 transition-transform": variant !== index,
+                                        "rotate-180 transition-transform !scale-100 duration-200": colorIndex === index,
+                                        " duration-100 transition-transform": colorIndex !== index,
                                     }
                                 )}
                             ></span>

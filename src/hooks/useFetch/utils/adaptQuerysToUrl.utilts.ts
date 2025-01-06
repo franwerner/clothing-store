@@ -1,6 +1,6 @@
-import { UrlQueryParams  } from ".."
+import { UseFetch } from ".."
 
-const queryToString = (querys: UrlQueryParams  = {}) => {
+const adaptQuerysToUrl = (querys: UseFetch.QueryParams  = {}) => {
     let queryToString = ""
     for (const key in querys) {
         const value = querys[key]
@@ -15,4 +15,4 @@ const queryToString = (querys: UrlQueryParams  = {}) => {
     return queryToString
 }
 
-export default queryToString
+export default adaptQuerysToUrl

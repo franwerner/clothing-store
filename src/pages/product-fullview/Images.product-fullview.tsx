@@ -1,11 +1,12 @@
 import { Image } from "@nextui-org/react";
+import { ProductFullview } from "clothing-store-shared/types";
 import { useEffect, useRef, useState } from "react";
 import Swiper from "swiper";
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
 import { Swiper as SwiperReact, SwiperSlide } from "swiper/react";
 
 interface ProductFullViewImagesProps {
-    images: Array<{ imageID: number, url: string }>
+    images: Array<ProductFullview.Image>
     variant: number
 }
 
@@ -33,9 +34,9 @@ const ProductFullViewImages = ({ images, variant }: ProductFullViewImagesProps) 
             {
                 images.length > 1 && <div className="flex-col hidden md:flex h-full w-full gap-y-5">
                     {
-                        images.map(({ imageID, url }, index) => <Image
+                        images.map(({ url,product_color_image_id }, index) => <Image
                             src={url}
-                            key={imageID}
+                            key={product_color_image_id}
                             onMouseEnter={() => {
                                 slideTo(index)
                                 setImage(index)
@@ -65,8 +66,8 @@ const ProductFullViewImages = ({ images, variant }: ProductFullViewImagesProps) 
                     modules={[Navigation, EffectFade, Pagination]}
                 >
                     {
-                        images.map(({ imageID, url }) =>
-                            <SwiperSlide className="flex justify-center items-center   bg-white" key={imageID}>
+                        images.map(({ product_color_image_id, url }) =>
+                            <SwiperSlide className="flex justify-center items-center   bg-white" key={product_color_image_id}>
                                 <Image
                                     className="object-contain rounded-none min-h-[350px] max-h-[350px]"
                                     classNames={{ wrapper: "rounded-none " }}

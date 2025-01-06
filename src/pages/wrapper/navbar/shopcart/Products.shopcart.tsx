@@ -145,18 +145,22 @@ const VoidShopcart = () => {
 
 const ShopCartProducts = () => {
 
-    const products = useSelector(({ shopcart }) => shopcart.products)
-
-    const isProducts = Array.isArray(products) ? products : []
+    const products = useSelector(({ shopcart }) => shopcart.products) || []
+    const expired_at = useSelector(({ shopcart }) => shopcart.expired_at)
 
     return (
         <section
             id="shoptcart-product"
-            className="flex-1 gap-2 flex flex-col  rounded-md bg-default-50 ">
+            className={classNames(
+                "flex-1 gap-2 flex flex-col  rounded-md bg-default-50",
+                {
+                    "opacity-80 pointer-events-none": expired_at === 0
+                }
+            )}>
             <AnimatePresence mode="sync"  >
                 {
-                    isProducts.length > 0 ?
-                        isProducts.map((props) =>
+                    products.length > 0 ?
+                        products.map((props) =>
                             <Product
                                 key={props.id}
                                 {...props} />) :

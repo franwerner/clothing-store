@@ -1,19 +1,23 @@
-import { productFullPreviewMock } from "@/mocks/productFullPreview.mocks";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import classNames from "classnames";
 import { memo } from "react";
 
-const { name, price, discount = 0 } = productFullPreviewMock
+interface ProductFullViewInfoProps {
+    emptyStock: boolean,
+    price: number
+    discount?: number
+    product: string
+}
 
-const ProductFullViewInfo = memo(({ emptyStock }: { emptyStock: boolean }) => {
+const ProductFullViewInfo = memo(({ emptyStock, discount = 0, price, product }: ProductFullViewInfoProps) => {
 
     const calculateDiscount = price * (discount / 100)
 
     return (
         <section className="grid gap-y-3" id="product-info">
             <h2 className="text-2xl break-all">
-                {transformToUppercase(name)}
+                {transformToUppercase(product)}
             </h2>
             <div className="flex gap-1 items-center">
                 <h3 className={classNames(

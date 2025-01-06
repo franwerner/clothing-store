@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { ProductColorPreview } from "clothing-store-shared/types";
 import { memo, useCallback } from "react";
 import { SetURLSearchParams, useSearchParams } from "react-router";
-import { useProductPreviewContext } from "..";
+import useProductColorsPreview from "../api/useProductColorsPreview.api";
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper";
 
 
@@ -40,7 +40,7 @@ const ProductsFilterColor = () => {
 
     const classname = `inline-flex flex-wrap md:block`
 
-    const { colors, isLoading } = useProductPreviewContext()
+    const { colors, isLoading } = useProductColorsPreview()
 
     const [params, fn] = useSearchParams()
 

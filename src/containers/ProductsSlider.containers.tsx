@@ -1,9 +1,9 @@
-import { ProductPreview } from "@/interfaces/Product.interfaces";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./product";
+import { ProductPreview } from "clothing-store-shared/types";
 
-const ProductsSlider = ({ products }: { products: Array<ProductPreview> }) => {
+const ProductsSlider = ({ products }: { products: Array<ProductPreview.Product> }) => {
 
     return (
         <Swiper
@@ -30,7 +30,7 @@ const ProductsSlider = ({ products }: { products: Array<ProductPreview> }) => {
         >
             {
                 products.map(i =>
-                    <SwiperSlide key={i.id}>
+                    <SwiperSlide key={i.product_color_id}>
                         <ProductCard {...i} />
                     </SwiperSlide>
                 )

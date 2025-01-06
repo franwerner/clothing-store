@@ -2,30 +2,32 @@ import { isFunction } from "my-utilities"
 import { useEffect, useRef, useState } from "react"
 import useAbortSignal from "./useAbortSignal.useFetch"
 import useDelay from "./useDelay.useFetch"
-import "./utils/paramsToString.utilts"
-import paramsToString from "./utils/paramsToString.utilts"
-import queryToString from "./utils/queryToString.utilts"
+import "./utils/adaptParamsToUrl.utilts"
 import unifyProps from "./utils/unifyProps.utilts"
+import adaptParamsToUrl from "./utils/adaptParamsToUrl.utilts"
+import adaptQuerysToUrl from "./utils/adaptQuerysToUrl.utilts"
 
-type UrlQueryParams = { [key: string]: string | number | undefined | null | boolean }
+declare namespace UseFetch {
+    interface Response<T = any> {
+        status?: number,
+        success?: boolean
+        result: T
+    }
 
-type UseFetchPropsDynamic<T, U> = Omit<Partial<UseFetchProps<T, U>>, "target" | "basename">
+    type QueryParams = { [key: string]: string | number | undefined | null | boolean }
 
-interface UseFetchProps<T = any, U = any,> extends Omit<RequestInit, "signal" | "body"> {
-    target: string,
-    basename?: string
-    query?: UrlQueryParams,
-    onSuccess?: (response: FetchResponse<T>) => void
-    onFailed?: (response: FetchResponse<U>) => void
-    body?: { [key: string]: any }
-    delay?: number,
-    params?: UrlQueryParams
-}
+    interface Props<T = any, U = any,> extends Omit<RequestInit, "signal" | "body"> {
+        target?: string,
+        basename?: string
+        query?: QueryParams,
+        onSuccess?: (response: Response<T>) => void
+        onFailed?: (response: Response<U>) => void
+        body?: { [key: string]: any }
+        delay?: number,
+        params?: QueryParams
+    }
 
-interface FetchResponse<T = any> {
-    status?: number,
-    success?: boolean
-    result: T
+    type SetRequestProps<T, U> = Omit<Partial<Props<T, U>>, "target" | "basename">
 }
 
 /**
@@ -64,7 +66,7 @@ interface FetchResponse<T = any> {
 
 const useFetch = <T extends object = {}, U extends object = {}>({
     ...request
-}: UseFetchProps<T, U>) => {
+}: UseFetch.Props<T, U>) => {
     const { abortSignal, createSignal, setSignalUsed, getSignal } = useAbortSignal()
     const ref = useRef({ is_mounting: true, request_id: 0 })
     /**
@@ -74,20 +76,20 @@ const useFetch = <T extends object = {}, U extends object = {}>({
      */
     const { cleanDelay, createDelay } = useDelay()
     const [isLoading, setLoading] = useState<boolean>(false)
-    const [response, setResponse] = useState<FetchResponse<T | U>>({
+    const [response, setResponse] = useState<UseFetch.Response<T | U>>({
         result: {} as T | U,
         success: undefined,
         status: undefined
     })
-    const setRequest = (props: UseFetchPropsDynamic<T, U> = {}) => {
+    const setRequest = (props: UseFetch.SetRequestProps<T, U> = {}) => {
         const currentProps = unifyProps(request, props)
-        const { target, query, onSuccess, onFailed, body = {}, params = {}, delay, method = "GET", basename, ...rest } = currentProps
+        const { target = "/", query, onSuccess, onFailed, body = {}, params = {}, delay, method = "GET", basename, ...rest } = currentProps
         abortSignal()
         createDelay(async () => {
             createSignal()
             const context_id = ++ref.current.request_id
             {
-                const concatTarget = `${paramsToString(params, basename + target)}${queryToString(query)}`.replaceAll("//", "/")
+                const concatTarget = `${adaptParamsToUrl(params, basename + target)}${adaptQuerysToUrl(query)}`.replaceAll("//", "/")
                 try {
                     setLoading(true)
                     setSignalUsed(true)
@@ -148,12 +150,9 @@ const useFetch = <T extends object = {}, U extends object = {}>({
     ] as const
 }
 
-export type {
-    FetchResponse,
-    UrlQueryParams,
-    UseFetchProps,
-    UseFetchPropsDynamic
-}
+
+
+export type { UseFetch }
 
 export default useFetch
 

@@ -1,7 +1,7 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 
-const useShopcartRemoveProduct = (product_id:string) => {
+const useShopcartRemoveProduct = (id: string) => {
 
     const dispatch = useDispatch()
 
@@ -9,10 +9,10 @@ const useShopcartRemoveProduct = (product_id:string) => {
         target: "/shopcart",
         method: "DELETE",
         body: {
-            product_id
+            id
         },
         onSuccess: () => {
-            dispatch(({ shopcart }) => shopcart.remove(product_id))
+            dispatch(({ shopcart }) => shopcart.remove(id))
         }
     })
 }

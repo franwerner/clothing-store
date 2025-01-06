@@ -3,8 +3,8 @@ import classNames from "classnames"
 import { FC, memo, useCallback } from "react"
 import { SetURLSearchParams, useSearchParams } from "react-router"
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper"
-import { useProductPreviewContext } from ".."
 import { ProductSizePreview } from "clothing-store-shared/types"
+import useProductSizesPreview from "../api/useProductSizesPreview.api"
 
 const SizeItem: FC<ProductSizePreview & { setSearchParams: SetURLSearchParams, isActive?: boolean }> = memo(({ quantity, size, setSearchParams, isActive, size_id }) => {
   return (
@@ -28,7 +28,7 @@ const ProductsFilterSizes = () => {
   const maxLength = 6
   const classname = `inline-flex flex-wrap md:grid md:grid-cols-2 `
 
-  const { sizes,isLoading} = useProductPreviewContext()
+  const { sizes, isLoading } = useProductSizesPreview()
 
   const [params, fn] = useSearchParams()
 
@@ -46,9 +46,11 @@ const ProductsFilterSizes = () => {
       <h3 className={classNames(
         "font-oswald  text-default-700 bg-tra uppercase pb-1  font-bold text-[18px]",
         {
-          "animate-pulse" : isLoading
+          "animate-pulse": isLoading
         }
-      )}>Talles</h3>
+      )}>
+        Talles
+      </h3>
       <ToggleContent.visible className={` ${classname}`}>
         {sizes.slice(0, maxLength).map(e => <SizeItem
           key={e.size_id}

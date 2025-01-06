@@ -8,7 +8,7 @@ import classNames from "classnames"
 import { ProductPreview } from "clothing-store-shared/types"
 
 
-const ProductCard = memo(({ discount = 0, product, url, price, color, brand, category }: ProductPreview) => {
+const ProductCard = memo(({ discount = 0, product, url, price, color, brand, category }: ProductPreview.Product) => {
 
     const calculateDiscount = (discount / 100) * price
     return (
@@ -77,7 +77,7 @@ const ProductCard = memo(({ discount = 0, product, url, price, color, brand, cat
             </CardFooter>
 
             <span
-                onClick={() => router.navigate(`/productos/${brand}/${category}/${product}`)}
+                onClick={() => router.navigate(`/productos/${brand}/${category}/${product}?color=${color}`)}
                 className="link bg-transparent absolute h-full w-full"
                 aria-label={`Ver detalles de ${product}`}
                 role="link">

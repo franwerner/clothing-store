@@ -3,16 +3,19 @@ import { ShopcartProductSchema } from "clothing-store-shared/schema"
 import { Shopcart } from "clothing-store-shared/types"
 import { createReducer } from "react-observer-context"
 
+type ShopcartEdit = Omit<Shopcart, "expired_at"> & { expired_at: null | number }
+
 type Actions = {
-    hydrateShopcart: Shopcart
+    hydrateShopcart: ShopcartEdit
     remove: string
     changeQuantity: { quantity: number, id: string }
     addProducts: Array<ShopcartProductSchema.BaseInShopcart>
+    changeExpired: number | null
 }
 
-const shopcartReducer = createReducer<Shopcart, Actions>({
+const shopcartReducer = createReducer<ShopcartEdit, Actions>({
     state: {
-        expired_at: 0,
+        expired_at: null,
         products: [],
     },
     actions: {
@@ -24,6 +27,9 @@ const shopcartReducer = createReducer<Shopcart, Actions>({
         remove: (state, payload) => {
             const filter = state.products.filter(i => i.id !== payload)
             state.products = filter
+            if (state.products.length === 0) {
+                state.expired_at = null
+            }
         },
         addProducts(state, payload) {
             const products = structuredClone(state.products)
@@ -49,6 +55,9 @@ const shopcartReducer = createReducer<Shopcart, Actions>({
                     return i
                 }
             })
+        },
+        changeExpired(state, payload) {
+            state.expired_at = payload
         },
     }
 })

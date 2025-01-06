@@ -1,30 +1,27 @@
 import router from "@/router";
 import { Select, SelectItem } from "@nextui-org/react";
 import { memo } from "react";
-import { useProductPreviewContext } from ".";
 
 const orderList = [
-    { key: "price", label: "Precio : menor a Mayor", order: "asc" },
-    { key: "price", label: "Precio : mayor a Menor", order: "desc" },
-    { key: "name", label: "A - Z", order: "asc" },
-    { key: "name", label: "Z - A", order: "desc" },
-    { key: "bestSellers", label: "Mas vendidos", order: "desc" },
-    { key: "offers", label: "Ofertas", order: "desc" },
-    { key: "newest", label: "Nuevo", order: "desc" }
+    { key: "price", label: "Precio : menor a Mayor", direction: "asc" },
+    { key: "price", label: "Precio : mayor a Menor", direction: "desc" },
+    { key: "name", label: "A - Z", direction: "asc" },
+    { key: "name", label: "Z - A", direction: "desc" },
+    { key: "offers", label: "Ofertas", direction: "desc" },
+    { key: "newest", label: "Nuevo", direction: "desc" }
 ]
 
 const getDefaultKey = () => {
-    const order = new URLSearchParams(window.location.search).get("order")
-    const orderKey = new URLSearchParams(window.location.search).get("orderKey")
-    const find = orderList.find(i => i.key == orderKey && i.order == order)
+    const order = new URLSearchParams(window.location.search).get("sortDirection")
+    const sortField = new URLSearchParams(window.location.search).get("sortField")
+    const find = orderList.find(i => i.key == sortField && i.direction == order)
     if (find) {
-        return find.key + find.order
+        return find.key + find.direction
     }
 }
 
 const ProductsPreviewOrder = memo(() => {
 
-    const { isLoading } = useProductPreviewContext()
     const defaultKey = getDefaultKey()
     return (
         <Select
@@ -35,8 +32,6 @@ const ProductsPreviewOrder = memo(() => {
             color="secondary"
             variant="bordered"
             className="max-w-xs "
-            isLoading={isLoading}
-            isDisabled={isLoading}
             defaultSelectedKeys={defaultKey ? [defaultKey] : undefined}
             placeholder="Selecciona un orden"
             label="Ordenar por">
@@ -45,18 +40,18 @@ const ProductsPreviewOrder = memo(() => {
                     <SelectItem
                         onPress={() => {
                             const searchParams = new URLSearchParams(window.location.search)
-                            const orderKey = searchParams.get("orderKey")
-                            const order = searchParams.get("order")
-                            if (orderKey == i.key && order == i.order) {
-                                searchParams.delete("order")
-                                searchParams.delete("orderKey")
+                            const sortField = searchParams.get("sortField")
+                            const sortDirection = searchParams.get("sortDirection")
+                            if (sortField == i.key && sortDirection == i.direction) {
+                                searchParams.delete("sortDirection")
+                                searchParams.delete("sortField")
                             } else {
-                                searchParams.set("order", i.order)
-                                searchParams.set("orderKey", i.key)
+                                searchParams.set("sortDirection", i.direction)
+                                searchParams.set("sortField", i.key)
                             }
                             router.navigate(`?${searchParams}`)
                         }}
-                        key={i.key + i.order}>
+                        key={i.key + i.direction}>
                         {i.label}
                     </SelectItem>)
             }

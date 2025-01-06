@@ -1,7 +1,7 @@
 import { useAlertContext } from "@/components/AlertGlobal"
 import { ResponseToClientError, ResponseToClientSuccess } from "clothing-store-shared/types"
 import { isFunction, isNumber } from "my-utilities"
-import useFetch, { UseFetchProps } from "./useFetch"
+import useFetch, { UseFetch } from "./useFetch"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
 import { useDispatch } from "@/store"
 import router from "@/router"
@@ -9,7 +9,7 @@ import router from "@/router"
 type FetchCustomResult<T = any, U = any, K = any> = ResponseToClientSuccess<T> | ResponseToClientError<U, K>
 
 
-const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<UseFetchProps<
+const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<UseFetch.Props<
     ResponseToClientSuccess<T>,
     ResponseToClientError<U, K>>, "basename">
 ) => {

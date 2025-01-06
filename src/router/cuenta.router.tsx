@@ -11,7 +11,7 @@ const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEma
 const LazyPasswordReset = lazy(() => import("@/pages/account/PasswordReset.account"))
 const LazyOrder = lazy(() => import("@/pages/account/orders/[order]"))
 const LazyOrders = lazy(() => import("@/pages/account/orders"))
-
+const LazyOrderTransaction = lazy(() => import("@/pages/account/order-transaction"))
 
 const cuentaRouter: RouteObject = {
     path: "cuenta",
@@ -57,7 +57,7 @@ const cuentaRouter: RouteObject = {
         {
             path: "orden-transaccion",
             element: <Suspense fallback={<LoadPage />}>
-                <p>asdasd</p>
+                <LazyOrderTransaction />
             </Suspense>
         },
         {

@@ -1,6 +1,6 @@
-import { UrlQueryParams } from "..";
+import { UseFetch } from "..";
 
-const paramsToString = (params: UrlQueryParams, target: string) => {
+const adaptParamsToUrl = (params: UseFetch.QueryParams, target: string) => {
 
     let currentTarget = target
     if (currentTarget.endsWith('/')) {
@@ -17,4 +17,4 @@ const paramsToString = (params: UrlQueryParams, target: string) => {
     return currentTarget
 }
 
-export default paramsToString
+export default adaptParamsToUrl

@@ -1,4 +1,4 @@
-import { FetchResponse } from "@/hooks/useFetch";
+import { UseFetch } from "@/hooks/useFetch";
 import { RateLimiterResponse, ResponseDataWriteOperationsInError, ResponseDataZodInError, ResponseToClientBase, ResponseToClientError, ResponseToClientSuccess } from "clothing-store-shared/types";
 
 /**
@@ -6,32 +6,32 @@ import { RateLimiterResponse, ResponseDataWriteOperationsInError, ResponseDataZo
  */
 
 function isZodErrorResponse<T, U, K>(
-    response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<ResponseToClientBase & { data: ResponseDataZodInError<K> }> {
+    response: UseFetch.Response<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
+): response is UseFetch.Response<ResponseToClientBase & { data: ResponseDataZodInError<K> }> {
     return response.result.code === "zod_err" && !response.success && !!(response.result.data)
 }
 
 function isWriteOperationErrorResponse<T, U, K>(
-    response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<ResponseToClientBase & { data: ResponseDataWriteOperationsInError<K> }> {
+    response: UseFetch.Response<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
+): response is UseFetch.Response<ResponseToClientBase & { data: ResponseDataWriteOperationsInError<K> }> {
     return (response.result.code || "").includes("write_failed") && !response.success && !!(response.result.data)
 }
 
 function isErrorResponse<T, U, K>(
-    response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<ResponseToClientBase & { data: U }> {
+    response: UseFetch.Response<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
+): response is UseFetch.Response<ResponseToClientBase & { data: U }> {
     return !response.success && !!(response.result.data)
 }
 
 function isRateLimiterResponse<T, U, K>(
-    response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<ResponseToClientBase & { data: RateLimiterResponse }> {
+    response: UseFetch.Response<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
+): response is UseFetch.Response<ResponseToClientBase & { data: RateLimiterResponse }> {
     return !response.success && response.result.code == "rate_limit" && !!(response.result.data)
 }
 
 function isSuccessResponse<T, U, K>(
-    response: FetchResponse<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
-): response is FetchResponse<ResponseToClientBase & { data: T }> {
+    response: UseFetch.Response<ResponseToClientSuccess<T> | ResponseToClientError<U, K>>
+): response is UseFetch.Response<ResponseToClientSuccess<T> & {data : T}> {
     return !!(response.success && response.result.data)
 }
 

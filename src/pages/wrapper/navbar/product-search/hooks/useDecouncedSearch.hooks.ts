@@ -4,9 +4,9 @@ import getUrlQueryParams from "@/helper/getUrlQueryParams.helper";
 
 const useDebouncedSearch = (value: string, fn: () => void) => {
     useEffect(() => {
-        if (value === getUrlQueryParams("q", "productos/busqueda")) return
+        if (value === getUrlQueryParams("search", "productos/busqueda")) return
         const timeout = setTimeout(() => {
-            router.navigate(`/productos/busqueda?q=${value}`)
+            router.navigate(`/productos/busqueda?search=${value}`)
             fn()
         }, 500);
         return () => {
