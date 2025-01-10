@@ -11,6 +11,7 @@ type Actions = {
     changeQuantity: { quantity: number, id: string }
     addProducts: Array<ShopcartProductSchema.BaseInShopcart>
     changeExpired: number | null
+    reset:undefined
 }
 
 const shopcartReducer = createReducer<ShopcartEdit, Actions>({
@@ -59,6 +60,10 @@ const shopcartReducer = createReducer<ShopcartEdit, Actions>({
         changeExpired(state, payload) {
             state.expired_at = payload
         },
+        reset(state){
+         state.products = []
+         state.expired_at = null
+        }
     }
 })
 

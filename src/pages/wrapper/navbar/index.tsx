@@ -1,12 +1,12 @@
+import imgBrand from "@assets/Olga hats.jpg"
 import { NavbarBrand, NavbarContent, Navbar as NavbarUI } from "@nextui-org/react"
 import { memo, useEffect, useRef, useState } from "react"
+import NavbarAccount from "./account"
+import NavbarAccountDirection from "./account-direction"
 import NavbarMenu from "./menu"
 import NavbarNavigation from "./navigation"
 import NavbarProductSearch from "./product-search"
-import NavbarAccount from "./account"
 import NavbarShopCart from "./shopcart"
-import imgBrand from "@assets/Olga hats.jpg"
-import NavbarClientDirection from "./client-direction"
 
 const NavBar = memo(() => {
     const ref = useRef<HTMLDivElement>(null)
@@ -63,7 +63,7 @@ const NavBar = memo(() => {
                     <NavbarProductSearch />
                     <NavbarAccount />
                     <NavbarShopCart />
-                    <NavbarClientDirection/>
+                    <NavbarAccountDirection />
                 </NavbarContent>
             </NavbarUI>
         </>

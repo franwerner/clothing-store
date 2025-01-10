@@ -1,22 +1,20 @@
-import useConfirmationEmail from "@/api/hook/users/register/useConfirmationEmail.register"
+import useConfirmationEmail from "@/pages/account/api/useConfirmationEmail.api"
 import { Spinner } from "@nextui-org/react"
 import { useEffect } from "react"
 import { useSearchParams } from "react-router"
 
 const ConfirmationEmail = () => {
     const [params] = useSearchParams()
-    const [_, { setRequest }] = useConfirmationEmail(params.get("token") || "")
+    const { setRequest, isLoading } = useConfirmationEmail(params.get("token") || "")
 
     useEffect(() => {
         setRequest()
     }, [])
 
-    return (
-        <div className="w-full flex flex-col gap-2  flex-1 justify-center items-center">
-            <Spinner color="secondary" size="lg" />
-            <p className="uppercase text-xl">Verificando token...</p>
-        </div>
-    )
+    return isLoading && <div className="w-full flex flex-col gap-2  flex-1 justify-center items-center">
+        <Spinner color="secondary" size="lg" />
+        <p className="uppercase text-xl">Verificando token...</p>
+    </div>
 }
 
 export default ConfirmationEmail

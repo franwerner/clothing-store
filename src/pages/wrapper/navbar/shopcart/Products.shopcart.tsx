@@ -1,5 +1,5 @@
-import useShopcartChangeProductQuantity from "@/api/hook/users/shopcart/useChangeProductQuantity.shopcart";
-import useShopcartRemoveProduct from "@/api/hook/users/shopcart/useRemoveProduct.shopcart";
+import useShopcartChangeProductQuantity from "@/api/shopcart/useChangeProductQuantity.api";
+import useShopcartRemoveProduct from "@/api/shopcart/useRemoveProduct.api";
 import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import { Button, Image, Spinner } from "@nextui-org/react";
@@ -22,13 +22,13 @@ const Product = memo(({
     const priceWithQuantity = price * quantity
     const calculateDiscount = priceWithQuantity * (discount / 100)
 
-    const [{ isLoading: changeLoading }, { setRequest }] = useShopcartChangeProductQuantity()
+    const { isLoading: changeLoading, setRequest: change } = useShopcartChangeProductQuantity()
 
-    const [{ isLoading: removeLoading }, remove] = useShopcartRemoveProduct(id)
+    const { isLoading: removeLoading, setRequest: remove } = useShopcartRemoveProduct(id)
 
     const quantityHandler = (newQuantity: number) => {
         if (quantity + newQuantity <= 0) return
-        setRequest({
+        change({
             body: {
                 product: {
                     id,
@@ -118,7 +118,7 @@ const Product = memo(({
 
             <Button
                 isIconOnly
-                onPress={() => remove.setRequest()}
+                onPress={() => remove()}
                 isLoading={removeLoading}
                 className="material-symbols-outlined bg-transparent text-2xl z-10 text-end absolute right-0 top-0 p-1 cursor-pointer transition duration-100 active:scale-90"
                 aria-label="remove product"

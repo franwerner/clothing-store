@@ -1,38 +1,38 @@
-import useUpdateInfoUser from "@/api/hook/users/account/useUpdateInfo.account"
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import useForm from "@/hooks/useForm.hook"
+import useUpdateInfoUser from "@/pages/account/info/api/useUpdateInfo.api"
 import router from "@/router"
 import { useSelector } from "@/store"
-import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
-import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
 import classNames from "classnames"
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import useInfoForm from "./hook/useInfoForm.hook"
 import InfoList from "./List.info"
 import InfoModalAuth from "./ModalAuth.info"
+import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 
 const AccountInfo = () => {
-    const { expired_at, isAuthorized } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
-    const [{ isLoading, response }, { setRequest }] = useUpdateInfoUser()
+    const [isEditing, setisEditing] = useState(false)
     const { fullname, phone, email } = useSelector(({ user }) => user.info) || {}
-    const { form, onChange, setValue } = useForm({
-        fullname,
-        phone,
+
+    const { form, onChange, isFormIncomplete, setValue } = useInfoForm({
+        fullname: fullname ?? "",
+        phone: phone ?? "",
         password: ""
     })
-    const body = removePropertiesByValues(form, [fullname, phone, "", undefined])
-    const isContainKeys = Object.keys(body).length > 0
-    const [isOpen, setIsOpen] = useState(false)
-    const [isEdit, setIsEdit] = useState(false)
-    useLayoutEffect(() => {
+
+    const body = removePropertiesByValues({
+        fullname: form.fullname.value,
+        password: form.password.value,
+        phone: form.phone.value
+    }, [fullname, phone, "", undefined])
+
+    const { isLoading, setRequest } = useUpdateInfoUser(body)
+
+    useEffect(() => {
         if (!email) router.navigate("/cuenta/ingresar")
     }, [])
-    const openModalHandler = () => {
-        setIsOpen(prev => !prev)
-    }
-    const editHandler = () => {
-        setIsEdit(prev => !prev)
-    }
+
+    const isContainsChanges = Object.keys(body).length > 0
 
     return (
         <>
@@ -40,57 +40,48 @@ const AccountInfo = () => {
                 className="max-sm:[&_.animatedTitle]:text-2xl"
                 title="Información de la cuenta" />
             {
-                isEdit && <span
+                isEditing && <span
                     onClick={() => {
-                        setIsEdit(false)
+                        setisEditing(false)
                     }}
                     className="material-symbols-outlined absolute hover:scale-90 cursor-pointer right-0 top-12">
                     close
                 </span>
             }
             <InfoList
-                data={isZodErrorResponse(response) ? response.result.data : []}
                 onChange={onChange}
                 form={form}
-                isEdit={isEdit} />
+                isEditing={isEditing} />
             <ActionButton
                 className={classNames(
                     "bg-primary-400", {
-                    "bg-success-400": isEdit,
-                    "opacity-50  pointer-events-none": !isContainKeys && isEdit
+                    "bg-success-400": isEditing,
+                    "opacity-50  pointer-events-none": !isContainsChanges && isEditing
+
                 })}
                 startContent={
                     <p className="flex gap-2 items-center">
-                        {isEdit ? "Guardar cambios" : "Editar información"}
+                        {isEditing ? "Guardar cambios" : "Editar información"}
                         {
                             !isLoading && <span className={"material-symbols-outlined"}>
-                                {isEdit ? "cloud_upload" : "edit"}
+                                {isEditing ? "cloud_upload" : "edit"}
                             </span>
                         }
                     </p>
                 }
                 isLoading={isLoading}
                 onPress={() => {
-                    if (isEdit) {
+                    if (isEditing && !isFormIncomplete() && isContainsChanges) {
                         setRequest({
-                            body,
                             onSuccess: () => {
                                 setValue("password", "")
                             }
                         })
-                    } else if (Date.now() > expired_at || !isAuthorized) {
-                        setIsOpen(true)
                     }
-                    else {
-                        setIsEdit(true)
-                    }
+                    setisEditing(true)
                 }}>
             </ActionButton>
-            {
-                isOpen && <InfoModalAuth
-                    editHandler={editHandler}
-                    openModalHandler={openModalHandler} />
-            }
+            <InfoModalAuth />
         </>
     )
 }

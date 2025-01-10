@@ -36,15 +36,15 @@ const UseGetProductsPreview = () => {
                setProducts(prev => [...prev, ...products])
 
           },
-          onFailed: ({ result }) => {
-               const { code } = result
+          onFailed: ({ result_error }) => {
+               const { code } = result_error
                if (code === "product_not_found") {
                     setHastMoreData(false)
                }
           }
      })
 
-     const [{ isLoading }, { setRequest }] = res
+     const {isLoading,setRequest} = res
 
      const loadMoreProducts = (offset: number = products.length) => {
           const { brand, category, color, price, size, sortDirection, sortField, search } = querysParams

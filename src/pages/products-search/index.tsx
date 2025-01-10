@@ -7,7 +7,6 @@ import { ScrollRestoration } from "react-router"
 
 const ProductsSearchPage = () => {
 
-
   return (
     <PageWrapper>
       <AnimatedTitle

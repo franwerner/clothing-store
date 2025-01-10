@@ -7,7 +7,7 @@ import ProductImages from "./Images.product-fullview";
 import ProductFullViewInfo from "./Info.product-fullview";
 import ProductFullViewQuantity from "./Quantity.product-fullview";
 import ProductFullViewSizes from "./Sizes.product-fullview";
-import useShopcartAddProducts from "@/api/hook/users/shopcart/useAddProducts.shopcart";
+import useShopcartAddProducts from "@/api/shopcart/useAddProducts.api";
 import useGetProductFullview from "./api/useGetProductFullview.api";
 import LoadPage from "@/components/LoadPage";
 import { ProductFullview } from "clothing-store-shared/types";
@@ -28,7 +28,7 @@ const Details = ({ colors, product }: ProductFullview.Base) => {
 
     const { stock, size_id } = sizes[size]
 
-    const [{ isLoading }, { setRequest }] = useShopcartAddProducts([{
+    const {isLoading,setRequest} = useShopcartAddProducts([{
         color_fk: color.color_id,
         product_fk: product.product_id,
         size_fk: size_id,

@@ -1,4 +1,4 @@
-import ToggleContent from "@/components/ToggleContent";
+import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import classNames from "classnames";
 import { ProductColorPreview } from "clothing-store-shared/types";

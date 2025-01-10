@@ -1,6 +1,5 @@
-import ActionButtonIcon from "@/components/ActionButtonIcon";
 import useForm from "@/hooks/useForm.hook";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { memo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import classNames from "classnames";
@@ -11,7 +10,7 @@ const ProductsFilterPrice = memo(() => {
 
     const price = searchParams.get("price")
 
-    const [defaultMin, defaultMax ] = price ? price.split("-") : []
+    const [defaultMin, defaultMax] = price ? price.split("-") : []
 
     const verificateDefaultMax = Number(defaultMin) > Number(defaultMax) ? 0 : defaultMax
 
@@ -31,7 +30,7 @@ const ProductsFilterPrice = memo(() => {
 
     const max = Number(_max)
     const min = Number(_min)
-    
+
 
     return (
         <section
@@ -72,7 +71,9 @@ const ProductsFilterPrice = memo(() => {
                     variant="flat"
                 >
                 </Input>
-                <ActionButtonIcon
+                <Button
+                    isIconOnly
+                    className="material-symbols-outlined text-md bg-default-800 text-white "
                     onPress={() => {
                         const r = [Math.abs(min), Math.abs(max)]
                         if (min == 0 && max == 0) {
@@ -88,7 +89,7 @@ const ProductsFilterPrice = memo(() => {
                     }}
                 >
                     chevron_right
-                </ActionButtonIcon>
+                </Button>
             </div>
         </section>
     );

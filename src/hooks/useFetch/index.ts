@@ -1,4 +1,4 @@
-import { isFunction } from "my-utilities"
+import { isFunction, isObject } from "my-utilities"
 import { useEffect, useRef, useState } from "react"
 import useAbortSignal from "./useAbortSignal.useFetch"
 import useDelay from "./useDelay.useFetch"
@@ -8,11 +8,20 @@ import adaptParamsToUrl from "./utils/adaptParamsToUrl.utilts"
 import adaptQuerysToUrl from "./utils/adaptQuerysToUrl.utilts"
 
 declare namespace UseFetch {
-    interface Response<T = any> {
-        status?: number,
-        success?: boolean
-        result: T
+
+    interface SuccessResponse<T> {
+        success?: true
+        status?: number
+        result?: T
     }
+
+    interface FailedResponse<U> {
+        success?: false
+        status?: number
+        result_error?: U
+    }
+
+    type Response<T = any, U = any> = Omit<SuccessResponse<T> & FailedResponse<U>, "success"> & { success?: boolean }
 
     type QueryParams = { [key: string]: string | number | undefined | null | boolean }
 
@@ -20,12 +29,13 @@ declare namespace UseFetch {
         target?: string,
         basename?: string
         query?: QueryParams,
-        onSuccess?: (response: Response<T>) => void
-        onFailed?: (response: Response<U>) => void
+        onSuccess?: (response: Required<SuccessResponse<T>>) => void
+        onFailed?: (response: Required<FailedResponse<U>>) => void
         body?: { [key: string]: any }
         delay?: number,
         params?: QueryParams
     }
+
 
     type SetRequestProps<T, U> = Omit<Partial<Props<T, U>>, "target" | "basename">
 }
@@ -76,14 +86,15 @@ const useFetch = <T extends object = {}, U extends object = {}>({
      */
     const { cleanDelay, createDelay } = useDelay()
     const [isLoading, setLoading] = useState<boolean>(false)
-    const [response, setResponse] = useState<UseFetch.Response<T | U>>({
-        result: {} as T | U,
+    const [response, setResponse] = useState<UseFetch.Response<T, U>>({
+        result: undefined,
+        result_error: undefined,
         success: undefined,
         status: undefined
     })
     const setRequest = (props: UseFetch.SetRequestProps<T, U> = {}) => {
         const currentProps = unifyProps(request, props)
-        const { target = "/", query, onSuccess, onFailed, body = {}, params = {}, delay, method = "GET", basename, ...rest } = currentProps
+        const { target = "/", query, onSuccess, onFailed, body = {}, params = {}, delay, method = "GET", basename = "", ...rest } = currentProps
         abortSignal()
         createDelay(async () => {
             createSignal()
@@ -101,25 +112,37 @@ const useFetch = <T extends object = {}, U extends object = {}>({
                     })
 
                     const json = await res.json() //Si la señal se aborta, inclusive despues de que el fetch se resuelvan esto dara error.
-                    const response = {
-                        result: json,
+
+                    if (!res.ok) throw {
                         status: res.status,
-                        success: res.ok,
+                        result_error: json,
+                    }
+
+                    const response: Required<UseFetch.SuccessResponse<T>> = {
+                        status: res.status,
+                        success: true,
+                        result: json,
                     }
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return
-                    isFunction(onSuccess) && res.ok && onSuccess(response)
-                    isFunction(onFailed) && !res.ok && onFailed(response)
-
-                    setResponse(response)
-                } catch (error: any) {
+                    isFunction(onSuccess) && onSuccess(response)
+                    setResponse({
+                        ...response,
+                        result_error: undefined
+                    })
+                } catch (error: unknown) {
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return
-                    const response = {
-                        result: {} as U,
-                        status: error === "abort-cleanup" ? undefined : 500,
+
+                    const isFailedResponse = (isObject(error) ? error : {}) as Required<UseFetch.FailedResponse<U>>
+                    const response: Required<UseFetch.FailedResponse<U>> = {
+                        result_error: isFailedResponse.result_error ?? {},
+                        status: isFailedResponse.status ?? 500,
                         success: false
                     }
-                    setResponse(response)
                     isFunction(onFailed) && onFailed(response)
+                    setResponse({
+                        ...response,
+                        result: undefined
+                    })
                 }
                 finally {
                     if (!ref.current.is_mounting || context_id !== ref.current.request_id) return
@@ -139,15 +162,11 @@ const useFetch = <T extends object = {}, U extends object = {}>({
         }
     }, [])
 
-    return [
-        {
-            isLoading,
-            response,
-        },
-        {
-            setRequest,
-        }
-    ] as const
+    return {
+        isLoading,
+        response,
+        setRequest,
+    }
 }
 
 

@@ -1,9 +1,9 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import useRequestEmailVerification from "@/api/hook/users/register/useRequestVerificationEmail.register"
+import useRequestEmailVerification from "@/pages/account/api/useRequestVerificationEmail.api"
 import router from "@/router"
 import { useSelector } from "@/store"
-import { isRateLimiterResponse } from "@/utils/verifyResponsesData.utilts"
+import { getRateLimiterData } from "@/utils/getResponseData.utilts"
 import { motion } from "framer-motion"
 import { useEffect } from "react"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
@@ -14,13 +14,15 @@ import TokenResetTimeCounter from "@/components/TokenResetTimeCounter"
 const AccountRequestEmailVerification = () => {
     const { email_confirmed, email } = useSelector((store) => store.user.info) ?? { email: "", email_confirmed: true }
 
-    const [{ isLoading, response }, { setRequest }] = useRequestEmailVerification()
+    const {isLoading,response,setRequest} = useRequestEmailVerification()
 
     useEffect(() => {
         if (email_confirmed || !email) router.navigate("/")
     }, [])
 
-    const data = response.result.data
+    const {code} = response.result_error ?? {} 
+    
+    const data = getRateLimiterData(response)
 
     return (
         <>
@@ -45,7 +47,7 @@ const AccountRequestEmailVerification = () => {
                     isLoading={isLoading}>
                     Reenviar
                 </ActionButton>
-                {isRateLimiterResponse(response) && <TokenResetTimeCounter minutes={data.minutes} seconds={data.seconds} />}
+                { code === "rate_limit" && <TokenResetTimeCounter minutes={data.minutes} seconds={data.seconds} />}
 
             </motion.section>
         </>

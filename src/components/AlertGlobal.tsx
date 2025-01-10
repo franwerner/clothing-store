@@ -4,7 +4,6 @@ import { createPortal } from "react-dom"
 
 type AlertProps = Pick<NextuiAlertProps, "severity" | "variant" | "color" | "title"> & { text?: any }
 
-
 const AlertContext = createContext<(props: AlertProps) => void>(() => { })
 
 const useAlertContext = () => useContext(AlertContext)
@@ -48,10 +47,17 @@ const AlertGlobal = ({ children }: { children: ReactNode }) => {
             {
                 createPortal(
                     <div
-                        className="fixed bottom-5 [&_div]:m-1 z-[999999999] right-5"
+                        className="fixed bottom-5 [&_div]:m-1 z-[999999999] left-5"
                         id="alert-container">
                         {
-                            alerts.map(({ color, severity = "info", title = "", variant = "solid", id, text = "" }) => {
+                            alerts.map(({
+                                color,
+                                severity = "info",
+                                title = "",
+                                variant = "solid",
+                                id,
+                                text = ""
+                            }) => {
                                 return (
                                     <NextuiAlert
                                         key={id}

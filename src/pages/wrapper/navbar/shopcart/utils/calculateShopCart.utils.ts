@@ -1,8 +1,6 @@
-import Shipping from "@/interfaces/Shipping.interfaces"
-import { ProductInShopcart } from "clothing-store-shared/types"
+import { ShopcartProductSchema } from "clothing-store-shared/schema"
 
-
-const calculateShopCart = ({ freeShipping, shipping }: Shipping, products?: Array<ProductInShopcart>) => {
+const calculateShopCart = ({ freeShipping, shipping }: Shipping, products?: Array<ShopcartProductSchema.BaseInShopcart>) => {
     const total = (products || []).reduce((acc, { discount = 0, price, quantity }) => {
         const priceWithQuantity = price * quantity
         const calculateDiscount = priceWithQuantity * (discount / 100)

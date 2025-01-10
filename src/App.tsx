@@ -7,8 +7,8 @@ import 'swiper/css/pagination';
 import './App.css';
 import router from './router';
 import { ObserverStore } from "./store";
-import HydrateApp from "./components/hydrateApp";
 import AlertGlobal from "./components/AlertGlobal";
+import HydrateApp from "./components/HydrateApp";
 
 
 function App() {
@@ -18,8 +18,7 @@ function App() {
         <AlertGlobal>
           <ObserverStore>
             <HydrateApp>
-              <RouterProvider router={router}>
-              </RouterProvider>
+              <RouterProvider router={router} />
             </HydrateApp>
           </ObserverStore>
         </AlertGlobal>

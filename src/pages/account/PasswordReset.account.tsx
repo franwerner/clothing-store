@@ -1,33 +1,31 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
-import usePasswordReset from "@/api/hook/users/account/usePasswordReset.account"
 import useForm from "@/hooks/useForm.hook"
+import usePasswordReset from "@/pages/account/api/usePasswordReset.api"
 import router from "@/router"
-import groupZodData from "@/utils/groupZodData.utilts"
-import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
 import { motion } from "framer-motion"
 import { useLayoutEffect } from "react"
 import { useSearchParams } from "react-router"
-import AccountAnimationVariant from "./constant/animationVariant.contant"
 import BaseAccountForm from "./components/BaseAccountForm"
+import AccountAnimationVariant from "./constant/animationVariant.contant"
+import usePasswordResetForm from "./hook/usePasswordReset.hook"
 
 const AccountPasswordReset = () => {
 
     const [params] = useSearchParams()
     const token = params.get("token") || ""
     const email = params.get("email")
-    const { onChange, form } = useForm({ password: "", confirm_password: "" })
-    const [{ isLoading, response }, { setRequest }] = usePasswordReset({ token, password: form.password })
+    const { onChange, form, isFormIncomplete } = usePasswordResetForm()
+    const { confirm_password, password } = form
+    const { isLoading, setRequest } = usePasswordReset({ token, password: password.value })
 
     useLayoutEffect(() => {
         if (!token || !email) router.navigate("/cuenta")
     }, [])
 
-    const group = isZodErrorResponse(response) ? groupZodData(response.result.data) : {}
-
     const passwordResetHandler = () => {
-        if (form.confirm_password !== form.password) return
+        if (isFormIncomplete()) return
         setRequest()
     }
 
@@ -54,11 +52,11 @@ const AccountPasswordReset = () => {
                         isRequired
                         autoComplete="off"
                         label={"Contraseña"}
-                        isInvalid={!!group.password}
+                        isInvalid={password.hasError}
                         errorMessage={<div>
-                            {group.password && group.password.map((i) => <p key={i}>* {i}</p>)}
+                            {password.errors && password.errors.map((i) => <p key={i}>* {i}</p>)}
                         </div>}
-                        value={form.password}
+                        value={password.value}
                     />
                     <BaseInput
                         placeholder="Olgahats-2525"
@@ -67,15 +65,16 @@ const AccountPasswordReset = () => {
                         autoComplete="off"
                         name={"confirm_password"}
                         isRequired
-                        isInvalid={form.confirm_password !== form.password}
+                        isInvalid={confirm_password.hasError}
                         errorMessage={"* Las contraseñas deben ser iguales."}
                         label={"Confirmar contraseña"}
-                        value={form.confirm_password}
+                        value={confirm_password.value}
                     />
                 </BaseAccountForm>
                 <ActionButton
+                    isDisabled={isFormIncomplete()}
                     isLoading={isLoading}
-                    onClick={() => passwordResetHandler()}>
+                    onPress={() => passwordResetHandler()}>
                     Enviar cambio
                 </ActionButton>
             </motion.section>

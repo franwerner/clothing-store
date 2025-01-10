@@ -1,4 +1,3 @@
-import useLogin from "@/api/hook/users/useLogin.users"
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
@@ -7,6 +6,7 @@ import router from "@/router"
 import { motion } from "framer-motion"
 import BaseAccountForm from "./components/BaseAccountForm"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
+import useLogin from "./api/useLogin.api"
 
 interface LoginFormProps {
     email: string
@@ -17,9 +17,9 @@ const AccountLogin = () => {
 
     const { form, onChange } = useForm<LoginFormProps>({ email: "", password: "" });
 
-    const [{ isLoading, response }, { setRequest }] = useLogin(form)
+    const { isLoading, response, setRequest } = useLogin(form)
 
-    const { result } = response
+    const { code, message } = response.result_error ?? {}
 
     return (
         <>
@@ -44,9 +44,9 @@ const AccountLogin = () => {
                             labelPlacement="inside"
                             onChange={onChange}
                             autoComplete="username"
-                            isInvalid={result.code == "email_not_found"}
+                            isInvalid={code == "email_not_found"}
                             value={form.email}
-                            errorMessage={result.message}
+                            errorMessage={message}
                             name="email"
                         />
                         <BaseInput
@@ -54,8 +54,8 @@ const AccountLogin = () => {
                             name="password"
                             autoComplete="current-password"
                             labelPlacement="inside"
-                            isInvalid={result.code == "wrong_password"}
-                            errorMessage={result.message}
+                            isInvalid={code == "wrong_password"}
+                            errorMessage={message}
                             value={form.password}
                             label="contraseña"
                             type="password"

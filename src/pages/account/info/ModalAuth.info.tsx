@@ -1,44 +1,39 @@
-import useUpdateInfoUserAuth from "@/api/hook/users/account/useUpdateInfoAuth.account"
+import useUpdateInfoUserAuth from "@/pages/account/info/api/useUpdateInfoAuth.api"
 import ActionButton from "@/components/ActionButton"
 import BaseInput from "@/components/BaseInput"
 import useForm from "@/hooks/useForm.hook"
 import { Modal, ModalBody, ModalContent, ModalFooter } from "@nextui-org/react"
+import { useSelector } from "@/store"
 
-interface InfoModalAuthProps {
-    openModalHandler: () => void
-    editHandler: () => void
-}
+const InfoModalAuth = () => {
+    const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
+    const { form, onChange, setValue } = useForm({ password: "" })
+    const { isLoading, response, setRequest } = useUpdateInfoUserAuth(form.password)
+    const { code, message } = response.result_error ?? {}
 
-const InfoModalAuth = ({
-    openModalHandler,
-    editHandler
-}: InfoModalAuthProps) => {
-
-    const { form, onChange } = useForm({ password: "" })
-    const [{ isLoading, response }, { setRequest }] = useUpdateInfoUserAuth(form.password)
-
-    const { code, message } = response.result
+    const authenticate = () => {
+        setRequest({
+            onSuccess: () => {
+                setValue("password", "")
+            }
+        })
+    }
 
     return (
         <Modal
             placement="center"
             backdrop="opaque"
+            hideCloseButton
             classNames={{
                 closeButton: "self-end"
             }}
-            onClose={openModalHandler}
-            isOpen>
-            <ModalContent className="">
+            isOpen={!isAuthorized || Date.now() > expired_at}>
+            <ModalContent >
                 <ModalBody>
                     <BaseInput
                         onKeyUp={({ key }) => {
                             if (key === "Enter") {
-                                setRequest({
-                                    onSuccess : () => {
-                                        openModalHandler()
-                                        editHandler()
-                                    }
-                                })
+                                authenticate()
                             }
                         }}
                         onChange={onChange}
@@ -55,9 +50,9 @@ const InfoModalAuth = ({
                 </ModalBody>
                 <ModalFooter className="p-1 pb-4">
                     <ActionButton
-                        onClick={() => setRequest()}
+                        onPress={() => authenticate()}
                         isLoading={isLoading}>
-                        Validar actualización
+                        Autenticar
                     </ActionButton>
                 </ModalFooter>
             </ModalContent>

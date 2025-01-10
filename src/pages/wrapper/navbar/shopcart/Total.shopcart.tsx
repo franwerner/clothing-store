@@ -1,10 +1,9 @@
-import Shipping from "@/interfaces/Shipping.interfaces";
 import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import { Progress } from "@nextui-org/react";
 import calculateShopCart from "./utils/calculateShopCart.utils";
 
-const shippingMock: Shipping = {
+const shippingMock = {
     freeShipping: 100000,
     shipping: 0
 }

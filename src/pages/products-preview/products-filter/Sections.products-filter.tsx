@@ -1,4 +1,4 @@
-import ToggleContent from "@/components/ToggleContent";
+import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent";
 import router from "@/router";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import { Link } from "@nextui-org/react";

@@ -13,9 +13,9 @@ const infoList = [
         subtitle: "Disfruta del envío gratuito en compras mayores a $9000,30."
     },
     {
-        icon: "percent",
-        title: "Descuento por transferencia",
-        subtitle: "Obtén un 10% de descuento al pagar con transferencia."
+        icon: "local_atm",
+        title: "mercadopago",
+        subtitle: "Realiza tus pagos de forma segura con la integración de Mercado Pago."
     },
 ];
 

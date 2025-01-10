@@ -24,22 +24,30 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
             "Content-type": "application/json"
         },
         onFailed: (response) => {
-            const code = response.result.code
-            if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip", "token_not_found"].includes(code))) {
-                alertHandler({ severity: "warning", text: response.result.message })
+            const { code, message } = response.result_error ?? {}
+            if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip"].includes(code))) {
+                alertHandler({ severity: "warning", text: message })
             }
             else if (code === "session_expired") {
-                alertHandler({ severity: "info", text: response.result.message })
+                alertHandler({ severity: "info", text: message })
                 localStorageHandler.removeItem("userHasLoggedIn")
                 dispatch(({ user }) => user.remove())
                 router.navigate("/cuenta/ingresar")
             }
-            else if (isNumber(response.status) && response.status >= 500 || code === "session_unauthorized") {
+            else if (isNumber(response.status) && response.status >= 500) {
                 alertHandler({ severity: "danger", title: "Servidor no responde.", text: response.status })
             } else if (code === "session_unauthorized") {
-                router.navigate("/")
+                router.navigate("/cuenta/reenviar")
+                alertHandler({ severity: "info", text: message })
             }
-            isFunction(onFailed) && onFailed(response)
+            if (code === "token_not_found") {
+                router.navigate("/")
+                alertHandler({ severity: "warning", text: message })
+            }
+            else {
+                isFunction(onFailed) && onFailed(response)
+            }
+
         },
         ...props
     })

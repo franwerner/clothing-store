@@ -1,31 +1,18 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
-import useRegister from "@/api/hook/users/register/useRegister.register"
-import useForm from "@/hooks/useForm.hook"
+import { FormValidation } from "@/hooks/useValidationFom.hook"
+import useRegister from "@/pages/account/api/useRegister.api"
 import router from "@/router"
-import groupZodData from "@/utils/groupZodData.utilts"
-import { isZodErrorResponse } from "@/utils/verifyResponsesData.utilts"
-import { UserSchema } from "clothing-store-shared/schema"
-import { ResponseDataZodInError } from "clothing-store-shared/types"
 import { motion } from "framer-motion"
 import { ChangeEventHandler, KeyboardEventHandler } from "react"
-import AccountAnimationVariant from "./constant/animationVariant.contant"
 import BaseAccountForm from "./components/BaseAccountForm"
-
-interface LoginFormProperties {
-    fullname: string
-    email: string
-    phone: string
-    password: string
-    confirm_password: string
-}
-
+import AccountAnimationVariant from "./constant/animationVariant.contant"
+import useRegisterForm, { RegisterFormProps } from "./hook/useRegisterForm.hook"
 interface FormProps {
     onKeyUp: KeyboardEventHandler<HTMLFormElement>
-    form: LoginFormProperties
+    form: FormValidation<RegisterFormProps>
     onChange: ChangeEventHandler<HTMLInputElement>
-    data?: ResponseDataZodInError<UserSchema.Insert>
 }
 
 const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
@@ -36,9 +23,9 @@ const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
     )
 }
 
-const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
+const Form = ({ form, onChange, onKeyUp }: FormProps) => {
 
-    const group = groupZodData(data)
+    const { confirm_password, email, fullname, password, phone } = form
 
     return (
         <BaseAccountForm
@@ -50,10 +37,10 @@ const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
                 onChange={onChange}
                 name={"fullname"}
                 isRequired
-                isInvalid={!!group.fullname}
-                errorMessage={<InputErrorMessage messages={group.fullname} />}
+                isInvalid={fullname.hasError}
+                errorMessage={<InputErrorMessage messages={fullname.errors} />}
                 label={"Nombre y apellido"}
-                value={form.fullname}
+                value={fullname.value}
             />
             <BaseInput
                 placeholder="tucorreo@ejemplo.com"
@@ -62,9 +49,9 @@ const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
                 name={"email"}
                 isRequired
                 label={"Correo electronico"}
-                isInvalid={!!group.email}
-                errorMessage={<InputErrorMessage messages={group.email} />}
-                value={form.email}
+                isInvalid={email.hasError}
+                errorMessage={<InputErrorMessage messages={email.errors} />}
+                value={email.value}
             />
             <BaseInput
                 placeholder="+54 9 11 2345-6789"
@@ -72,9 +59,9 @@ const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
                 onChange={onChange}
                 name={"phone"}
                 label={"Telefono"}
-                isInvalid={!!group.phone}
-                errorMessage={<InputErrorMessage messages={group.phone} />}
-                value={form.phone}
+                isInvalid={phone.hasError}
+                errorMessage={<InputErrorMessage messages={phone.errors} />}
+                value={phone.value}
             />
             <BaseInput
                 placeholder="Olgahats-2525"
@@ -84,9 +71,9 @@ const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
                 isRequired
                 autoComplete="off"
                 label={"Contraseña"}
-                isInvalid={!!group.password}
-                errorMessage={<InputErrorMessage messages={group.password} />}
-                value={form.password}
+                isInvalid={password.hasError}
+                errorMessage={<InputErrorMessage messages={password.errors} />}
+                value={password.value}
             />
             <BaseInput
                 placeholder="Olgahats-2525"
@@ -95,31 +82,29 @@ const Form = ({ form, onChange, data, onKeyUp }: FormProps) => {
                 autoComplete="off"
                 name={"confirm_password"}
                 isRequired
-                isInvalid={form.confirm_password !== form.password}
-                errorMessage={"* Las contraseñas deben ser iguales."}
+                isInvalid={confirm_password.hasError}
+                errorMessage={<InputErrorMessage messages={confirm_password.errors} />}
                 label={"Confirmar contraseña"}
-                value={form.confirm_password}
+                value={confirm_password.value}
             />
 
         </BaseAccountForm>
     )
 }
 
-
 const AccountRegister = () => {
 
-    const { form, onChange } = useForm<LoginFormProperties>({ fullname: "", email: "", phone: "", password: "", confirm_password: "" })
+    const { form, isFormIncomplete, onChange } = useRegisterForm()
 
-    const { email, fullname, password, phone } = form
-    const [{ isLoading, response }, { setRequest }] = useRegister({
-        email,
-        fullname,
-        password,
-        phone
+    const { isLoading, setRequest } = useRegister({
+        email: form.email.value,
+        fullname: form.fullname.value,
+        password: form.password.value,
+        phone: form.phone.value
     })
 
     const onRegister = () => {
-        if (form.password !== form.confirm_password) return
+        if (isFormIncomplete()) return
         setRequest()
     }
 
@@ -135,6 +120,7 @@ const AccountRegister = () => {
                 }}
                 className=" w-full items-start flex flex-col gap-6  justify-center"
             >
+
                 <Form
                     form={form}
                     onKeyUp={(e) => {
@@ -142,7 +128,6 @@ const AccountRegister = () => {
                             onRegister()
                         }
                     }}
-                    data={isZodErrorResponse(response) ? response.result.data : undefined}
                     onChange={onChange}
                 />
                 <p className="w-full text-center">
@@ -155,7 +140,7 @@ const AccountRegister = () => {
                 </p>
 
                 <ActionButton
-                    onClick={() => {
+                    onPress={() => {
                         onRegister()
                     }}
                     isLoading={isLoading}

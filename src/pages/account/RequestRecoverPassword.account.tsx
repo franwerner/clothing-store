@@ -4,18 +4,20 @@ import BaseInput from "@/components/BaseInput"
 import useForm from "@/hooks/useForm.hook"
 import { motion } from "framer-motion"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
-import useRequestPasswordReset from "@/api/hook/users/account/useRequestRecoverPasswordRequest.account"
 import TokenResetTimeCounter from "@/components/TokenResetTimeCounter"
-import { isRateLimiterResponse } from "@/utils/verifyResponsesData.utilts"
+import useRequestPasswordReset from "./api/useRequestRecoverPasswordRequest.api"
+import { getRateLimiterData } from "@/utils/getResponseData.utilts"
 
 
 const AccountRequestRecoverPassword = () => {
 
     const { form, onChange } = useForm({ email: "" })
 
-    const [{ isLoading, response }, { setRequest }] = useRequestPasswordReset(form.email)
+    const { isLoading, response, setRequest } = useRequestPasswordReset(form.email)
 
-    const { result } = response
+    const { code } = response.result_error ?? {}
+    
+    const data = getRateLimiterData(response)
 
     return (
         <>
@@ -44,11 +46,11 @@ const AccountRequestRecoverPassword = () => {
                 >
                 </BaseInput>
                 <ActionButton
-                    onClick={() => setRequest()}
+                    onPress={() => setRequest()}
                     isLoading={isLoading}>
                     Solicitar cambio
                 </ActionButton>
-                {isRateLimiterResponse(response) && <TokenResetTimeCounter minutes={result.data.minutes} seconds={result.data.seconds} />}
+                {code === "rate_limit" && <TokenResetTimeCounter minutes={data.minutes} seconds={data.seconds} />}
             </motion.section>
         </>
     )

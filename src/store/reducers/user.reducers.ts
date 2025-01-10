@@ -1,10 +1,11 @@
-import { UserSchema } from "clothing-store-shared/schema"
+import { UserAdresessSchema, UserSchema } from "clothing-store-shared/schema"
 import { EditAuth } from "clothing-store-shared/types"
 import { createReducer } from "react-observer-context"
 
 type State = {
     info?: UserSchema.FormatUser,
     edit_authorization?: EditAuth
+    adress?: UserAdresessSchema.Base
 }
 
 type Actions = {

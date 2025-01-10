@@ -1,4 +1,4 @@
-import ToggleContent from "@/components/ToggleContent"
+import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent"
 import classNames from "classnames"
 import { FC, memo, useCallback } from "react"
 import { SetURLSearchParams, useSearchParams } from "react-router"

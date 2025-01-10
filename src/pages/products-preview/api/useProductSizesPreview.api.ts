@@ -1,5 +1,4 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { isSuccessResponse } from "@/utils/verifyResponsesData.utilts"
 import { ProductPreview } from "clothing-store-shared/types"
 import { useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
@@ -16,7 +15,7 @@ const useProductSizesPreview = () => {
         category: params.category
     }
 
-    const [{ isLoading, response }, { setRequest }] = useFetchCustom<Array<ProductPreview.Size>>({
+    const {isLoading,response,setRequest} = useFetchCustom<Array<ProductPreview.Size>>({
         target: "products/view/preview/sizes",
         method: "GET"
     })
@@ -34,7 +33,7 @@ const useProductSizesPreview = () => {
 
     }, [JSON.stringify(queryParams)])
 
-    const is = isSuccessResponse(response) ? response.result.data : []
+    const is = response.result ? response.result.data : []
 
     return {
         isLoading,

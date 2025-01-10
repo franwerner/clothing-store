@@ -1,5 +1,5 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { isSuccessResponse } from "@/utils/verifyResponsesData.utilts"
+import { isSuccessResponse } from "@/utils/getResponseData.utilts"
 import { ProductFullview } from "clothing-store-shared/types"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -11,25 +11,25 @@ const useGetProductFullview = () => {
 
     const { category, brand, product } = params
 
-    const [{ isLoading, response }, { setRequest }] = useFetchCustom<ProductFullview.Base>({
+    const { isLoading, response, setRequest } = useFetchCustom<ProductFullview.Base>({
         target: "products/view/fullview",
         params: {
             brand,
             category,
             product
-        }
+        },
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         setRequest()
-    },[])
- 
-    const is = isSuccessResponse(response) ? response.result.data : {} as ProductFullview.Base
+    }, [])
+
+    const is = response.result ? response.result.data : ({} as ProductFullview.Base)
 
     return {
-        details : is,
-        success : response.success,
-        code : response.result.code,
+        details: is,
+        success: response.success,
+        code: response.result_error ? response.result_error.code : undefined,
         isLoading,
     }
 

@@ -1,5 +1,4 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { isSuccessResponse } from "@/utils/verifyResponsesData.utilts"
 import { ProductPreview } from "clothing-store-shared/types"
 import { useEffect } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
@@ -17,7 +16,7 @@ const useProductColorsPreview = () => {
         category: params.category
     }
 
-const [{ isLoading, response }, { setRequest }] = useFetchCustom<Array<ProductPreview.Color>>({
+const {isLoading,response,setRequest} = useFetchCustom<Array<ProductPreview.Color>>({
     target: "products/view/preview/colors",
     method: "GET"
 })
@@ -35,7 +34,7 @@ useEffect(() => {
 
 }, [JSON.stringify(queryParams)])
 
-const is = isSuccessResponse(response) ? response.result.data : []
+const is = response.result ? response.result.data : []
 
 return {
     isLoading,
