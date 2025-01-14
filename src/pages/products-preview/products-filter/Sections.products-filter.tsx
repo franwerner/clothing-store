@@ -1,11 +1,11 @@
-import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent";
 import router from "@/router";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import { Link } from "@nextui-org/react";
 import classNames from "classnames";
 import { memo } from "react";
-import useProductBrands from "../api/useProductBrands.api";
-import useProductCategories from "../api/useProductCategories.api";
+import useProductBrands from "./api/useProductBrands.api";
+import useProductCategories from "./api/useProductCategories.api";
+import ToggleContent from "./components/ToggleContent";
 
 interface ProductsFilterSectionsProps {
     title: string
@@ -41,7 +41,7 @@ const Elements = memo(({
     return <ToggleContent
         hiddenToggleButton={elements.length <= maxLength}
         id="aside-filter-categories"
-        as="section">
+        >
         <h3 className={classNames(
             "font-oswald text-default-700  uppercase pb-1 font-bold text-[18px]",
             {

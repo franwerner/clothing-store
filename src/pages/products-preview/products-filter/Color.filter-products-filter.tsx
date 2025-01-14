@@ -1,14 +1,13 @@
-import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent";
 import transformToUppercase from "@/utils/transformToUppercase.utils";
 import classNames from "classnames";
-import { ProductColorPreview } from "clothing-store-shared/types";
 import { memo, useCallback } from "react";
 import { SetURLSearchParams, useSearchParams } from "react-router";
-import useProductColorsPreview from "../api/useProductColorsPreview.api";
+import useProductColorsPreview from "./api/useProductColorsPreview.api";
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper";
+import { ProductPreview } from "clothing-store-shared/types";
+import ToggleContent from "./components/ToggleContent";
 
-
-const ColorItem = memo(({ setSearchParams, color, quantity, hexadecimal, isActive, color_id }: ProductColorPreview & { setSearchParams: SetURLSearchParams, isActive?: boolean }) => {
+const ColorItem = memo(({ setSearchParams, color, quantity, hexadecimal, isActive, color_id }: ProductPreview.Color & { setSearchParams: SetURLSearchParams, isActive?: boolean }) => {
 
     return (
         <li
@@ -51,7 +50,6 @@ const ProductsFilterColor = () => {
     return (
         <ToggleContent
             hiddenToggleButton={colors.length <= maxLength}
-            as="section"
             id="aside-filter-color">
             <h3 className={classNames(
                 "font-oswald   text-default-700 bg-tra uppercase pb-1  font-bold text-[18px]",

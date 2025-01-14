@@ -1,20 +1,21 @@
 import useOptimizationModal from "@/hooks/useOptimizationModal.hook";
+import { useSelector } from "@/store";
 import { Badge } from "@nextui-org/react";
 import { memo, useCallback, useState } from "react";
 import ShopcartModal from "./Modal.shopcart";
-import { useSelector } from "@/store";
 
 const Icon = memo(({ onShow }: { onShow: () => void }) => {
 
-    const productCount = useSelector(({ shopcart }) => shopcart.products.length) || 0
+    const products = useSelector(({ shopcart }) => shopcart.products) || []
 
+    const count = products.reduce((acc, current) => acc + current.quantity, 0)
     return (
         <div
             id="shopcart-bag"
             onClick={onShow}
             className="relative text- flex justify-center items-center cursor-pointer flex-col" >
             <Badge
-                content={`(${productCount})`}
+                content={`(${count})`}
                 classNames={{
                     badge: "text-[15px] "
                 }}

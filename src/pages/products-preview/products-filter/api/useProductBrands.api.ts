@@ -7,7 +7,7 @@ const useProductBrands = () => {
 
     const {brand} = useParams()
 
-    const {isLoading,response,setRequest} = useFetchCustom<Array<BrandSchema.Base>>({
+    const {isLoading,response,setRequest,clearSideEffects} = useFetchCustom<Array<BrandSchema.Base>>({
         target: "brands",
         method: "GET",
     })
@@ -15,6 +15,7 @@ const useProductBrands = () => {
     useEffect(() => {
         if(brand) return
         setRequest()
+        return clearSideEffects
     }, [brand])
 
     const is = response.result ? response.result.data : []

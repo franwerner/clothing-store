@@ -24,14 +24,14 @@ const useLogin = ({ email, password }: UseLoginFormProps) => {
         },
         onSuccess: (response) => {
             localStorageHandler.setItem({ userHasLoggedIn: true })
-            const { data } = response.result
+            const { data, message } = response.result
             dispatch(({ user }) => user.set(data))
             if (!data.email_confirmed) {
                 router.navigate("/cuenta/reenviar")
             } else {
                 router.navigate("/")
             }
-            alertHandler({ color: "success", text: response.result.message })
+            alertHandler({ color: "success", text: message })
 
         },
     })

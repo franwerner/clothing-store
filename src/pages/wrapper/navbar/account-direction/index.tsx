@@ -1,27 +1,38 @@
-import { memo, useCallback, useState } from "react"
-import ClientDirectionModal from "./Modal.client-direction"
+import { useSelector } from "@/store"
+import { memo, useState } from "react"
+import AccountDirectionModal from "./Modal.account-direction"
 
-const Icon = memo(({ onShow }: { onShow: () => void }) => (
-    <div
-        onClick={onShow}
-        className=" flex flex-col items-center -mt-1 cursor-pointer pl-1">
-        <span className="material-symbols-outlined text-[35px]">
-            distance
-        </span>
-        <small className="font-medium -mt-1 text-[16px]">3100</small>
-    </div>
-))
+const Icon = memo(({ onShow }: { onShow: () => void }) => {
+    const postal_code = useSelector(({ userAddress }) => userAddress.address?.postal_code) ?? ""
+    return (
+        <div
+            onClick={onShow}
+            className=" flex flex-col relative items-center -mt-1 cursor-pointer pl-1">
+            <span className="material-symbols-outlined text-[35px]">
+                distance
+            </span>
+            <small className="font-medium leading-4 text-[16px]">{postal_code}</small>
+        </div>
+    )
+})
+
 
 const NavbarAccountDirection = memo(() => {
 
     const [show, setShow] = useState(false)
 
-    const onShow = useCallback(() => setShow(prev => !prev), [])
+    const onShow = () => setShow(prev => !prev)
+
+    const { email_confirmed } = useSelector(({ user }) => user.info) || {}
 
     return (
         <>
-            <Icon onShow={onShow} />
-            <ClientDirectionModal onShow={onShow} show={show} />
+            {(email_confirmed || "") &&
+                <Icon onShow={onShow} />}
+            < AccountDirectionModal
+                onShow={onShow}
+                show={show && !!email_confirmed}
+            />
         </>
     )
 })

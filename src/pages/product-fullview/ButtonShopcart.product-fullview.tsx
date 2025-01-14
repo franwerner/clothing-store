@@ -1,7 +1,6 @@
-import { UseFetch } from "@/hooks/useFetch";
 import { Button } from "@nextui-org/react";
 import classNames from "classnames";
-
+import { UseFetch } from "my-hooks";
 interface ProductFullViewButtonShopcartProps {
     isDisabled: boolean,
     isLoading: boolean,

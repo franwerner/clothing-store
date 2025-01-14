@@ -3,7 +3,7 @@ import { Input } from "@nextui-org/react"
 import classNames from "classnames"
 import React, { ChangeEventHandler, memo } from "react"
 import { InfoFormProps } from "./hook/useInfoForm.hook"
-import { FormValidation } from "@/hooks/useValidationFom.hook"
+import { FormValidation } from "my-hooks"
 interface BaseItem {
     text: any
     icon: string
@@ -89,7 +89,7 @@ const InfoList = ({ form, isEditing, onChange }: InfoListProps) => {
             label: "Correo electrónico",
         },
         {
-            text: new Date(create_at || "").toISOString().replace("T", "  ").split(".")[0],
+            text: new Date(create_at || Date.now()).toISOString().replace("T", "  ").split(".")[0],
             icon: "calendar_month",
             label: "Fecha de creación",
         },

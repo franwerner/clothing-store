@@ -44,7 +44,7 @@ const UseGetProductsPreview = () => {
           }
      })
 
-     const {isLoading,setRequest} = res
+     const { isLoading, setRequest, clearSideEffects } = res
 
      const loadMoreProducts = (offset: number = products.length) => {
           const { brand, category, color, price, size, sortDirection, sortField, search } = querysParams
@@ -69,6 +69,7 @@ const UseGetProductsPreview = () => {
           loadMoreProducts(0)
           setProducts([])
           setHastMoreData(true)
+          return clearSideEffects
      }, [JSON.stringify(querysParams)])
 
 

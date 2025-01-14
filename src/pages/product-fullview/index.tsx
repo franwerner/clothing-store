@@ -28,7 +28,7 @@ const Details = ({ colors, product }: ProductFullview.Base) => {
 
     const { stock, size_id } = sizes[size]
 
-    const {isLoading,setRequest} = useShopcartAddProducts([{
+    const { isLoading, setRequest } = useShopcartAddProducts([{
         color_fk: color.color_id,
         product_fk: product.product_id,
         size_fk: size_id,
@@ -44,7 +44,7 @@ const Details = ({ colors, product }: ProductFullview.Base) => {
 
     const changeSize = useCallback(setSize, [])
 
-    const setQuantity = (value: number) => setValue("quantity", value)
+    const setQuantity = (value: number) => setValue(() => ({ quantity: value }))
 
     const emptyStock = !stock
 
@@ -97,14 +97,14 @@ const ProductNotFound = () => {
 }
 
 const ProductFullView = () => {
-    const { isLoading, details, success,code } = useGetProductFullview()
+    const { isLoading, details, success, code } = useGetProductFullview()
 
     return (
         <PageWrapper
             className="sm:px-0 md:p-3 flex flex-col [&_#breadcrumbs]:!py-4"
             size="xl">
             {
-                isLoading || (!code && !success ) ? <LoadPage /> :
+                isLoading || (!code && !success) ? <LoadPage /> :
                     !success ? <ProductNotFound /> :
                         <Details {...details} />
             }

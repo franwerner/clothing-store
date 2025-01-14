@@ -1,5 +1,5 @@
-import { UseFetch } from "@/hooks/useFetch";
 import { RateLimiterResponse, ResponseDataWriteOperationsInError, ResponseToClientBase, ResponseToClientError, ResponseToClientSuccess } from "clothing-store-shared/types";
+import { UseFetch } from "my-hooks";
 
 /**
  * Si se utiliza para verificar las respuestas segun el tipo que querrramos trabjar, se deben hacer en un contexto donde esperemos utilizar la data que esta nos proporciona.

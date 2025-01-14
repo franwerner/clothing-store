@@ -1,6 +1,6 @@
-import useFormValidation, { HandlerValidatorForm } from "@/hooks/useValidationFom.hook"
 import zodPickMessage from "@/utils/zodPickMessage.utilts"
 import { userSchema } from "clothing-store-shared/schema"
+import { HandlerValidatorForm, useFormValidation } from "my-hooks"
 
 export interface InfoFormProps {
     fullname: string,

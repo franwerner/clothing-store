@@ -12,6 +12,7 @@ const MAX_TIMER = 5000
 const MAX_ALERT_LENGTH = 4
 
 const AlertGlobal = ({ children }: { children: ReactNode }) => {
+
     const [alerts, setAlert] = useState<Array<AlertProps & { id: number, timer: number }>>([])
     const alertHandler = useCallback((props: AlertProps) => {
         setAlert((prev) => {

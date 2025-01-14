@@ -1,4 +1,4 @@
-import { useMediaQuery } from "responsive-component";
+import {useMediaQuery} from "my-hooks";
 const useQuerySm = () => useMediaQuery({ sm: { minWidth: 640 } }).sm
 const useQueryMd = () => useMediaQuery({ md: { minWidth: 768 } }).md
 const useQueryLg = () => useMediaQuery({ lg: { minWidth: 1024 } }).lg

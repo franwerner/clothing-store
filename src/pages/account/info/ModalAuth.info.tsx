@@ -1,12 +1,10 @@
-import useUpdateInfoUserAuth from "@/pages/account/info/api/useUpdateInfoAuth.api"
 import ActionButton from "@/components/ActionButton"
 import BaseInput from "@/components/BaseInput"
 import useForm from "@/hooks/useForm.hook"
+import useUpdateInfoUserAuth from "@/pages/account/info/api/useUpdateInfoAuth.api"
 import { Modal, ModalBody, ModalContent, ModalFooter } from "@nextui-org/react"
-import { useSelector } from "@/store"
 
-const InfoModalAuth = () => {
-    const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
+const InfoModalAuth = ({ show, onShow }: { show: boolean, onShow: () => void }) => {
     const { form, onChange, setValue } = useForm({ password: "" })
     const { isLoading, response, setRequest } = useUpdateInfoUserAuth(form.password)
     const { code, message } = response.result_error ?? {}
@@ -14,7 +12,8 @@ const InfoModalAuth = () => {
     const authenticate = () => {
         setRequest({
             onSuccess: () => {
-                setValue("password", "")
+                setValue((prev) => ({ ...prev, password: "" }))
+                onShow()
             }
         })
     }
@@ -22,12 +21,11 @@ const InfoModalAuth = () => {
     return (
         <Modal
             placement="center"
-            backdrop="opaque"
-            hideCloseButton
             classNames={{
                 closeButton: "self-end"
             }}
-            isOpen={!isAuthorized || Date.now() > expired_at}>
+            onOpenChange={onShow}
+            isOpen={show}>
             <ModalContent >
                 <ModalBody>
                     <BaseInput

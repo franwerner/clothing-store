@@ -4,7 +4,6 @@ import classNames from "classnames"
 import { AnimatePresence, motion } from "framer-motion"
 import calculateOrder from "../utils/calculateOrder.utils"
 import { useState } from "react"
-import ProductInOrder from "@/components/ProductInOrder"
 
 
 const test = [
@@ -80,7 +79,7 @@ interface ProductInOrder {
     url: string
 }
 
-const ProductInOrder = ({ product, discount, price, url, quantity, color, size }: ProductInOrder) => {
+const Product = ({ product, discount, price, url, quantity, color, size }: ProductInOrder) => {
 
     const isDiscount = discount > 0
 
@@ -89,7 +88,7 @@ const ProductInOrder = ({ product, discount, price, url, quantity, color, size }
             className=" flex max-sm:flex-col rounded-lg border-b-1 last:border-0 first:border-t-1 p-2 gap-x-1 max-sm:items-center justify-between">
             <Image
                 classNames={{ img: "object-contain max-h-[100px]", wrapper: "self-center" }}
-                src={"https://http2.mlstatic.com/D_NQ_NP_896061-MLA79282533984_092024-O.webp"} />
+                src={url} />
             <div className="sm:ms-1 max-sm:order-3 flex-1">
                 <h4 className="font-semibold break-all max-sm:text-center text-md text-default-800">{product}</h4>
                 <div className="max-sm:flex justify-center w-full  flex-wrap gap-1">
@@ -183,7 +182,7 @@ const OrderProducts = () => {
                                         x: 0
                                     }}
                                 >
-                                    <ProductInOrder key={user_purchase_id}  {...i} />
+                                    <Product key={user_purchase_id}  {...i} />
                                 </motion.ul>
                             )
                         }

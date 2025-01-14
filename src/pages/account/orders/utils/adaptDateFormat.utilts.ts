@@ -16,7 +16,8 @@ const monthsToSpanish = {
 }
 const adaptDateFormat = (date: string | Date) => {
     const dateObj = isString(date) ? new Date(date) : date
-    const month = monthsToSpanish[dateObj.getMonth()]
+    const getMonth = dateObj.getMonth()
+    const month = getMonth in monthsToSpanish ? monthsToSpanish[dateObj.getMonth() as keyof typeof monthsToSpanish] : monthsToSpanish["0"]
     const dayNumber = dateObj.getDate()
     const year = dateObj.getFullYear().toString()
     return `${dayNumber} ${month}, ${year}`

@@ -1,15 +1,13 @@
-import DynamicElement from "@/helper/DynamicElement.helper";
 import { HTMLMotionProps, motion } from "framer-motion";
 import { ComponentProps, createContext, ReactNode, useContext, useState } from "react";
 
-interface ToggleContentProps<T extends keyof JSX.IntrinsicElements> {
+type ToggleContentProps = {
     hiddenToggleButton?: boolean
     labelToggleButton?: {
         visible?: ReactNode,
         hidden?: ReactNode
     },
-    as?: T
-}
+} & ComponentProps<"section">
 
 const ToggleContentContext = createContext<{
     show: boolean,
@@ -51,13 +49,13 @@ const HiddenContent = ({ children, ...props }: HTMLMotionProps<"ul">) => {
 
 
 
-const ToggleContent = <T extends keyof JSX.IntrinsicElements = "div">(
+const ToggleContent = (
     {
         children,
-        as = "div" as any,
         hiddenToggleButton,
         labelToggleButton = {},
-        ...props }: ComponentProps<T> & ToggleContentProps<T>) => {
+        ...props
+    }: ToggleContentProps) => {
 
     const [show, setShow] = useState(false)
 
@@ -67,9 +65,8 @@ const ToggleContent = <T extends keyof JSX.IntrinsicElements = "div">(
 
     return (
         <ToggleContentContext.Provider value={{ show }}>
-            <DynamicElement
+            <section
                 className="flex flex-col "
-                as={as}
                 data-slot="base"
                 {...props as any}
             >
@@ -83,7 +80,7 @@ const ToggleContent = <T extends keyof JSX.IntrinsicElements = "div">(
                         {!show ? hidden : visible}
                     </span>
                 }
-            </DynamicElement>
+            </section>
         </ToggleContentContext.Provider >
     );
 };

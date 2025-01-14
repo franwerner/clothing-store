@@ -25,7 +25,7 @@ const ProductSuggestions = ({ suggetion, products }: IProductSuggestions) => {
                 {brand && <h3 className="font-semibold text-lg tracking-widest text-default-600 font-oswald uppercase ">{brand}</h3>}
                 {brand && <span className="self-start font-oswald  text-xl">{">"}</span>}
                 <Link
-                    onClick={() => router.navigate(route())}
+                    onPress={() => router.navigate(route())}
                     color="foreground"
                     className="text-default-700">
                     <h3 className={`font-semibold  cursor-pointer text-xl tracking-widets  font-oswald uppercase`}>

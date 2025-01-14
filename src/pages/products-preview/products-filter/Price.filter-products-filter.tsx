@@ -16,8 +16,10 @@ const ProductsFilterPrice = memo(() => {
 
     useEffect(() => {
         if (price === null) {
-            setValue("min", 0)
-            setValue("max", 0)
+            setValue(() => ({
+                max: "0",
+                min: "0"
+            }))
         }
     }, [price === null])
 
@@ -81,7 +83,7 @@ const ProductsFilterPrice = memo(() => {
                         }
                         else if (min > max) {
                             searchParams.set("price", min.toString())
-                            setValue("max", 0)
+                            setValue((prev) => ({...prev,max : "0"}))
                         } else {
                             searchParams.set("price", r.join("-"))
                         }

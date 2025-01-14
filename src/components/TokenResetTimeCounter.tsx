@@ -1,6 +1,6 @@
-import useCounter from "@/hooks/useCounter.hooks"
 import numberToTwoDigits from "@/utils/numberToTwoDigits.utils"
 import { AnimatePresence, motion } from "framer-motion"
+import { useCounter } from "my-hooks"
 
 const TokenResetTimeCounter = (props: { minutes: number, seconds: number }) => {
 

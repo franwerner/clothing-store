@@ -1,6 +1,6 @@
-import useCounter from "@/hooks/useCounter.hooks"
 import { useDispatch, useSelector } from "@/store"
 import numberToTwoDigits from "@/utils/numberToTwoDigits.utils"
+import { useCounter } from "my-hooks"
 
 const ShopcartExpiredCounter = () => {
 

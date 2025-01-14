@@ -1,7 +1,6 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
-import { FormValidation } from "@/hooks/useValidationFom.hook"
 import useRegister from "@/pages/account/api/useRegister.api"
 import router from "@/router"
 import { motion } from "framer-motion"
@@ -9,6 +8,7 @@ import { ChangeEventHandler, KeyboardEventHandler } from "react"
 import BaseAccountForm from "./components/BaseAccountForm"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
 import useRegisterForm, { RegisterFormProps } from "./hook/useRegisterForm.hook"
+import { FormValidation } from "my-hooks"
 interface FormProps {
     onKeyUp: KeyboardEventHandler<HTMLFormElement>
     form: FormValidation<RegisterFormProps>

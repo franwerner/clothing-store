@@ -1,7 +1,6 @@
 import useShopcartGetSession from "@/api/shopcart/useGetSession.api";
 import ShopcartExpiredCounter from "@/components/ShopcartExpiredCounter";
 import { Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, Link, Spinner } from "@nextui-org/react";
-import { useEffect } from "react";
 import { Link as LinkDom } from "react-router";
 import ShopcartPaymentButton from "./PaymentButton.shopcart";
 import ShopCartProducts from "./Products.shopcart";
@@ -11,18 +10,15 @@ const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void })
 
     const {isLoading,setRequest} = useShopcartGetSession()
 
-    useEffect(() => {
-        if (show) {
-            setRequest()
-        }
-    }, [show])
-
     return (
         <Drawer
             isOpen={show}
             onOpenChange={onShow}
             backdrop="opaque"
             size="xl"
+            motionProps={{
+                onViewportEnter : () => setRequest()
+            }}
             scrollBehavior="inside"
         >
             <DrawerContent>

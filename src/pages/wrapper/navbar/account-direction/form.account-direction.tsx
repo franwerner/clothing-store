@@ -1,43 +1,52 @@
-import ActionButton from "@/components/ActionButton"
-import { Input, Select, SelectItem } from "@nextui-org/react"
-import useGetProvinces from "./api/georef/useGetProvinces.api"
+import { Form, Input } from "@nextui-org/react"
+import { ChangeEventHandler } from "react"
+import { DirectionForm } from "./Modal.account-direction"
 
-const FormAccountDirection = () => {
+interface AccountDirectionFormProps {
+    errors: Partial<Record<keyof DirectionForm, string[]>>
+    form: DirectionForm
+    onChange: ChangeEventHandler,
+}
 
-    const {provinces} = useGetProvinces()
+const AccountDirectionForm = ({ errors, form, onChange }: AccountDirectionFormProps) => {
+
+    const { street, street_number, apartament, postal_code } = form
 
     return (
-        <div className="flex-1 grid">
-            <form className="grid grid-cols-2 items-start justify-start gap-3">
-                <Select
-                >
-                    <SelectItem >{"fdfdf"}</SelectItem>
-                </Select>
-                <Input
-                    type="text"
-                >
-                </Input>
-                <Input
-                    type="text"
-                >
-                </Input>
-                <Input
-                    type="text"
-                >
-                </Input>
-                <Input
-                    type="text"
-                >
-                </Input>
-                <Input
-                    type="text"
-                >
-                </Input>
-            </form>
-            <ActionButton >
-                Guardar direccion
-            </ActionButton>
-        </div>
+        <Form
+            validationErrors={errors}
+            className="grid grid-cols-1 xs:grid-cols-2  gap-3">
+            <Input
+                isRequired
+                name="street"
+                value={street}
+                label="Calle"
+                onChange={onChange}
+            />
+            <Input
+                isRequired
+                name="street_number"
+                value={street_number}
+                label="Altura"
+                onChange={onChange}
+            />
+            <Input
+                name="postal_code"
+                value={postal_code}
+                maxLength={4}
+                minLength={4}
+                label="Codigo postal"
+                onChange={onChange}
+            />
+            <Input
+                name="apartament"
+                value={apartament}
+                label="Departamento"
+                onChange={onChange}
+            />
+
+        </Form>
     )
 }
-export default FormAccountDirection
+
+export default AccountDirectionForm

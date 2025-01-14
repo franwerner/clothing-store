@@ -1,12 +1,12 @@
-import ToggleContent from "@/pages/products-preview/products-filter/components/ToggleContent"
 import classNames from "classnames"
 import { FC, memo, useCallback } from "react"
 import { SetURLSearchParams, useSearchParams } from "react-router"
 import setSearchParamsFilter from "./helper/setSearchParamsFilter.helper"
-import { ProductSizePreview } from "clothing-store-shared/types"
-import useProductSizesPreview from "../api/useProductSizesPreview.api"
+import useProductSizesPreview from "./api/useProductSizesPreview.api"
+import { ProductPreview } from "clothing-store-shared/types"
+import ToggleContent from "./components/ToggleContent"
 
-const SizeItem: FC<ProductSizePreview & { setSearchParams: SetURLSearchParams, isActive?: boolean }> = memo(({ quantity, size, setSearchParams, isActive, size_id }) => {
+const SizeItem: FC<ProductPreview.Size & { setSearchParams: SetURLSearchParams, isActive?: boolean }> = memo(({ quantity, size, setSearchParams, isActive, size_id }) => {
   return (
     <li
       onClick={() => {
@@ -39,7 +39,6 @@ const ProductsFilterSizes = () => {
   return (
     <ToggleContent
       id="aside-filter-size"
-      as="section"
       className=" flex flex-col items-start  "
       hiddenToggleButton={sizes.length <= maxLength}
     >

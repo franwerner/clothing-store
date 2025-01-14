@@ -1,8 +1,8 @@
 import navigationList, { NavigationList } from "@/constant/navigationList.contant";
-import useGetMainPaths from "@/hooks/useGetMainPaths.hooks";
 import { Link } from "@nextui-org/react";
 import { memo, useCallback } from "react";
 import { Link as LinkDom } from "react-router";
+import useGetMainPaths from "../hooks/useGetMainPaths.hooks";
 
 const Item = memo(({ name, url, index, isActive, setMenu }: NavigationList & { index: number, isActive: boolean, setMenu: () => void }) => {
 
@@ -13,7 +13,7 @@ const Item = memo(({ name, url, index, isActive, setMenu }: NavigationList & { i
         }>
             <Link
                 as={LinkDom}
-                onClick={setMenu}
+                onPress={setMenu}
                 to={url}
                 className={`text-[16px] flex p-4 items-center gap-5 justify-start bg  text-black cursor-pointer ${isActive ? "text-white font-bold bg-default-800  border-b-default-900 border-b-3 rounded-sm " : "hover:bg-default-200"} uppercase`}
             >

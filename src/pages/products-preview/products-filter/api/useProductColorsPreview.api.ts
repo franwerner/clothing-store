@@ -16,7 +16,7 @@ const useProductColorsPreview = () => {
         category: params.category
     }
 
-const {isLoading,response,setRequest} = useFetchCustom<Array<ProductPreview.Color>>({
+const {isLoading,response,setRequest,clearSideEffects} = useFetchCustom<Array<ProductPreview.Color>>({
     target: "products/view/preview/colors",
     method: "GET"
 })
@@ -31,6 +31,7 @@ useEffect(() => {
             category
         }
     })
+    return clearSideEffects
 
 }, [JSON.stringify(queryParams)])
 

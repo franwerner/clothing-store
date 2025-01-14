@@ -12,8 +12,11 @@ import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 
 const AccountInfo = () => {
     const [isEditing, setisEditing] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
     const { fullname, phone, email } = useSelector(({ user }) => user.info) || {}
 
+    const onShowModal = () => setShowModal(prev => !prev)
     const { form, onChange, isFormIncomplete, setValue } = useInfoForm({
         fullname: fullname ?? "",
         phone: phone ?? "",
@@ -56,7 +59,8 @@ const AccountInfo = () => {
                 className={classNames(
                     "bg-primary-400", {
                     "bg-success-400": isEditing,
-                    "opacity-50  pointer-events-none": !isContainsChanges && isEditing
+                    "opacity-50 pointer-events-none": !isContainsChanges && isEditing,
+                    "bg-danger-400 pointer-events-none": isFormIncomplete() && isEditing
 
                 })}
                 startContent={
@@ -71,17 +75,24 @@ const AccountInfo = () => {
                 }
                 isLoading={isLoading}
                 onPress={() => {
-                    if (isEditing && !isFormIncomplete() && isContainsChanges) {
+                    if (!isAuthorized || Date.now() > expired_at) return onShowModal()
+
+                    if (isEditing) {
                         setRequest({
                             onSuccess: () => {
                                 setValue("password", "")
                             }
                         })
+                    } else {
+                        setisEditing(true)
                     }
-                    setisEditing(true)
+
                 }}>
             </ActionButton>
-            <InfoModalAuth />
+            <InfoModalAuth
+                onShow={onShowModal}
+                show={showModal}
+            />
         </>
     )
 }

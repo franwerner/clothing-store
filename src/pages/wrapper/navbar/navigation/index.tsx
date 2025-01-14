@@ -1,15 +1,14 @@
 import navigationList from "@/constant/navigationList.contant";
-import useGetMainPaths from "@/hooks/useGetMainPaths.hooks";
 import router from "@/router";
 import { NavbarContent, Tab, Tabs } from "@nextui-org/react";
 import { isString } from "my-utilities";
 import { memo } from "react";
+import useGetMainPaths from "../hooks/useGetMainPaths.hooks";
 
 const NavbarNavigation = memo(() => {
 
     const key = useGetMainPaths()
-
-
+    
     return (
         <NavbarContent
             as="div"
@@ -17,6 +16,7 @@ const NavbarNavigation = memo(() => {
             <Tabs
                 as={"ul"}
                 selectedKey={key}
+                defaultSelectedKey={key}
                 onSelectionChange={(url) => {
                     if (isString(url)) router.navigate(url)
                 }}

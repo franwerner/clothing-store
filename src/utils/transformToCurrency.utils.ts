@@ -1,4 +1,4 @@
-function transformToCurrency(amount:number,currency:string) {
+function transformToCurrency(amount:number,currency:string = "ARS") {
     return amount.toLocaleString('es-AR', {
         style: 'currency',
         currency: currency, 

@@ -1,5 +1,4 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { isSuccessResponse } from "@/utils/getResponseData.utilts"
 import { ProductFullview } from "clothing-store-shared/types"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"

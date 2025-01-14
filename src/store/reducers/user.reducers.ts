@@ -1,20 +1,18 @@
-import { UserAdresessSchema, UserSchema } from "clothing-store-shared/schema"
+import { UserSchema } from "clothing-store-shared/schema"
 import { EditAuth } from "clothing-store-shared/types"
 import { createReducer } from "react-observer-context"
 
 type State = {
     info?: UserSchema.FormatUser,
     edit_authorization?: EditAuth
-    adress?: UserAdresessSchema.Base
 }
 
 type Actions = {
     set: UserSchema.FormatUser
-    remove: undefined,
+    reset: undefined,
     update: Partial<UserSchema.FormatUser>
     setEditAuth: EditAuth
 }
-
 
 const userReducer = createReducer<State, Actions>({
     state: {
@@ -26,7 +24,7 @@ const userReducer = createReducer<State, Actions>({
         setEditAuth(state, payload) {
             state.edit_authorization = payload
         },
-        remove(state) {
+        reset(state) {
             state.info = undefined
             state.edit_authorization = undefined
         },

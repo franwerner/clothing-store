@@ -1,4 +1,8 @@
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, useCallback, useState } from "react";
+
+type SetFormValue<T extends object> = (
+    cb: ((v: T) => T)
+) => void;
 
 const useForm = <T extends object>(values: T) => {
 
@@ -12,22 +16,19 @@ const useForm = <T extends object>(values: T) => {
         }))
     }, [])
 
-    const setValue = useCallback((property: keyof T, value: unknown) => {
-        setForm((prev) => ({
-            ...prev,
-            [property]: value
-        }))
+    const setValue: SetFormValue<T> = useCallback((cb) => {
+        setForm((prev) => cb(prev))
     }, [])
 
-    const resetForm = useCallback(() => {
-        setForm(values)
-    }, [])
+
     return {
         onChange,
         form,
         setValue,
-        resetForm
     }
 }
 
+export {
+    type SetFormValue
+};
 export default useForm

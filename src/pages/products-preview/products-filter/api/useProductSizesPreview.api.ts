@@ -15,7 +15,7 @@ const useProductSizesPreview = () => {
         category: params.category
     }
 
-    const {isLoading,response,setRequest} = useFetchCustom<Array<ProductPreview.Size>>({
+    const { isLoading, response, setRequest, clearSideEffects } = useFetchCustom<Array<ProductPreview.Size>>({
         target: "products/view/preview/sizes",
         method: "GET"
     })
@@ -30,7 +30,7 @@ const useProductSizesPreview = () => {
                 category
             }
         })
-
+        return clearSideEffects
     }, [JSON.stringify(queryParams)])
 
     const is = response.result ? response.result.data : []

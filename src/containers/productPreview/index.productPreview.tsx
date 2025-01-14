@@ -1,7 +1,8 @@
-import ActionButton from "@/components/ActionButton";
-import ProductCard from "../product";
 import { Spinner } from "@nextui-org/react";
+import { useIntersectionObserver } from "@nextui-org/use-intersection-observer";
+import ProductCard from "../product";
 import UseGetProductsPreview from "./api/useGetProductsPreview.api";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ProductsNotFound = () => {
     return (
@@ -15,35 +16,50 @@ const ProductsPreviewContainer = () => {
 
     const { isLoading, products, loadMoreProducts, hasMoreProducts } = UseGetProductsPreview()
 
+    const [ref] = useIntersectionObserver({
+        threshold: 0,
+        isEnabled: hasMoreProducts,
+        onChange(isIntersecting) {
+            if (isIntersecting) {
+                loadMoreProducts()
+            }
+        },
+        root: null
+    })
+
     return (
         <main
             id="product-preview-container"
             className="flex flex-col flex-1 ">
-
-            {
-                products.length === 0 && isLoading ?
-                    <Spinner
-                        className=" flex-1"
-                        size="lg"
-                        color="secondary" /> :
+            <AnimatePresence>
+                {
                     products.length === 0 && !isLoading ? <ProductsNotFound /> :
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  ">
+                        !isLoading &&
+                        <motion.div
+                            initial={{
+                                scale: 0
+                            }}
+                            transition={{
+                                duration: 0.3
+                            }}
+                            animate={{
+                                scale: 1
+                            }}
+                            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  ">
                             {
-                                products.map(i => <ProductCard key={i.product_color_id} {...i} />)
+                                products.map((i, index) =>
+                                    <ProductCard _REF={index == 39 ? ref : null} key={i.product_color_id} {...i} />
+                                )
                             }
-                        </div>
-            }
+                        </motion.div>
+                }
+            </AnimatePresence>
             {
-                hasMoreProducts && products.length > 0 &&
-                <div className="flex-1 flex justify-center p-4">
-                    <ActionButton
-                        onPress={() => {
-                            loadMoreProducts()
-                        }}
-                        isLoading={isLoading}>
-                        Cargar más productos
-                    </ActionButton>
-                </div>
+
+                isLoading && <Spinner
+                    className="p-4 m-auto "
+                    size="lg"
+                    color="secondary" />
             }
         </main>
     );
