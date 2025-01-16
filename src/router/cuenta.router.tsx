@@ -11,6 +11,7 @@ const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEma
 const LazyPasswordReset = lazy(() => import("@/pages/account/PasswordReset.account"))
 const LazyOrder = lazy(() => import("@/pages/account/orders/[order]"))
 const LazyOrders = lazy(() => import("@/pages/account/orders"))
+const LazyOrderPayment = lazy(() => import("@/pages/account/order-payment"))
 
 const cuentaRouter: RouteObject = {
     path: "cuenta",
@@ -51,6 +52,12 @@ const cuentaRouter: RouteObject = {
             path: "restablecer-contraseña",
             element: <Suspense fallback={<LoadPage />}>
                 <LazyPasswordReset />
+            </Suspense>
+        },
+        {
+            path: "orden",
+            element: <Suspense fallback={<LoadPage />}>
+                <LazyOrderPayment />
             </Suspense>
         },
         {

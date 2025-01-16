@@ -13,18 +13,28 @@ const AccountDirectionModal = ({ onShow, show }: { show: boolean, onShow: () => 
     const patch = usePatchUserAddress()
     const address = useSelector(({ userAddress }) => userAddress.address) || {} as UserAddresessSchema.Base
     const user_address_id = address?.user_address_id
-    const { form, onChange, setForm, errors, changes } = useDirectionForm(address)
+    const { form, onChange, setForm, errors, changes, handlerValidationForm } = useDirectionForm(address)
     const { hasError, list } = errors
 
     const submitHandler = () => {
         if (hasError) return
 
-        patch.setRequest({
-            body: {
-                ...changes.list,
-                user_address_id,
-            }
-        })
+        if (user_address_id) {
+            patch.setRequest({
+                body: {
+                    ...changes.list,
+                    user_address_id,
+                }
+            })
+        } else {
+            const { setErrors, hasError } = handlerValidationForm()
+
+            if (hasError) return setErrors()
+            post.setRequest({
+                body: form
+            })
+        }
+
     }
 
     return (

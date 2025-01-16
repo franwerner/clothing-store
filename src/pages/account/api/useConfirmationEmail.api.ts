@@ -1,10 +1,12 @@
 import { useAlertContext } from "@/containers/alert-global"
 import router from "@/router"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
+import { useDispatch } from "@/store"
 
 const useConfirmationEmail = (token: string) => {
 
     const alertHandler = useAlertContext()
+    const dispatch = useDispatch()
     return useFetchCustom({
         target: "users/register/confirmation/",
         params: {
@@ -19,6 +21,8 @@ const useConfirmationEmail = (token: string) => {
         },
         onSuccess: ({ result }) => {
             const { message } = result
+            console.log("HOLAAA")
+            dispatch(({ user }) => user.update({ email_confirmed: true }))
             alertHandler({ color: "success", description: message })
             router.navigate("/")
         }

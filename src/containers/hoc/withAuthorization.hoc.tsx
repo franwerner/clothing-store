@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * Para un correcto funcionamiento se deben usar en component que sean index de las pages.
+ * Esta implementado para que se deban usar en components que sean index pages.
  */
 
 const withAuthorization = (Component: React.ComponentType, { to = "/", verification }: Props = {}) => {
@@ -25,8 +25,8 @@ const withAuthorization = (Component: React.ComponentType, { to = "/", verificat
             const isAuthorized = isFunction(verification) ? verification(user) : true
             if (!isAuthorized) {
                 router.navigate(to)
-            } else {
-                !render && setRender(true)
+            } else if (!render) {
+                setRender(true)
             }
         }, [user])
 

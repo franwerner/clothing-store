@@ -53,7 +53,6 @@ const AccountInfo = () => {
                 className={classNames(
                     "bg-black", {
                     "opacity-70 pointer-events-none": (errors.hasError || !isContainsChanges) && isEditing,
-                    "bg-danger-400 pointer-events-none": errors.hasError && isEditing
 
                 })}
                 startContent={

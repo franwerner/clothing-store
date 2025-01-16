@@ -1,6 +1,8 @@
 import { useSelector } from "@/store"
-import { memo, useState } from "react"
-import AccountDirectionModal from "./Modal.account-direction"
+import { Spinner } from "@nextui-org/react"
+import { lazy, memo, Suspense, useState } from "react"
+
+const LazyAccountDirectionModal = lazy(() => import("./Modal.account-direction"))
 
 const Icon = memo(({ onShow }: { onShow: () => void }) => {
     const postal_code = useSelector(({ userAddress }) => userAddress.address?.postal_code) ?? ""
@@ -16,7 +18,6 @@ const Icon = memo(({ onShow }: { onShow: () => void }) => {
     )
 })
 
-
 const NavbarAccountDirection = memo(() => {
 
     const [show, setShow] = useState(false)
@@ -27,12 +28,15 @@ const NavbarAccountDirection = memo(() => {
 
     return (
         <>
-            {(email_confirmed || "") &&
-                <Icon onShow={onShow} />}
-            < AccountDirectionModal
-                onShow={onShow}
-                show={show && !!email_confirmed}
-            />
+            {(email_confirmed || "") && <Icon onShow={onShow} />}
+            {
+                show && <Suspense fallback={<Spinner color="secondary" size="sm" />}>
+                    < LazyAccountDirectionModal
+                        onShow={onShow}
+                        show={show && !!email_confirmed}
+                    />
+                </Suspense>
+            }
         </>
     )
 })

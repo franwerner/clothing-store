@@ -13,6 +13,8 @@ interface DirectionForm {
 const shape = userAddresessSchema.base.shape
 
 const useDirectionForm = (address: UserAddresessSchema.Base) => {
+
+    const user_address_id = address.user_address_id
     const {
         apartament = "",
         locality = "",
@@ -22,7 +24,7 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
         street_number = "",
     } = address
 
-    const { form, onChange, setForm, errors } = useFormValidation<DirectionForm>({
+    const { form, onChange, setForm, errors, handlerValidationForm } = useFormValidation<DirectionForm>({
         street: street,
         street_number: street_number,
         apartament: apartament || "",
@@ -54,14 +56,13 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
         }
     })
 
-
-    const changes = Object.entries(form).reduce((acc, current) => {
+    const changes = user_address_id ? Object.entries(form).reduce((acc, current) => {
         const [key, value] = current
         if (address[key] !== value?.trim()) {
             acc[key] = value ?? ""
         }
         return acc
-    }, {} as DirectionForm)
+    }, {} as DirectionForm) : {}
 
     return {
         form,
@@ -69,9 +70,10 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
         setForm,
         changes: {
             list: changes,
-            isEmpty: Object.keys(changes).length === 0
+            isEmpty: !!user_address_id && Object.keys(changes).length === 0
         },
-        errors
+        errors,
+        handlerValidationForm
     }
 
 }
