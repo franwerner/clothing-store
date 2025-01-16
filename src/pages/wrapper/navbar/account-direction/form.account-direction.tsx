@@ -31,6 +31,7 @@ const AccountDirectionForm = ({ errors, form, onChange }: AccountDirectionFormPr
                 onChange={onChange}
             />
             <Input
+                isRequired
                 name="postal_code"
                 value={postal_code}
                 maxLength={4}

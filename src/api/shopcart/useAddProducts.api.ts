@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { ShopcartProductSchema } from "clothing-store-shared/schema"
@@ -20,13 +20,13 @@ const useShopcartAddProducts = (products: Array<ShopcartProductSchema.BaseOutSho
             dispatch(({ shopcart }) => shopcart.addProducts(data))
             alertHandler({
                 color: "success",
-                text: result.message
+                description: result.message
             })
         },
         onFailed: ({ result_error }) => {
             alertHandler({
                 color: "danger",
-                text: result_error.message
+                description: result_error.message
             })
         }
     })

@@ -4,7 +4,7 @@ import { RouteObject } from "react-router"
 
 const LazyAccount = lazy(() => import("@/pages/account"))
 const LazyLogin = lazy(() => import("@/pages/account/Login.account"))
-const LazyRegister = lazy(() => import("@/pages/account/Register.account"))
+const LazyRegister = lazy(() => import("@/pages/account/register"))
 const LazyRequestRecoverPassword = lazy(() => import("@/pages/account/RequestRecoverPassword.account"))
 const LazyRequestEmailVerification = lazy(() => import("@/pages/account/RequestEmailVerification.account"))
 const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEmail.account"))

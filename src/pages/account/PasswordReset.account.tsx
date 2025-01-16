@@ -2,9 +2,7 @@ import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import BaseInput from "@/components/BaseInput"
 import usePasswordReset from "@/pages/account/api/usePasswordReset.api"
-import router from "@/router"
 import { motion } from "framer-motion"
-import { useLayoutEffect } from "react"
 import { useSearchParams } from "react-router"
 import BaseAccountForm from "./components/BaseAccountForm"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
@@ -15,16 +13,14 @@ const AccountPasswordReset = () => {
     const [params] = useSearchParams()
     const token = params.get("token") || ""
     const email = params.get("email")
-    const { onChange, form, isFormIncomplete } = usePasswordResetForm()
+    const { onChange, form, errors } = usePasswordResetForm()
     const { confirm_password, password } = form
-    const { isLoading, setRequest } = usePasswordReset({ token, password: password.value })
+    const { isLoading, setRequest } = usePasswordReset({ token, password: password })
 
-    useLayoutEffect(() => {
-        if (!token || !email) router.navigate("/cuenta")
-    }, [])
+    const {hasError,list} = errors
 
     const passwordResetHandler = () => {
-        if (isFormIncomplete()) return
+        if (hasError) return
         setRequest()
     }
 
@@ -51,11 +47,11 @@ const AccountPasswordReset = () => {
                         isRequired
                         autoComplete="off"
                         label={"Contraseña"}
-                        isInvalid={password.hasError}
+                        isInvalid={!!errors.list.password}
                         errorMessage={<div>
-                            {password.errors && password.errors.map((i) => <p key={i}>* {i}</p>)}
+                            {list.password && list.password.map((i) => <p key={i}>* {i}</p>)}
                         </div>}
-                        value={password.value}
+                        value={password}
                     />
                     <BaseInput
                         placeholder="Olgahats-2525"
@@ -64,14 +60,14 @@ const AccountPasswordReset = () => {
                         autoComplete="off"
                         name={"confirm_password"}
                         isRequired
-                        isInvalid={confirm_password.hasError}
-                        errorMessage={"* Las contraseñas deben ser iguales."}
+                        isInvalid={!!list.confirm_password}
+                        errorMessage={list.confirm_password && list.confirm_password[0]}
                         label={"Confirmar contraseña"}
-                        value={confirm_password.value}
+                        value={confirm_password}
                     />
                 </BaseAccountForm>
                 <ActionButton
-                    isDisabled={isFormIncomplete()}
+                    isDisabled={hasError}
                     isLoading={isLoading}
                     onPress={() => passwordResetHandler()}>
                     Enviar cambio

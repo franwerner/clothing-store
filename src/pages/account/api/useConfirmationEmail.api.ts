@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import router from "@/router"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 
@@ -13,13 +13,13 @@ const useConfirmationEmail = (token: string) => {
         onFailed: ({ result_error }) => {
             const { code, message } = result_error
             if (code == "email_already_confirmed") {
-                alertHandler({ severity: "info", text: message })
+                alertHandler({ color: "primary", description: message })
                 router.navigate("/")
             }
         },
         onSuccess: ({ result }) => {
             const { message } = result
-            alertHandler({ severity: "success", text: message })
+            alertHandler({ color: "success", description: message })
             router.navigate("/")
         }
     })

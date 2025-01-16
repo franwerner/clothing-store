@@ -1,5 +1,6 @@
 import AnimatedTitle from "@/components/AnimatedTitle"
 import OrdersList from "./List.orders"
+import withAuthorization from "@/containers/hoc/withAuthorization.hoc"
 
 
 const Orders = () => {
@@ -7,12 +8,9 @@ const Orders = () => {
   return (
     <div className="w-full">
       <AnimatedTitle title="Mis Compras" />
-      <section>
-        
-      </section>
       <OrdersList />
     </div>
   )
 }
 
-export default Orders
+export default withAuthorization(Orders)

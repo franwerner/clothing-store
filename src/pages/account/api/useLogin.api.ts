@@ -3,7 +3,7 @@ import { useDispatch } from "@/store"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
 import { UserSchema } from "clothing-store-shared/schema"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 
 interface UseLoginFormProps {
     email: string,
@@ -31,7 +31,7 @@ const useLogin = ({ email, password }: UseLoginFormProps) => {
             } else {
                 router.navigate("/")
             }
-            alertHandler({ color: "success", text: message })
+            alertHandler({ color: "success", description: message })
 
         },
     })

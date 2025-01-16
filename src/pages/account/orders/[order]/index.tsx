@@ -3,6 +3,7 @@ import OrderTracking from "./Tracking.order"
 import OrderShippingInfo from "./ShippingInfo.order"
 import OrderDetails from "./Details.order"
 import transformToCurrency from "@/utils/transformToCurrency.utils"
+import withAuthorization from "@/containers/hoc/withAuthorization.hoc"
 
 const Order = () => {
 
@@ -20,4 +21,4 @@ const Order = () => {
     )
 }
 
-export default Order
+export default withAuthorization(Order)

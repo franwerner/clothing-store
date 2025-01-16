@@ -1,5 +1,5 @@
-import useForm from "@/hooks/useForm.hook"
-import { UserAddresessSchema } from "clothing-store-shared/schema"
+import { userAddresessSchema, UserAddresessSchema } from "clothing-store-shared/schema"
+import { useFormValidation } from "my-hooks"
 
 interface DirectionForm {
     street: string
@@ -9,6 +9,8 @@ interface DirectionForm {
     locality: string
     postal_code: string
 }
+
+const shape = userAddresessSchema.base.shape
 
 const useDirectionForm = (address: UserAddresessSchema.Base) => {
     const {
@@ -20,19 +22,42 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
         street_number = "",
     } = address
 
-    const { form, onChange, setValue } = useForm<DirectionForm>({
+    const { form, onChange, setForm, errors } = useFormValidation<DirectionForm>({
         street: street,
         street_number: street_number,
         apartament: apartament || "",
         province: province,
         locality: locality,
         postal_code: postal_code
+    }, {
+        validators: {
+            locality(value) {
+                const parse = shape.locality.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            postal_code(value) {
+                const parse = shape.postal_code.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            province(value) {
+                const parse = shape.province.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            street(value) {
+                const parse = shape.street.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            street_number(value) {
+                const parse = shape.street_number.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+        }
     })
+
 
     const changes = Object.entries(form).reduce((acc, current) => {
         const [key, value] = current
-       
-        if (address[key] !== value) {
+        if (address[key] !== value?.trim()) {
             acc[key] = value ?? ""
         }
         return acc
@@ -41,11 +66,12 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
     return {
         form,
         onChange,
-        setValue,
+        setForm,
         changes: {
             list: changes,
             isEmpty: Object.keys(changes).length === 0
-        }
+        },
+        errors
     }
 
 }

@@ -1,6 +1,5 @@
 import AnimatedTitle from "@/components/AnimatedTitle";
 import PageWrapper from "@/components/PageWrapper";
-import ProductsPreviewContainer from "@/containers/productPreview/index.productPreview";
 import { useLocation } from "react-router";
 import ProductsPreviewModalFilter from "./ModalFilter.products-preview";
 import ProductsPreviewOrder from "./Order.products-preview";
@@ -9,6 +8,7 @@ import ProductsFilterDelete from "./products-filter/Delete.products-filter";
 import ProductsFilterPrice from "./products-filter/Price.filter-products-filter";
 import ProductsFilterSections from "./products-filter/Sections.products-filter";
 import ProductsFilterSizes from "./products-filter/Size.filter-products-filter";
+import ProductsPreviewContainer from "@/containers/product-preview/index.product-preview";
 
 
 const ProductsPreviewPage = () => {

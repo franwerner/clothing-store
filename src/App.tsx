@@ -5,10 +5,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './App.css';
+import AlertGlobal from "./containers/alert-global";
+import HydrateApp from "./containers/HydrateApp.containers";
 import router from './router';
 import { ObserverStore } from "./store";
-import AlertGlobal from "./components/AlertGlobal";
-import HydrateApp from "./components/HydrateApp";
 
 function App() {
   return (

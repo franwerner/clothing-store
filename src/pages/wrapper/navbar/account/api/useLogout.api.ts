@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import useResetStore from "@/hooks/useResetStore.hooks"
 import router from "@/router"
@@ -16,7 +16,7 @@ const useLogout = () => {
             resetStore()
             router.navigate("/cuenta/ingresar")
             localStorageHandler.removeItem("userHasLoggedIn")
-            alertHandler({ severity: "success", text: result.message })
+            alertHandler({ color: "success", description: result.message })
         }
 
     })

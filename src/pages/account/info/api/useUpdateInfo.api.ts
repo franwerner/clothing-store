@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { UserSchema } from "clothing-store-shared/schema"
@@ -16,13 +16,13 @@ const useUpdateInfoUser = (props: UpdateInfo = {}) => {
         onFailed: ({ result_error }) => {
             const { code, message } = result_error
             if (code === "not_edit_authorized") {
-                alertHandler({ color: "danger", text: message })
+                alertHandler({ color: "danger", description: message })
                 dispatch(({ user }) => user.setEditAuth({ expired_at: 0, isAuthorized: false }))
             }
         },
         onSuccess: ({ result }) => {
             const { data, message } = result
-            alertHandler({ color: "success", text: message })
+            alertHandler({ color: "success", description: message })
             dispatch(({ user }) => user.update(data))
         }
     })

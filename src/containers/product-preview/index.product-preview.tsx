@@ -1,6 +1,6 @@
 import { Spinner } from "@nextui-org/react";
 import { useIntersectionObserver } from "@nextui-org/use-intersection-observer";
-import ProductCard from "../product";
+import ProductCard from "../../components/product";
 import UseGetProductsPreview from "./api/useGetProductsPreview.api";
 import { AnimatePresence, motion } from "framer-motion";
 

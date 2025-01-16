@@ -20,7 +20,6 @@ const useForm = <T extends object>(values: T) => {
         setForm((prev) => cb(prev))
     }, [])
 
-
     return {
         onChange,
         form,

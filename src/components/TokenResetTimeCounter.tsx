@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useCounter } from "my-hooks"
 
 const TokenResetTimeCounter = (props: { minutes: number, seconds: number }) => {
-
     const {
         minutes,
         seconds,

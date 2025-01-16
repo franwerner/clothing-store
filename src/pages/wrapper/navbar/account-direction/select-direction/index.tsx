@@ -1,5 +1,6 @@
-import useForm, { SetFormValue } from "@/hooks/useForm.hook"
-import { memo, useCallback } from "react"
+import useForm from "@/hooks/useForm.hook"
+import { SetValidationForm } from "my-hooks"
+import { memo } from "react"
 import { DirectionForm } from "../Modal.account-direction"
 import SelectDirectionLocalities from "./Localities.select-direction"
 import SelectDirectionProvinces from "./Provinces.select-direction"
@@ -8,7 +9,7 @@ type SelectNames = "province" | "locality"
 type SelectValueHandler = (name: SelectNames, value: string) => void
 
 interface SelectedProps {
-    setValue: SetFormValue<DirectionForm>
+    setForm: SetValidationForm<DirectionForm>
     province: string
     locality: string
     province_error: any
@@ -16,7 +17,7 @@ interface SelectedProps {
 }
 
 const DirectionFormSelectItems = memo(({
-    setValue,
+    setForm,
     province,
     locality,
     locality_error,
@@ -25,19 +26,16 @@ const DirectionFormSelectItems = memo(({
 
     const { form, onChange } = useForm({ province: "", locality: "" })
 
-    const selectValueHandler: SelectValueHandler = useCallback((name, value) => {
-        setValue(
-            (currentState) => {
-                const isEquals = currentState[name] == value ? "" : value
-                const isProvince = name === "province"
-                return {
-                    ...currentState,
-                    province: isProvince ? isEquals : currentState["province"],
-                    locality: isProvince ? "" : isEquals
-                }
-            }
-        )
-    }, [])
+    const selectProvince: SelectValueHandler = (key, value) => {
+        const isEquals = value === province
+        setForm(key, isEquals ? "" : value).setError()
+        setForm("locality", "").setError()
+    }
+
+    const selectLocality: SelectValueHandler = (key, value) => {
+        const isEquals = value === locality
+        setForm(key, isEquals ? "" : value).setError()
+    }
 
     return (
         <section className="grid xs:grid-cols-2 gap-3">
@@ -46,7 +44,7 @@ const DirectionFormSelectItems = memo(({
                 province_search={form.province}
                 onChange={onChange}
                 province={province}
-                selectValueHandler={selectValueHandler}
+                selectValueHandler={selectProvince}
             />
             <SelectDirectionLocalities
                 hasError={locality_error && !locality}
@@ -54,7 +52,7 @@ const DirectionFormSelectItems = memo(({
                 locality={locality}
                 locality_search={form.locality}
                 onChange={onChange}
-                selectValueHandler={selectValueHandler}
+                selectValueHandler={selectLocality}
             />
 
         </section>

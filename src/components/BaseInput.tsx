@@ -10,7 +10,6 @@ const BaseInput = memo(({classNames,...props}: InputProps) => (
             ...classNames
         }}
         errorMessage=""
-        type={"text"}
         labelPlacement="outside"
         variant="underlined"
         color="secondary"

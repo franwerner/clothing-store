@@ -15,8 +15,11 @@ export default defineConfig(() => {
         "@assets": path.resolve(__dirname, "./assets"),
       },
     },
-    define : {
-      'process.env': {}
+    build: {
+      sourcemap: true, 
+    },
+    define: {
+      'process.env': {},
     },
     server: {
       proxy: {

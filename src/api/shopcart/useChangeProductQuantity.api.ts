@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { ShopcartProductSchema } from "clothing-store-shared/schema"
@@ -13,8 +13,8 @@ const useShopcartChangeProductQuantity = () => {
             const { code, message } = result_error
             if (code && ["expired_shopcart", "unavailable_shopcart"].includes(code)) {
                 alertHandler({
-                    severity: "danger",
-                    text: message
+                    color: "danger",
+                    description: message
                 })
             }
         },

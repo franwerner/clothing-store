@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import router from "@/router"
 
@@ -18,14 +18,7 @@ const usePasswordReset = ({ password, token }: { password: string, token: string
         onSuccess: ({ result }) => {
             const { message } = result
             router.navigate("/cuenta/ingresar")
-            alertHandler({ severity: "success", text: message })
-        },
-        onFailed: ({ result_error }) => {
-            const { code, message } = result_error
-            if (code === "token_not_found") {
-                alertHandler({ severity: "warning", text: message })
-                router.navigate("/")
-            }
+            alertHandler({ color: "success", description: message })
         }
     })
 }

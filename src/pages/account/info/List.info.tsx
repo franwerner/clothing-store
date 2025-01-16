@@ -1,9 +1,9 @@
 import { useSelector } from "@/store"
 import { Input } from "@nextui-org/react"
 import classNames from "classnames"
-import React, { ChangeEventHandler, memo } from "react"
+import { FormValidationErrors } from "my-hooks"
+import React, { ChangeEventHandler, memo, useMemo } from "react"
 import { InfoFormProps } from "./hook/useInfoForm.hook"
-import { FormValidation } from "my-hooks"
 interface BaseItem {
     text: any
     icon: string
@@ -11,8 +11,7 @@ interface BaseItem {
 }
 
 interface EditableItem extends BaseItem {
-    hasError: boolean
-    errors: string[]
+    errors?: string[]
     name: string
     value: string
 }
@@ -20,7 +19,8 @@ interface EditableItem extends BaseItem {
 interface InfoListProps {
     isEditing: boolean
     onChange: ChangeEventHandler<HTMLInputElement>;
-    form: FormValidation<InfoFormProps>;
+    form: InfoFormProps
+    errors: FormValidationErrors<InfoFormProps>
 }
 
 interface InputItemProps extends EditableItem {
@@ -30,17 +30,17 @@ interface InputItemProps extends EditableItem {
 type InfoItemWrapperProps = {
     isEditing: boolean
     children: React.ReactNode
-    hasError: boolean
+    hasError?: boolean
 } & Omit<BaseItem, "text" | "label">
 
-const InfoItemInput = memo(({ errors, value, label, hasError, name, onChange }: InputItemProps) => (
+const InfoItemInput = memo(({ errors = [], value, label, name, onChange }: InputItemProps) => (
     <Input
         className="max-w-[250px]"
         label={label}
         labelPlacement="inside"
         onChange={onChange}
         autoComplete="username"
-        isInvalid={hasError}
+        isInvalid={errors.length > 0}
         value={value}
         name={name}
         errorMessage={
@@ -64,11 +64,12 @@ const InfoItemWrapper = memo(({ icon, isEditing, hasError, children }: InfoItemW
     <div className="flex max-sm:flex-col max-sm:justify-center max-h-min group items-center gap-2">
         <span
             className={classNames(
-                "material-symbols-outlined group-hover:scale-100 scale-90 shadow-md border-b-4 rounded-xl text-white border-2 p-2",
+                "material-symbols-outlined  scale-90 shadow-md border-b-4 rounded-xl text-white border-2 p-2",
                 {
-                    "bg-danger-300 border-danger-400 sm:self-baseline": hasError && isEditing,
+                    "bg-danger-300 border-danger-400 sm:self-baseline mt-1": hasError && isEditing,
                     "bg-default-600 border-default-700": !isEditing,
-                    "bg-primary-400 border-primary-500": !hasError && isEditing,
+                    "bg-secondary-300 border-secondary-400": !hasError && isEditing,
+                    "group-hover:scale-100" : isEditing
                 }
             )}
         >
@@ -78,9 +79,14 @@ const InfoItemWrapper = memo(({ icon, isEditing, hasError, children }: InfoItemW
     </div>
 ))
 
-const InfoList = ({ form, isEditing, onChange }: InfoListProps) => {
+const InfoList = ({ form, isEditing, onChange, errors }: InfoListProps) => {
     const userInfo = useSelector(({ user }) => user.info);
     const { email, create_at, phone, fullname } = userInfo || {};
+
+    const date = useMemo(() => {
+        return new Date(create_at || Date.now()).toISOString().replace("T", "  ").split(".")[0]
+    }, [create_at])
+
 
     const staticItems: BaseItem[] = [
         {
@@ -89,7 +95,7 @@ const InfoList = ({ form, isEditing, onChange }: InfoListProps) => {
             label: "Correo electrónico",
         },
         {
-            text: new Date(create_at || Date.now()).toISOString().replace("T", "  ").split(".")[0],
+            text: date,
             icon: "calendar_month",
             label: "Fecha de creación",
         },
@@ -101,21 +107,24 @@ const InfoList = ({ form, isEditing, onChange }: InfoListProps) => {
             text: fullname,
             icon: "person",
             label: "Nombre completo",
-            ...form.fullname,
+            errors: errors.fullname,
+            value: form.fullname
         },
         {
             name: "phone",
             text: phone || "No has registrado un teléfono",
             icon: "phone",
             label: "Teléfono",
-            ...form.phone,
+            errors: errors.phone,
+            value: form.phone
         },
         {
             name: "password",
             text: "************",
             icon: "key",
             label: "Contraseña",
-            ...form.password,
+            errors: errors.password,
+            value: form.password
         },
     ];
 
@@ -138,7 +147,7 @@ const InfoList = ({ form, isEditing, onChange }: InfoListProps) => {
                     key={i.icon}
                     icon={i.icon}
                     isEditing={isEditing}
-                    hasError={i.hasError}
+                    hasError={i.errors && i.errors?.length > 0}
                 >
                     {isEditing ?
                         <InfoItemInput onChange={onChange} {...i} />

@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import { ResponseToClientError, ResponseToClientSuccess } from "clothing-store-shared/types"
 import { isFunction, isNumber } from "my-utilities"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
@@ -32,25 +32,25 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
             }
 
             if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip"].includes(code))) {
-                alertHandler({ severity: "warning", text: message })
+                alertHandler({ color: "warning", description: message })
             }
             else if (code === "err_internal") {
-                alertHandler({ severity: "danger", text: message })
+                alertHandler({ color: "danger", description: message })
             }
             else if (code === "session_expired") {
-                alertHandler({ severity: "info", text: message })
+                alertHandler({ color: "primary", description: message })
                 resetStore()
                 router.navigate("/cuenta/ingresar")
             }
             else if (isNumber(response.status) && response.status >= 500) {
-                alertHandler({ severity: "danger", title: "Servidor no responde.", text: response.status })
+                alertHandler({ color: "danger", title: "Servidor no responde." })
             } else if (code === "session_not_complete") {
                 router.navigate("/cuenta/reenviar")
-                alertHandler({ severity: "info", text: message })
+                alertHandler({ color: "primary", description: message })
             }
             else if (code === "token_not_found") {
                 router.navigate("/")
-                alertHandler({ severity: "warning", text: message })
+                alertHandler({ color: "warning", description: message })
             }
             else {
                 isFunction(onFailed) && onFailed(response)

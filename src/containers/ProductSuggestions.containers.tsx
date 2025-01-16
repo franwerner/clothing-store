@@ -1,9 +1,8 @@
-import IProductSuggestions from "@/interfaces/ProductSuggestions.interfaces"
+import ProductsSlider from "@/components/ProductsSlider"
 import router from "@/router"
 import { Link } from "@nextui-org/react"
-import ProductsSlider from "./ProductsSlider.containers"
 
-const ProductSuggestions = ({ suggetion, products }: IProductSuggestions) => {
+const ProductSuggestions = ({ suggetion, products }) => {
 
     const { brand, category } = suggetion
     const route = () => {

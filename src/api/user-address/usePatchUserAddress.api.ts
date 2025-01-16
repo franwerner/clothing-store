@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { UserAddresessSchema, } from "clothing-store-shared/schema"
@@ -12,7 +12,7 @@ const usePatchUserAddress = () => {
         onSuccess({ result }) {
             const { data, message } = result
             dispatch(({ userAddress }) => userAddress.update(data))
-            alertHandler({ color: "success", text: message })
+            alertHandler({ color: "success", description: message })
         },
     })
 

@@ -1,42 +1,35 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
+import withAuthorization from "@/containers/hoc/withAuthorization.hoc"
 import useUpdateInfoUser from "@/pages/account/info/api/useUpdateInfo.api"
-import router from "@/router"
 import { useSelector } from "@/store"
+import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 import classNames from "classnames"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useInfoForm from "./hook/useInfoForm.hook"
 import InfoList from "./List.info"
 import InfoModalAuth from "./ModalAuth.info"
-import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 
 const AccountInfo = () => {
     const [isEditing, setisEditing] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
-    const { fullname, phone, email } = useSelector(({ user }) => user.info) || {}
+    const { fullname = "", phone } = useSelector(({ user }) => user.info) || {}
 
     const onShowModal = () => setShowModal(prev => !prev)
-    const { form, onChange, isFormIncomplete, setValue } = useInfoForm({
-        fullname: fullname ?? "",
+
+    const { form, onChange, errors, setForm } = useInfoForm({
+        fullname: fullname,
         phone: phone ?? "",
         password: ""
     })
-
     const body = removePropertiesByValues({
-        fullname: form.fullname.value,
-        password: form.password.value,
-        phone: form.phone.value
+        fullname: form.fullname,
+        password: form.password,
+        phone: form.phone
     }, [fullname, phone, "", undefined])
-
     const { isLoading, setRequest } = useUpdateInfoUser(body)
-
-    useEffect(() => {
-        if (!email) router.navigate("/cuenta/ingresar")
-    }, [])
-
     const isContainsChanges = Object.keys(body).length > 0
-
     return (
         <>
             <AnimatedTitle
@@ -52,15 +45,15 @@ const AccountInfo = () => {
                 </span>
             }
             <InfoList
+                errors={errors.list}
                 onChange={onChange}
                 form={form}
                 isEditing={isEditing} />
             <ActionButton
                 className={classNames(
-                    "bg-primary-400", {
-                    "bg-success-400": isEditing,
-                    "opacity-50 pointer-events-none": !isContainsChanges && isEditing,
-                    "bg-danger-400 pointer-events-none": isFormIncomplete() && isEditing
+                    "bg-black", {
+                    "opacity-70 pointer-events-none": (errors.hasError || !isContainsChanges) && isEditing,
+                    "bg-danger-400 pointer-events-none": errors.hasError && isEditing
 
                 })}
                 startContent={
@@ -80,7 +73,7 @@ const AccountInfo = () => {
                     if (isEditing) {
                         setRequest({
                             onSuccess: () => {
-                                setValue("password", "")
+                                setForm("password", "")
                             }
                         })
                     } else {
@@ -91,6 +84,7 @@ const AccountInfo = () => {
             </ActionButton>
             <InfoModalAuth
                 onShow={onShowModal}
+                setIsEdtion={() => setisEditing(true)}
                 show={showModal}
             />
         </>
@@ -98,5 +92,5 @@ const AccountInfo = () => {
 }
 
 
-export default AccountInfo
+export default withAuthorization(AccountInfo)
 

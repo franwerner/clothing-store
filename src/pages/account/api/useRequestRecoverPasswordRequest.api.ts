@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 
 const useRequestPasswordReset  = (email: string) => {
@@ -14,12 +14,12 @@ const useRequestPasswordReset  = (email: string) => {
         onFailed: ({ result_error }) => {
             const { code, message } = result_error
             if (code === "email_not_found") {
-                alertHander({ severity: "danger", text: message })
+                alertHander({ color: "danger", description: message })
             }
         },
         onSuccess:({result}) => {
             const {message} = result
-           alertHander({severity : "success",text : message})
+           alertHander({color : "success",description : message})
         }
     })
 }

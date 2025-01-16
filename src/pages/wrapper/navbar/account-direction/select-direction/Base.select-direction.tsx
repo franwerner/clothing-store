@@ -35,11 +35,12 @@ const SelectDirectionBase = ({
             classNames={{
                 trigger: "min-h-[45px] ",
                 innerWrapper: "overflow-hidden  relative",
-                label: "capitalize"
+                label: "capitalize",
             }}
+            scrollShadowProps={{}}
             label={label}
             selectedKeys={[""]}
-            startContent={<span className="truncate text-sm  absolute">{defaultKey}</span>}
+            startContent={<span className="truncate text-sm absolute">{defaultKey}</span>}
             isInvalid={isInvalid}
             validationBehavior="aria"
             spinnerProps={{

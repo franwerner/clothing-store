@@ -14,11 +14,8 @@ interface LoginFormProps {
 }
 
 const AccountLogin = () => {
-
     const { form, onChange } = useForm<LoginFormProps>({ email: "", password: "" });
-
     const { isLoading, response, setRequest } = useLogin(form)
-
     const { code, message } = response.result_error ?? {}
 
     return (

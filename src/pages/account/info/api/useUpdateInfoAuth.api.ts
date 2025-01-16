@@ -1,4 +1,4 @@
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { EditAuth } from "clothing-store-shared/types"
@@ -16,7 +16,7 @@ const useUpdateInfoUserAuth = (password: string = "") => {
         },
         onSuccess: ({ result }) => {
             const { message, data } = result
-            alertHandler({ color: "success", text: message })
+            alertHandler({ color: "success", description: message })
             dispatch(({ user }) => user.setEditAuth(data))
         }
     })

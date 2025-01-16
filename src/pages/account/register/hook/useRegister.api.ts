@@ -1,6 +1,6 @@
 import { UserSchema } from "clothing-store-shared/schema"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
-import { useAlertContext } from "@/components/AlertGlobal"
+import { useAlertContext } from "@/containers/alert-global"
 import router from "@/router"
 import { useDispatch } from "@/store"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
@@ -17,13 +17,13 @@ const useRegister = (props: Omit<UserSchema.Insert, "ip" | "permission">) => {
         body: props,
         onFailed: (e) => {
             if (e.result_error.code === "limit_account_per_ip") {
-                alertHandler({ severity: "warning", text: e.result_error.message })
+                alertHandler({ color: "warning", description: e.result_error.message })
             }
         },
         onSuccess: ({ result }) => {
             const { data, message } = result
             localStorageHandler.setItem({ userHasLoggedIn: true })
-            alertHandler({ severity: "success", text: message })
+            alertHandler({ color: "success", description: message })
             dispatch(({ user }) => user.set(data))
             router.navigate("/cuenta/reenviar")
         }

@@ -4,7 +4,7 @@ import useForm from "@/hooks/useForm.hook"
 import useUpdateInfoUserAuth from "@/pages/account/info/api/useUpdateInfoAuth.api"
 import { Modal, ModalBody, ModalContent, ModalFooter } from "@nextui-org/react"
 
-const InfoModalAuth = ({ show, onShow }: { show: boolean, onShow: () => void }) => {
+const InfoModalAuth = ({ show, onShow,setIsEdtion }: { show: boolean, onShow: () => void,setIsEdtion:() => void }) => {
     const { form, onChange, setValue } = useForm({ password: "" })
     const { isLoading, response, setRequest } = useUpdateInfoUserAuth(form.password)
     const { code, message } = response.result_error ?? {}
@@ -14,6 +14,7 @@ const InfoModalAuth = ({ show, onShow }: { show: boolean, onShow: () => void }) 
             onSuccess: () => {
                 setValue((prev) => ({ ...prev, password: "" }))
                 onShow()
+                setIsEdtion()
             }
         })
     }
