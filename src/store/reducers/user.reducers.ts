@@ -11,7 +11,7 @@ type Actions = {
     set: UserSchema.FormatUser
     reset: undefined,
     update: Partial<UserSchema.FormatUser>
-    setEditAuth: EditAuth
+    setEditAuth: EditAuth | undefined
 }
 
 const userReducer = createReducer<State, Actions>({

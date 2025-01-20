@@ -2,7 +2,7 @@ import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { Shopcart } from "clothing-store-shared/types"
 
-const useShopcartGetSession = () => {
+const useGetShopcartSession = () => {
     const dispatch = useDispatch()
     return useFetchCustom<Shopcart>({
         target: "/shopcart",
@@ -13,5 +13,4 @@ const useShopcartGetSession = () => {
     })
 }
 
-
-export default useShopcartGetSession
+export default useGetShopcartSession

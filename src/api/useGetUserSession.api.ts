@@ -16,7 +16,7 @@ const useGetUserSession = () => {
         onSuccess: ({ result }) => {
             const data = result.data
             dispatch(({ user }) => user.set(data.user_info))
-            dispatch(({ user }) => user.setEditAuth(data.edit_authorization || { expired_at: 0, isAuthorized: false }))
+            dispatch(({ user }) => user.setEditAuth(data.edit_authorization))
         },
     })
 }

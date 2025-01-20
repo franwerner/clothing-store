@@ -2,16 +2,15 @@ import LoadPage from "@/components/LoadPage"
 import { lazy, Suspense } from "react"
 import { RouteObject } from "react-router"
 
-const LazyAccount = lazy(() => import("@/pages/account"))
-const LazyLogin = lazy(() => import("@/pages/account/Login.account"))
-const LazyRegister = lazy(() => import("@/pages/account/register"))
-const LazyRequestRecoverPassword = lazy(() => import("@/pages/account/RequestRecoverPassword.account"))
-const LazyRequestEmailVerification = lazy(() => import("@/pages/account/RequestEmailVerification.account"))
-const LazyConfirmationEmail = lazy(() => import("@/pages/account/ConfirmationEmail.account"))
-const LazyPasswordReset = lazy(() => import("@/pages/account/PasswordReset.account"))
-const LazyOrder = lazy(() => import("@/pages/account/orders/[order]"))
-const LazyOrders = lazy(() => import("@/pages/account/orders"))
-const LazyOrderPayment = lazy(() => import("@/pages/account/order-payment"))
+const LazyAccount = lazy(() => import("@/pages/main/account"))
+const LazyLogin = lazy(() => import("@/pages/main/account/Login.account"))
+const LazyRegister = lazy(() => import("@/pages/main//account/register"))
+const LazyRequestRecoverPassword = lazy(() => import("@/pages/main//account/RequestRecoverPassword.account"))
+const LazyRequestEmailVerification = lazy(() => import("@/pages/main//account/RequestEmailVerification.account"))
+const LazyConfirmationEmail = lazy(() => import("@/pages/main/account/ConfirmationEmail.account"))
+const LazyPasswordReset = lazy(() => import("@/pages/main//account/PasswordReset.account"))
+const LazyOrder = lazy(() => import("@/pages/main/account/orders/[order]"))
+const LazyOrders = lazy(() => import("@/pages/main/account/orders"))
 
 const cuentaRouter: RouteObject = {
     path: "cuenta",
@@ -52,12 +51,6 @@ const cuentaRouter: RouteObject = {
             path: "restablecer-contraseña",
             element: <Suspense fallback={<LoadPage />}>
                 <LazyPasswordReset />
-            </Suspense>
-        },
-        {
-            path: "orden",
-            element: <Suspense fallback={<LoadPage />}>
-                <LazyOrderPayment />
             </Suspense>
         },
         {

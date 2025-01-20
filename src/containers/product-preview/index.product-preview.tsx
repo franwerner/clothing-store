@@ -12,7 +12,7 @@ const ProductsNotFound = () => {
     )
 }
 
-const ProductsPreviewContainer = () => {
+const ProductsPreview = () => {
 
     const { isLoading, products, loadMoreProducts, hasMoreProducts } = UseGetProductsPreview()
 
@@ -65,4 +65,4 @@ const ProductsPreviewContainer = () => {
     );
 };
 
-export default ProductsPreviewContainer
+export default ProductsPreview

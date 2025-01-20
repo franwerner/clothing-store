@@ -25,7 +25,6 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
         onFailed: (response) => {
             const { code, message } = response.result_error ?? {}
 
-
             if (code === "session_expired" && localStorageHandler.getItem("userHasLoggedIn")) {
                 localStorageHandler.removeItem("userHasLoggedIn")
             }

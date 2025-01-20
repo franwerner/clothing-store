@@ -1,0 +1,27 @@
+import { useAlertContext } from "@/containers/alert-global"
+import useFetchCustom from "@/hooks/useFetchCustom.hooks"
+
+const usePostRequestPasswordReset  = (email: string) => {
+
+    const alertHander = useAlertContext()
+
+    return useFetchCustom({
+        target: "/users/account/reset/password",
+        method: "POST",
+        body: {
+            email
+        },
+        onFailed: ({ result_error }) => {
+            const { code, message } = result_error
+            if (code === "email_not_found") {
+                alertHander({ color: "danger", description: message })
+            }
+        },
+        onSuccess:({result}) => {
+            const {message} = result
+           alertHander({color : "success",description : message})
+        }
+    })
+}
+
+export default usePostRequestPasswordReset

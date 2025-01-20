@@ -6,11 +6,12 @@ import cuentaRouter from "./cuenta.router";
 import tokenRedirect from "@/helper/tokenRedirect.helper";
 import panelRouter from "./panel.router";
 
-const LazyProductsPreview = lazy(() => import("@/pages/products-preview"))
-const LazyContact = lazy(() => import("@/pages/contact"))
-const LazyAppWraper = lazy(() => import("@/pages/wrapper"))
-const LazyProductsSearch = lazy(() => import("@/pages/products-search"))
-const LazyProductFullView = lazy(() => import("@/pages/product-fullview"))
+const LazyProductsPreview = lazy(() => import("@/pages/main/products-preview"))
+const LazyContact = lazy(() => import("@/pages/main/contact"))
+const LazyAppWraper = lazy(() => import("@/pages/main/wrapper"))
+const LazyProductsSearch = lazy(() => import("@/pages/main/products-search"))
+const LazyProductFullView = lazy(() => import("@/pages/main/product-fullview"))
+const LazyOrderPayment = lazy(() => import("@/pages/order-payment"))
 
 const router = createBrowserRouter([
     {
@@ -64,18 +65,23 @@ const router = createBrowserRouter([
                 path: "envios",
                 element: <p>envios</p>
             },
-         
+
             { ...cuentaRouter, },
             { ...panelRouter },
-            {
-                path: "token",
-                loader: () => {
-                    const { href } = tokenRedirect()
-                    return redirect(href)
-                }
-            }
         ]
-
+    },
+    {
+        path: "token",
+        loader: () => {
+            const { href } = tokenRedirect()
+            return redirect(href)
+        }
+    },
+    {
+        path: "pago",
+        element: <Suspense fallback={<LoadPage />}>
+            <LazyOrderPayment />
+        </Suspense>
     }
 ])
 
