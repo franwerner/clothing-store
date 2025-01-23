@@ -1,5 +1,5 @@
 import ActionButton from "@/components/ActionButton";
-import BaseInput from "@/components/BaseInput";
+import InputBase from "@/containers/form-base/InputBase";
 import useForm from "@/hooks/useForm.hook";
 import { Textarea } from "@nextui-org/react";
 
@@ -14,22 +14,19 @@ const ContactForm = () => {
         <form
             className="inline-flex  gap-3  flex-wrap "
             id="contact-form">
-            <BaseInput
+            <InputBase
                 isRequired
-                placeholder="Ingresa tu nombre y apellido."
                 onChange={onChange}
                 label={"Nombre"}
                 name={"name"}
                 value={form.name} />
-            <BaseInput
+            <InputBase
                 isRequired
-                placeholder="Email de contacto."
                 onChange={onChange}
                 label={"Email"}
                 name={"mail"}
                 value={form.mail} />
-            <BaseInput
-                placeholder="Telefono de contacto."
+            <InputBase
                 onChange={onChange}
                 label={"Teléfono"}
                 name={"phone"}
@@ -39,11 +36,13 @@ const ContactForm = () => {
                 color="default"
                 label="Deja un mensaje"
                 labelPlacement="outside"
+                variant="bordered"
+                radius="sm"
                 maxLength={256}
-                minLength={20}
+                minLength={0}
                 classNames={{
                     label: "uppercase font-semibold  text-default-600",
-                    inputWrapper: "border-3 data-[hover=true]:bg-default-100 group-data-[focus=true]:border-secondary-300 hover:border-secondary-100"
+                    inputWrapper: "border-1 border-default-400 group-data-[focus=true]:border-secondary-400 data-[hover=true]:border-secondary-200 "
                 }}
                 placeholder="Comentanos tu duda."
                 onChange={onChange}

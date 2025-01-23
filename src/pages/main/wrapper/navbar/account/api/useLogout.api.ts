@@ -10,7 +10,7 @@ const useLogout = () => {
     const alertHandler = useAlertContext()
     const resetStore = useResetStore()
     const res = useFetchCustom({
-        target: "/users/logout",
+        target: "/users/session/logout",
         method: "GET",
         onSuccess: ({ result }) => {
             resetStore()

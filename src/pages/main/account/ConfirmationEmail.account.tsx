@@ -1,11 +1,11 @@
-import useGetConfirmationEmail from "@/pages/account/api/useGetConfirmationEmail.api"
 import { Spinner } from "@nextui-org/react"
 import { useEffect } from "react"
 import { useSearchParams } from "react-router"
+import useGetConfirmationEmail from "./api/useGetConfirmationEmail.api"
 
 const ConfirmationEmail = () => {
     const [params] = useSearchParams()
-    const { setRequest, isLoading } = useGetConfirmationEmail(params.get("token") || "")
+    const { setRequest, isLoading } = useGetConfirmationEmail(params.get("token"))
 
     useEffect(() => {
         setRequest()

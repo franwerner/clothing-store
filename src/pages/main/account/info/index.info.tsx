@@ -1,35 +1,31 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import { useSelector } from "@/store"
-import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 import classNames from "classnames"
 import { useState } from "react"
-import useInfoForm from "./hook/useInfoForm.hook"
-import InfoList from "./List.info"
-import InfoModalAuth from "./ModalAuth.info"
 import withAuthorization from "../components/withAuthorization"
 import usePatchUserInfo from "./api/usePatchUserInfo.api"
+import useInfoForm from "./hook/useInfoForm.hook"
+import InfoList from "./list-info"
+import InfoModalAuth from "./ModalAuth.info"
 
 const AccountInfo = () => {
     const [isEditing, setisEditing] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
-    const { fullname = "", phone } = useSelector(({ user }) => user.info) || {}
+    const { name = "", lastname = "", phone } = useSelector(({ user }) => user.info) || {}
 
     const onShowModal = () => setShowModal(prev => !prev)
 
-    const { form, onChange, errors, setForm } = useInfoForm({
-        fullname: fullname,
+    const { form, onChange, errors, setForm, changes } = useInfoForm({
+        name,
+        lastname,
         phone: phone ?? "",
         password: ""
     })
-    const body = removePropertiesByValues({
-        fullname: form.fullname,
-        password: form.password,
-        phone: form.phone
-    }, [fullname, phone, "", undefined])
-    const { isLoading, setRequest } = usePatchUserInfo(body)
-    const isContainsChanges = Object.keys(body).length > 0
+
+    const { isLoading, setRequest } = usePatchUserInfo(changes.list)
+
     return (
         <>
             <AnimatedTitle
@@ -52,7 +48,7 @@ const AccountInfo = () => {
             <ActionButton
                 className={classNames(
                     "bg-black", {
-                    "opacity-70 pointer-events-none": (errors.hasError || !isContainsChanges) && isEditing,
+                    "opacity-70 ": (errors.hasError || !changes.hasChanges) && isEditing,
 
                 })}
                 startContent={
@@ -67,18 +63,18 @@ const AccountInfo = () => {
                 }
                 isLoading={isLoading}
                 onPress={() => {
+            
                     if (!isAuthorized || Date.now() > expired_at) return onShowModal()
 
                     if (isEditing) {
                         setRequest({
                             onSuccess: () => {
-                                setForm("password", "")
+                                setForm({ password: "" })
                             }
                         })
                     } else {
                         setisEditing(true)
                     }
-
                 }}>
             </ActionButton>
             <InfoModalAuth

@@ -25,10 +25,6 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
         onFailed: (response) => {
             const { code, message } = response.result_error ?? {}
 
-            if (code === "session_expired" && localStorageHandler.getItem("userHasLoggedIn")) {
-                localStorageHandler.removeItem("userHasLoggedIn")
-            }
-
             if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip"].includes(code))) {
                 alertHandler({ color: "warning", description: message })
             }
@@ -36,6 +32,7 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
                 alertHandler({ color: "danger", description: message })
             }
             else if (code === "session_expired") {
+                localStorageHandler.removeItem("userHasLoggedIn")
                 alertHandler({ color: "primary", description: message })
                 resetStore()
                 router.navigate("/cuenta/ingresar")

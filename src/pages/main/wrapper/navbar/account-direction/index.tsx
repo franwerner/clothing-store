@@ -29,14 +29,14 @@ const NavbarAccountDirection = memo(() => {
     return (
         <>
             {(email_confirmed || "") && <Icon onShow={onShow} />}
-            {
-                show && <Suspense fallback={<Spinner color="secondary" size="sm" />}>
-                    < LazyAccountDirectionModal
+            <Suspense fallback={<Spinner color="secondary" size="sm" />}>
+                {
+                    email_confirmed && < LazyAccountDirectionModal
                         onShow={onShow}
-                        show={show && !!email_confirmed}
+                        show={show}
                     />
-                </Suspense>
-            }
+                }
+            </Suspense>
         </>
     )
 })

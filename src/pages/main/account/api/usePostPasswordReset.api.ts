@@ -2,12 +2,12 @@ import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import router from "@/router"
 
-const usePostPasswordReset = ({ password, token }: { password: string, token: string }) => {
+const usePostPasswordReset = ({ password, token = null }: { password: string, token: string | null }) => {
 
     const alertHandler = useAlertContext()
 
     return useFetchCustom<any, any, { password: string }>({
-        target: "/users/account/reset/password",
+        target: "/users/info/reset/password",
         method: "POST",
         body: {
             password

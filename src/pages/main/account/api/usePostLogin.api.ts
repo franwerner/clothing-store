@@ -16,7 +16,7 @@ const usePostLogin = ({ email, password }: UseLoginFormProps) => {
     const alertHandler = useAlertContext()
 
     const res = useFetchCustom<UserSchema.FormatUser, any>({
-        target: "/users/login",
+        target: "/users/session/login",
         method: "POST",
         body: {
             email,

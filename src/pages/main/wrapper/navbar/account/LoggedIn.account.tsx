@@ -7,7 +7,10 @@ import useLogout from "./api/useLogout.api"
 const AccountLoggedIn = () => {
 
     const { isLoading, setRequest } = useLogout()
-    const fullname = useSelector((store) => store.user.info?.fullname)
+    const fullname = useSelector((store) => {
+        const { lastname, name } = store.user.info || {}
+        return name + " " + lastname
+    })
     return (
         <DropdownMenu
             itemClasses={{ base: "data-[hover=true]:bg-default-200  uppercase" }}

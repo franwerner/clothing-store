@@ -1,14 +1,15 @@
 import useShopcartGetSession from "@/api/shopcart/useGetSession.api";
+import ActionButton from "@/components/ActionButton";
 import ShopcartExpiredCounter from "@/containers/ShopcartExpiredCounter.containers";
+import router from "@/router";
 import { Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, Link, Spinner } from "@nextui-org/react";
 import { Link as LinkDom } from "react-router";
-import ShopcartPaymentButton from "./PaymentButton.shopcart";
 import ShopCartProducts from "./Products.shopcart";
 import ShopCartTotal from "./Total.shopcart";
 
 const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void }) => {
 
-    const {isLoading,setRequest} = useShopcartGetSession()
+    const { isLoading, setRequest } = useShopcartGetSession()
 
     return (
         <Drawer
@@ -17,7 +18,7 @@ const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void })
             backdrop="opaque"
             size="xl"
             motionProps={{
-                onViewportEnter : () => setRequest()
+                onViewportEnter: () => setRequest()
             }}
             scrollBehavior="inside"
         >
@@ -35,7 +36,10 @@ const ShopcartModal = ({ show, onShow }: { show?: boolean, onShow: () => void })
                     {
                         !isLoading && <ShopCartTotal />
                     }
-                    <ShopcartPaymentButton onShow = {onShow}/>
+                    <ActionButton
+                        onPress={() => router.navigate("/pago")}>
+                        Finalizar compra
+                        </ActionButton>
                     <Link
                         as={LinkDom}
                         to={"/productos"}

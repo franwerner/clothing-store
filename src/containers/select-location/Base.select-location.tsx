@@ -1,9 +1,8 @@
 import { Input, Select } from "@nextui-org/react"
-import { ChangeEventHandler } from "react"
+import { ChangeEventHandler, ReactNode } from "react"
 
-interface SelectDirectionBaseProps {
-    value: string
-    name: "province" | "locality"
+interface SelectLocationBaseProps {
+    search_value: string
     onChange: ChangeEventHandler<HTMLInputElement>
     isInvalid: boolean
     select: string
@@ -13,33 +12,37 @@ interface SelectDirectionBaseProps {
     children: any
     defaultKey: string
     label: string
+    errorMessage?:ReactNode
 }
 
-const SelectDirectionBase = ({
-    name,
+const SelectLocationBase = ({
     onChange,
-    value,
+    search_value,
     isLoading,
     ariaLabel,
     placeholder,
     isInvalid,
     children,
     defaultKey,
-    label
-}: SelectDirectionBaseProps) => {
+    label,
+    errorMessage
+}: SelectLocationBaseProps) => {
 
     return (
         <Select
             isRequired
+            radius="sm"
             className="max-w-sm "
             classNames={{
-                trigger: "min-h-[45px] ",
-                innerWrapper: "overflow-hidden  relative",
+                trigger: " border-default-400 border-1 data-[open=true]:border-secondary-400 data-[hover=true]:border-secondary-200 ",
+                innerWrapper: "overflow-hidden relative",
                 label: "capitalize",
+                base : "min-w-full "
             }}
-            scrollShadowProps={{}}
+            errorMessage={errorMessage}
             label={label}
             selectedKeys={[""]}
+            variant="bordered"
             startContent={<span className="truncate text-sm absolute">{defaultKey}</span>}
             isInvalid={isInvalid}
             validationBehavior="aria"
@@ -56,8 +59,8 @@ const SelectDirectionBase = ({
                     maxListboxHeight: 150
                 },
                 topContent: <Input
-                    name={name}
-                    value={value}
+                    name={"search"}
+                    value={search_value}
                     onChange={onChange}
                     color="secondary"
                     autoComplete="off"
@@ -71,4 +74,4 @@ const SelectDirectionBase = ({
         </Select>
     )
 }
-export default SelectDirectionBase
+export default SelectLocationBase

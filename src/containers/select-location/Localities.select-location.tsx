@@ -1,33 +1,30 @@
-import { ChangeEventHandler, memo } from "react"
-import SelectDirectionBase from "./Base.select-direction"
-import useGetLocalities from "./api/useGetLocalities.api"
-import { useIntersectionObserver } from "@nextui-org/use-intersection-observer"
+import useForm from "@/hooks/useForm.hook"
 import { SelectItem } from "@nextui-org/react"
-import { SelectValueHandler } from "."
+import { useIntersectionObserver } from "@nextui-org/use-intersection-observer"
+import { memo } from "react"
+import SelectLocationBase from "./Base.select-location"
+import useGetLocalities from "./api/useGetLocalities.api"
 
-interface SelectDirectionLocalitiesProps {
-    hasError: boolean
-    onChange: ChangeEventHandler<HTMLInputElement>
+interface SelectLocationLocalitiesProps {
     province: string
     locality: string
-    locality_search: string
-    selectValueHandler: SelectValueHandler
+    selectValueHandler: (value:string) =>  void
+    errorMessage?: string[] | string
 }
 
-const SelectDirectionLocalities = memo(({
-    hasError,
+const SelectLocationLocalities = memo(({
     locality,
-    onChange,
     province,
     selectValueHandler,
-    locality_search,
-}: SelectDirectionLocalitiesProps) => {
+    errorMessage
+}: SelectLocationLocalitiesProps) => {
+
+    const {form,onChange} = useForm({search : ""})
 
     const { hasMoreData, isLoading, loadMoreData, localities } = useGetLocalities({
         province: province,
-        locality: locality_search,
+        locality: form.search,
     })
-
     const [ref] = useIntersectionObserver({
         threshold: 0,
         isEnabled: hasMoreData,
@@ -36,20 +33,20 @@ const SelectDirectionLocalities = memo(({
                 loadMoreData()
             }
         },
-        root: null
+        root: null,
     })
 
     return (
-        <SelectDirectionBase
-            isInvalid={hasError}
+        <SelectLocationBase
+            isInvalid={!!errorMessage && !locality}
+            errorMessage={errorMessage}
             defaultKey={locality}
             ariaLabel="Selecciona una localidad"
             placeholder="Selecciona una localidad"
-            label = "localidad"
-            name={"locality"}
+            label="localidad"
             isLoading={isLoading}
             onChange={onChange}
-            value={locality_search}
+            search_value={form.search}
             select={locality} >
             {
                 localities.map(({ departamento_nombre, id, nombre }, index) => {
@@ -58,7 +55,8 @@ const SelectDirectionLocalities = memo(({
                             className="break-all"
                             textValue={nombre}
                             onPress={() => {
-                                selectValueHandler("locality", nombre)
+                                const isEquals = nombre === locality ? "" : nombre
+                                selectValueHandler(isEquals)
                             }}
                             key={id}>
                             {nombre}
@@ -71,8 +69,8 @@ const SelectDirectionLocalities = memo(({
                     )
                 })
             }
-        </SelectDirectionBase>
+        </SelectLocationBase>
     )
 })
 
-export default SelectDirectionLocalities
+export default SelectLocationLocalities

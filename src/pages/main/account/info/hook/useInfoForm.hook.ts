@@ -1,8 +1,10 @@
+import removePropertiesByValues from "@/utils/removePropertiesByValues.utilts"
 import { userSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
 export interface InfoFormProps {
-    fullname: string,
+    name: string,
+    lastname : string
     phone: string,
     password: string
 }
@@ -10,19 +12,24 @@ export interface InfoFormProps {
 const shape = userSchema.update.shape
 
 const initalValues: InfoFormProps = {
-    fullname: "",
+    name: "",
+    lastname : "",
     phone: "",
     password: "",
 }
 
 const useInfoForm = (props: InfoFormProps = initalValues) => {
 
-
-    return useFormValidation<InfoFormProps>(props, {
+    const {form, onChange, errors, setForm} = useFormValidation<InfoFormProps>(props, {
         validators: {
-            fullname(value) {
+            name(value) {
                 if(value.length === 0) return
-                const parse = shape.fullname.safeParse(value)
+                const parse = shape.name.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            lastname(value) {
+                if(value.length === 0) return
+                const parse = shape.lastname.safeParse(value)
                 return parse.error?.formErrors.formErrors
             },
             password(value) {
@@ -39,6 +46,24 @@ const useInfoForm = (props: InfoFormProps = initalValues) => {
             },
         }
     })
+
+    const body = removePropertiesByValues({
+        name: form.name,
+        lastname: form.lastname,
+        password: form.password,
+        phone: form.phone
+    }, [props.lastname, props.name, props.phone, "", undefined])
+
+    return {
+        form,
+        onChange,
+        errors,
+        setForm,
+        changes : {
+            list : body,
+            hasChanges : Object.keys(body).length > 0
+        },
+    }
 
 }
 export default useInfoForm

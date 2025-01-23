@@ -1,26 +1,19 @@
 import { userSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
-interface RegisterForm {
-    fullname: string
-    email: string
-    phone: string
-    password: string
-    confirm_password: string
-}
-
 const shape = userSchema.insert.shape
-
-const initalValues: RegisterForm = {
-    fullname: "",
+const initalValues = {
+    name: "",
+    lastname: "",
     email: "",
+    confirm_email: "",
     phone: "",
     password: "",
     confirm_password: "",
 }
 
 const useRegisterForm = () => {
-    const { form, errors, onChange, handlerValidationForm } = useFormValidation(initalValues, {
+    return useFormValidation(initalValues, {
         validators: {
             confirm_password(value, state) {
                 if (state.password.trim() !== value.trim()) return ["Las contraseñas deben ser iguales"]
@@ -33,8 +26,15 @@ const useRegisterForm = () => {
                 const parse = shape.email.safeParse(value)
                 return parse.error?.formErrors.formErrors
             },
-            fullname(value) {
-                const parse = shape.fullname.safeParse(value)
+            confirm_email(value, state) {
+                if (state.email.trim() !== value.trim()) return ["Los email deben ser iguales"]
+            },
+            name(value) {
+                const parse = shape.name.safeParse(value)
+                return parse.error?.formErrors.formErrors
+            },
+            lastname(value) {
+                const parse = shape.lastname.safeParse(value)
                 return parse.error?.formErrors.formErrors
             },
             phone(value) {
@@ -47,17 +47,12 @@ const useRegisterForm = () => {
         },
         triggerValidation: {
             password: ["confirm_password"],
+            confirm_password: ["name"],
+            email: ["confirm_email"]
         }
     })
 
-    return {
-        form,
-        onChange,
-        errors: errors,
-        handlerValidationForm
-    }
-
 }
-
+type RegisterForm = typeof initalValues
 export type { RegisterForm }
 export default useRegisterForm

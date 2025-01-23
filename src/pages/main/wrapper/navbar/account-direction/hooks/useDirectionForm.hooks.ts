@@ -4,7 +4,7 @@ import { useFormValidation } from "my-hooks"
 interface DirectionForm {
     street: string
     street_number: string
-    apartament?: string
+    department?: string
     province: string
     locality: string
     postal_code: string
@@ -16,7 +16,7 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
 
     const user_address_id = address.user_address_id
     const {
-        apartament,
+        department,
         locality = "",
         postal_code = "",
         province = "",
@@ -27,7 +27,7 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
     const { form, onChange, setForm, errors, handlerValidationForm } = useFormValidation<DirectionForm>({
         street: street,
         street_number: street_number || "",
-        apartament: apartament || "",
+        department: department || "",
         province: province,
         locality: locality,
         postal_code: postal_code
@@ -53,6 +53,9 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
                 const parse = shape.street_number.safeParse(value)
                 return parse.error?.formErrors.formErrors
             },
+        },
+        triggerValidation: {
+            province: ["locality"]
         }
     })
 
@@ -70,7 +73,7 @@ const useDirectionForm = (address: UserAddresessSchema.Base) => {
         setForm,
         changes: {
             list: changes,
-            isEmpty: !!user_address_id && Object.keys(changes).length === 0
+            notChanges: !!user_address_id && Object.keys(changes).length === 0
         },
         errors,
         handlerValidationForm

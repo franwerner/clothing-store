@@ -12,7 +12,7 @@ const LazyPasswordReset = lazy(() => import("@/pages/main//account/PasswordReset
 const LazyOrder = lazy(() => import("@/pages/main/account/orders/[order]"))
 const LazyOrders = lazy(() => import("@/pages/main/account/orders"))
 
-const cuentaRouter: RouteObject = {
+const accountRouter: RouteObject = {
     path: "cuenta",
     element: <Suspense fallback={<LoadPage />}>
         <LazyAccount />
@@ -67,4 +67,4 @@ const cuentaRouter: RouteObject = {
     ]
 }
 
-export default cuentaRouter
+export default accountRouter

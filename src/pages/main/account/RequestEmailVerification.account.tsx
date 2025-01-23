@@ -1,12 +1,13 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
 import TokenResetTimeCounter from "@/components/TokenResetTimeCounter"
-import useGetRequestEmailVerification from "@/pages/account/api/useGetRequestVerificationEmail.api"
-import withAuthorization from "@/pages/account/components/withAuthorization"
+
 import { useSelector } from "@/store"
 import { getRateLimiterData } from "@/utils/getResponseData.utilts"
 import { motion } from "framer-motion"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
+import useGetRequestEmailVerification from "./api/useGetRequestVerificationEmail.api"
+import withAuthorization from "./components/withAuthorization"
 
 const AccountRequestEmailVerification = () => {
     const { email } = useSelector((store) => store.user.info) ?? { email: "", email_confirmed: true }

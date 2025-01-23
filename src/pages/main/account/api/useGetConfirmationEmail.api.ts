@@ -3,7 +3,7 @@ import router from "@/router"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 
-const useGetConfirmationEmail = (token: string) => {
+const useGetConfirmationEmail = (token: string | null) => {
 
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()

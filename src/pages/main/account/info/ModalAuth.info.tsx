@@ -1,10 +1,10 @@
 import ActionButton from "@/components/ActionButton"
-import BaseInput from "@/components/BaseInput"
 import useForm from "@/hooks/useForm.hook"
 import { Modal, ModalBody, ModalContent, ModalFooter } from "@nextui-org/react"
 import usePostUserInfoAuthentication from "./api/usePostUserInfoAuthentication.api"
+import InputBase from "@/containers/form-base/InputBase"
 
-const InfoModalAuth = ({ show, onShow,setIsEdtion }: { show: boolean, onShow: () => void,setIsEdtion:() => void }) => {
+const InfoModalAuth = ({ show, onShow, setIsEdtion }: { show: boolean, onShow: () => void, setIsEdtion: () => void }) => {
     const { form, onChange, setValue } = useForm({ password: "" })
     const { isLoading, response, setRequest } = usePostUserInfoAuthentication(form.password)
     const { code, message } = response.result_error ?? {}
@@ -23,13 +23,14 @@ const InfoModalAuth = ({ show, onShow,setIsEdtion }: { show: boolean, onShow: ()
         <Modal
             placement="center"
             classNames={{
-                closeButton: "self-end"
+                closeButton: "top-0 right-0"
             }}
             onOpenChange={onShow}
             isOpen={show}>
             <ModalContent >
-                <ModalBody>
-                    <BaseInput
+
+                <ModalBody className="pt-8" >
+                    <InputBase
                         onKeyUp={({ key }) => {
                             if (key === "Enter") {
                                 authenticate()
@@ -37,12 +38,10 @@ const InfoModalAuth = ({ show, onShow,setIsEdtion }: { show: boolean, onShow: ()
                         }}
                         onChange={onChange}
                         name="password"
-                        autoComplete="current-password"
-                        labelPlacement="inside"
                         isInvalid={code == "wrong_password"}
                         errorMessage={message}
                         value={form.password}
-                        label="contraseña"
+                        label="Contraseña"
                         type="password"
                     />
                     <span className="text-[12px]  font-semibold">* Para continuar, debes verificar que eres el propietario de la cuenta.</span>

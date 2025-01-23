@@ -9,7 +9,7 @@ const usePostUserInfoAuthentication = (password: string = "") => {
     const dispatch = useDispatch()
 
     return useFetchCustom<EditAuth>({
-        target: "/users/account/update/info/auth",
+        target: "/users/info/update/auth",
         method: "POST",
         body: {
             password

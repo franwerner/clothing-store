@@ -1,91 +1,87 @@
-import BaseInput from "@/components/BaseInput"
-import { ChangeEventHandler, KeyboardEventHandler } from "react"
-import { RegisterForm } from "./hook/useRegisterForm.hook"
-import { Form } from "@nextui-org/react"
+import InputBase from "@/containers/form-base/InputBase"
 import { FormValidationErrors } from "my-hooks"
-import BaseAccountForm from "../components/BaseAccountForm"
-
-const InputErrorMessage = ({ messages }: { messages?: Array<string> }) => {
-    return (
-        <div>
-            {messages && messages.map((i) => <p key={i}>* {i}</p>)}
-        </div>
-    )
-}
+import { ChangeEventHandler } from "react"
+import { RegisterForm } from "./hook/useRegisterForm.hook"
+import FormBase from "@/containers/form-base"
 
 interface FormProps {
-    onKeyUp: KeyboardEventHandler<HTMLFormElement>
     form: RegisterForm
     errors: FormValidationErrors<RegisterForm>
     onChange: ChangeEventHandler<HTMLInputElement>
+    onRegister: () => void
 }
 
+const FormRegister = ({ form, onChange, errors, onRegister }: FormProps) => {
 
-const FormRegister = ({ form, onChange, onKeyUp, errors }: FormProps) => {
-
-    const { confirm_password, email, fullname, password, phone } = form
+    const { confirm_password, email, lastname, name, password, phone,confirm_email} = form
 
     return (
-        <BaseAccountForm
-            className="m-auto"
-            onKeyUp={onKeyUp}>
-            <BaseInput
-                placeholder="Franco Werner"
-                labelPlacement="inside"
+        <FormBase
+            errors={errors}
+            onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                    onRegister()
+                }
+            }}
+            className="m-auto px-2 sm:max-w-[400px] w-full grid gap-2">
+            <InputBase
+                placeholder="Franco"
                 onChange={onChange}
-                isInvalid={!!errors.fullname}
-                name={"fullname"}
+                name={"name"}
                 isRequired
-                errorMessage={<InputErrorMessage messages={errors.fullname} />}
-                label={"Nombre y apellido"}
-                value={fullname}
+                value={name}
+                label={"Nombre"}
             />
-            <BaseInput
+            <InputBase
+                placeholder="Werner"
+                onChange={onChange}
+                name={"lastname"}
+                isRequired
+                label={"Apellido"}
+                value={lastname}
+            />
+            <InputBase
                 placeholder="tucorreo@ejemplo.com"
-                labelPlacement="inside"
-                isInvalid={!!errors.email}
                 onChange={onChange}
                 name={"email"}
                 isRequired
                 label={"Correo electronico"}
-                errorMessage={<InputErrorMessage messages={errors.email} />}
                 value={email}
             />
-            <BaseInput
-                placeholder="+54 9 11 2345-6789"
-                labelPlacement="inside"
+            <InputBase
+                placeholder="tucorreo@confirm.com"
                 onChange={onChange}
-                isInvalid={!!errors.phone}
+                name={"confirm_email"}
+                isRequired
+                label={"Confirmar correo lectronico"}
+                value={confirm_email}
+            />
+            <InputBase
+                placeholder="+54 9 11 2345-6789"
+                onChange={onChange}
                 name={"phone"}
                 label={"Telefono"}
-                errorMessage={<InputErrorMessage messages={errors.phone} />}
                 value={phone}
             />
-            <BaseInput
+            <InputBase
                 placeholder="Olgahats-2525"
-                labelPlacement="inside"
                 onChange={onChange}
                 name={"password"}
-                isInvalid={!!errors.password}
                 isRequired
                 autoComplete="off"
                 label={"Contraseña"}
-                errorMessage={<InputErrorMessage messages={errors.password} />}
                 value={password}
             />
-            <BaseInput
+            <InputBase
                 placeholder="Olgahats-2525"
-                labelPlacement="inside"
                 onChange={onChange}
                 autoComplete="off"
-                isInvalid={!!errors.confirm_password}
                 name={"confirm_password"}
                 isRequired
-                errorMessage={<InputErrorMessage messages={errors.confirm_password} />}
                 label={"Confirmar contraseña"}
                 value={confirm_password}
             />
-        </BaseAccountForm>
+        </FormBase>
     )
 }
 

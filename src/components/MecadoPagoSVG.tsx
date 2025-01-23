@@ -7,6 +7,7 @@ const MercadoPagoSVG = (props:SVGProps<any>) => {
       xmlns="http://www.w3.org/2000/svg"
       id="logos"
       viewBox="0 0 1048.82 425.2"
+      height={60}
       {...props}
     >
       <defs>

@@ -10,7 +10,7 @@ const usePatchUserInfo = (props: UpdateInfo = {}) => {
     const dispatch = useDispatch()
 
     return useFetchCustom<UserSchema.FormatUser, any, UpdateInfo>({
-        target: "/users/account/update/info",
+        target: "/users/info/update",
         method: "PATCH",
         body: props,
         onFailed: ({ result_error }) => {

@@ -1,12 +1,13 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import BaseInput from "@/components/BaseInput"
+import InputAuth from "@/components/InputAuth"
 import useForm from "@/hooks/useForm.hook"
 import router from "@/router"
 import { motion } from "framer-motion"
 import usePostLogin from "./api/usePostLogin.api"
-import BaseAccountForm from "./components/BaseAccountForm"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
+import InputBase from "@/containers/form-base/InputBase"
+import FormBase from "@/containers/form-base"
 
 interface LoginFormProps {
     email: string
@@ -30,42 +31,45 @@ const AccountLogin = () => {
                 transition={{
                     duration: 0.2,
                 }}
-                className=" w-full items-start flex  flex-col gap-8  justify-center"
+                className=" w-full items-start flex  flex-col gap-2  justify-center"
             >
-                <div className="sm:w-[400px] w-full relative  mb-1 m-auto">
-                    <BaseAccountForm
-                        onKeyUp={() => setRequest()}
-                    >
-                        <BaseInput
-                            label="Email"
-                            labelPlacement="inside"
-                            onChange={onChange}
-                            autoComplete="username"
-                            isInvalid={code == "email_not_found"}
-                            value={form.email}
-                            errorMessage={message}
-                            name="email"
-                        />
-                        <BaseInput
-                            onChange={onChange}
-                            name="password"
-                            autoComplete="current-password"
-                            labelPlacement="inside"
-                            isInvalid={code == "wrong_password"}
-                            errorMessage={message}
-                            value={form.password}
-                            label="contraseña"
-                            type="password"
-                        />
-                    </BaseAccountForm>
+                <FormBase
+                    className="sm:max-w-[400px] m-auto grid gap-2 px-3 w-full"
+                    onKeyUp={(e) => {
+                        if (e.key === "Enter") {
+                            setRequest()
+                        }
+                    }}
+                >
+                    <InputBase
+                        label="Email"
+                        labelPlacement="inside"
+                        onChange={onChange}
+                        autoComplete="username"
+                        isInvalid={code == "email_not_found"}
+                        value={form.email}
+                        errorMessage={message}
+                        name="email"
+                    />
+                    <InputBase
+                        onChange={onChange}
+                        name="password"
+                        autoComplete="current-password"
+                        labelPlacement="inside"
+                        isInvalid={code == "wrong_password"}
+                        errorMessage={message}
+                        value={form.password}
+                        label="Contraseña"
+                        type="password"
+                    />
                     <span
                         onClick={() => router.navigate("/cuenta/recuperar")}
-                        className=" cursor-pointer absolute right-0 mt-1  hover:font-semibold  underline">
+                        className=" cursor-pointer text-end right-0   hover:font-semibold  underline">
                         ¿Olvidaste tu contraseña?
                     </span>
-                </div>
+                </FormBase>
 
-                <p className="w-full text-center">
+                <p className="w-full my-1 text-center">
                     ¿No estas registrado?
                     <a
                         className="inline-block ml-1 font-semibold underline cursor-pointer hover:opacity-80"
@@ -75,7 +79,7 @@ const AccountLogin = () => {
 
                 <ActionButton
                     isLoading={isLoading}
-                    className="sm:min-w-[300px] pointer-events-auto"
+                    className=" pointer-events-auto "
                     onPress={() => {
                         setRequest()
                     }}

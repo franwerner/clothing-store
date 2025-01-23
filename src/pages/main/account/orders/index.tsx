@@ -1,6 +1,6 @@
 import AnimatedTitle from "@/components/AnimatedTitle"
 import OrdersList from "./List.orders"
-import withAuthorization from "@/pages/account/components/withAuthorization"
+import withAuthorization from "../components/withAuthorization"
 
 
 const Orders = () => {

@@ -3,7 +3,7 @@ import OrderTracking from "./Tracking.order"
 import OrderShippingInfo from "./ShippingInfo.order"
 import OrderDetails from "./Details.order"
 import transformToCurrency from "@/utils/transformToCurrency.utils"
-import withAuthorization from "@/pages/account/components/withAuthorization"
+import withAuthorization from "../../components/withAuthorization"
 
 const Order = () => {
 

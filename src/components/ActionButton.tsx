@@ -1,16 +1,14 @@
 import { Button, ButtonProps } from "@nextui-org/react";
 
 
-const ActionButton = ({ className, ...props }: ButtonProps) => {
-    return (
-        <Button
-            variant="solid"
-            color="default"
-            className={`h-14  rounded-3xl shadow-lg w-full sm:w-auto hover:scale-95 mx-auto text-[15px] bg-black font-medium  text-white  uppercase ${className} `}
-            {...props}
-        />
-    )
-};
+const ActionButton = ({ className, ...props }: ButtonProps) => (
+    <Button
+        variant="solid"
+        color="default"
+        radius="lg"
+        className={`h-14  shadow-sm max-w-min hover:scale-95 mx-auto px-16 text-[15px] bg-black font-medium  text-white  uppercase ${className} `}
+        {...props}
+    />)
 
 
 export default ActionButton;
