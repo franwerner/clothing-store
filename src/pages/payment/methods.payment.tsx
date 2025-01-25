@@ -3,7 +3,7 @@ import { Radio, RadioGroup } from "@nextui-org/react";
 
 const PaymentMethods = () => {
     return (
-        <section className="py-4">
+        <section >
             <div className="border-b border-b-default-400 pb-2 flex mb-4 items-center gap-3 text-[18px]">
                 <span className="material-symbols-outlined text-[30px]">
                     credit_card

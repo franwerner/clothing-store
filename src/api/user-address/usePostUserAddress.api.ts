@@ -1,14 +1,14 @@
 import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
-import { UserAddresessSchema } from "clothing-store-shared/schema"
+import { UserAddressesSchema } from "clothing-store-shared/schema"
 
 const usePostUserAddress = () => {
 
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
 
-    const { setRequest, isLoading, response } = useFetchCustom<UserAddresessSchema.Base>({
+    const { setRequest, isLoading, response } = useFetchCustom<UserAddressesSchema.Base>({
         target: "/users/addresess",
         method: "POST",
         onSuccess : ({result}) => {

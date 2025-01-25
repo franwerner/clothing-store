@@ -12,9 +12,10 @@ const InputErrorMessage = ({ messages }: { messages?: Array<string> | string }) 
     )
 }
 
-const InputBase = ({ name = "", errorMessage, classNames = {}, ...props }: Omit<InputProps, "errorMessage"> & { errorMessage?: string[] | string }) => {
+const InputBase = ({ name = "", errorMessage, classNames = {},show = true, ...props }: Omit<InputProps, "errorMessage"> & { errorMessage?: string[] | string ,show ?: boolean}) => {
     const errors = useContext(FormBaseContext)
     const errorMessageContext = errorMessage || errors[name]
+    if(!show) return
     return (
         <Input
             name={name}

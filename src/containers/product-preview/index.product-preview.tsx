@@ -47,10 +47,11 @@ const ProductsPreview = () => {
                             }}
                             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  ">
                             {
-                                products.map((i, index) =>
-                                    <ProductCard _REF={index == 39 ? ref : null} key={i.product_color_id} {...i} />
+                                products.map((i) =>
+                                    <ProductCard key={i.product_color_id} {...i} />
                                 )
                             }
+                            <span id="observer-loader" ref={ref}/>
                         </motion.div>
                 }
             </AnimatePresence>

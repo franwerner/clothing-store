@@ -23,6 +23,7 @@ const HydrateApp = ({ children }: HydrateAppProps) => {
     useEffect(() => {
         if (!user_id || !email_confirmed) return
         userAddress.setRequest()
+        return userAddress.clearSideEffects
     }, [user_id])
 
     useEffect(() => {

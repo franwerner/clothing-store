@@ -1,12 +1,12 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
+import FormBase from "@/containers/form-base"
+import InputBase from "@/containers/form-base/InputBase"
 import { motion } from "framer-motion"
 import { useSearchParams } from "react-router"
+import usePostPasswordReset from "./api/usePostPasswordReset.api"
 import AccountAnimationVariant from "./constant/animationVariant.contant"
 import usePasswordResetForm from "./hook/usePasswordReset.hook"
-import usePostPasswordReset from "./api/usePostPasswordReset.api"
-import { Form } from "@nextui-org/react"
-import InputBase from "@/containers/form-base/InputBase"
 
 const AccountPasswordReset = () => {
 
@@ -36,10 +36,9 @@ const AccountPasswordReset = () => {
                     duration: 0.2,
                 }}
             >
-                <Form
-                    validationBehavior="native"
+                <FormBase
                     className="w-full max-w-[400px] grid"
-                    validationErrors={errors.list}
+                    errors={list}
                 >
                     <InputBase
                         placeholder="Olgahats-2525"
@@ -49,9 +48,6 @@ const AccountPasswordReset = () => {
                         isRequired
                         autoComplete="off"
                         label={"Contraseña"}
-                        errorMessage={<div>
-                            {list.password && list.password.map((i) => <p key={i}>* {i}</p>)}
-                        </div>}
                         value={password}
                     />
                     <InputBase
@@ -61,11 +57,10 @@ const AccountPasswordReset = () => {
                         autoComplete="off"
                         name={"confirm_password"}
                         isRequired
-                        errorMessage={list.confirm_password && list.confirm_password[0]}
                         label={"Confirmar contraseña"}
                         value={confirm_password}
                     />
-                </Form>
+                </FormBase>
                 <ActionButton
                     isDisabled={hasError}
                     isLoading={isLoading}

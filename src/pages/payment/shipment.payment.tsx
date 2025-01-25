@@ -3,7 +3,7 @@ import { Radio, RadioGroup } from "@nextui-org/react"
 
 const PaymentShipment = () => {
     return (
-        <section className="py-4" >
+        <section  >
             <div className="border-b border-b-default-400 pb-2 flex mb-4 items-center gap-3 text-[18px]">
                 <span className="material-symbols-outlined text-[30px]">
                     delivery_truck_speed
@@ -23,7 +23,7 @@ const PaymentShipment = () => {
                         labelWrapper: "w-full",
                     }} value="house" >
                             <span className="font-semibold">{transformToCurrency(7000)}</span>
-                            <p className="text-end text-sm">Envío a domicilio</p>
+                            <p className="text-end text-sm font-medium">Envío a domicilio</p>
                     </Radio>
                 </RadioGroup>
         </section>

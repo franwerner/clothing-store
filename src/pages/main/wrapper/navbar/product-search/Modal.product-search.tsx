@@ -11,7 +11,7 @@ interface ProductSearchModalProps {
 }
 
 const ProductSearchModal = ({ onShow, show }: ProductSearchModalProps) => {
-    const { createDelay ,cleanDelay} = useDelay()
+    const { createDelay, cleanDelay } = useDelay()
 
     const { form, onChange, setValue } = useForm({ search: getUrlQueryParams("search", "productos/busqueda") || null })
 
@@ -19,7 +19,7 @@ const ProductSearchModal = ({ onShow, show }: ProductSearchModalProps) => {
 
     useEffect(() => {
         if (show && search !== getUrlQueryParams("search", "productos/busqueda") && search !== null) {
-            setValue("search", null)
+            setValue(() => ({ search: null }))
         }
     }, [show])
 

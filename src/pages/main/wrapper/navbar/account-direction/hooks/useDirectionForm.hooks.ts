@@ -1,4 +1,4 @@
-import { userAddresessSchema, UserAddresessSchema } from "clothing-store-shared/schema"
+import { UserAddressesSchema, userAddressesSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
 interface DirectionForm {
@@ -10,9 +10,9 @@ interface DirectionForm {
     postal_code: string
 }
 
-const shape = userAddresessSchema.base.shape
+const shape = userAddressesSchema.base.shape
 
-const useDirectionForm = (address: UserAddresessSchema.Base) => {
+const useDirectionForm = (address: UserAddressesSchema.Base) => {
 
     const user_address_id = address.user_address_id
     const {

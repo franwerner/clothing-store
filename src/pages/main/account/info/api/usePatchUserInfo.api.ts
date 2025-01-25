@@ -3,13 +3,13 @@ import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { UserSchema } from "clothing-store-shared/schema"
 
-type UpdateInfo = Omit<UserSchema.UpdateInfo, "user_id">
+type UpdateInfo = Omit<UserSchema.Update, "user_id" | "guest_purchases_synced" | "email_confirmed">
 const usePatchUserInfo = (props: UpdateInfo = {}) => {
 
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
 
-    return useFetchCustom<UserSchema.FormatUser, any, UpdateInfo>({
+    return useFetchCustom<UserSchema.FormatUser>({
         target: "/users/info/update",
         method: "PATCH",
         body: props,

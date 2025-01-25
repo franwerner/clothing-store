@@ -1,4 +1,5 @@
-import { userAddresessSchema, userSchema } from "clothing-store-shared/schema"
+import { useSelector } from "@/store"
+import {  userAddressesSchema, userSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
 const initialValues = {
@@ -15,10 +16,19 @@ const initialValues = {
 }
 
 const userShape = userSchema.insert.shape
-const userAddressShape = userAddresessSchema.insert.shape
+const userAddressShape = userAddressesSchema.insert.shape
 
-const useDirectionForm = (props = initialValues) => {
-    return useFormValidation(props, {
+const useDirectionForm = () => {
+
+    const props = useSelector(({ userAddress }) => userAddress.address) || {}
+    const phone = useSelector(({ user }) => user?.info?.phone) || ""
+
+
+    return useFormValidation({
+        ...initialValues,
+        ...props,
+        phone
+    }, {
         validators: {
             email(v) {
                 const parse = userShape.email.safeParse(v)

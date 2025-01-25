@@ -1,12 +1,12 @@
 import { useAlertContext } from "@/containers/alert-global"
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
-import { UserAddresessSchema, } from "clothing-store-shared/schema"
+import { UserAddressesSchema } from "clothing-store-shared/schema"
 
 const usePatchUserAddress = () => {
     const dispatch = useDispatch()
     const alertHandler = useAlertContext()
-    const { setRequest, isLoading, response } = useFetchCustom<UserAddresessSchema.Update>({
+    const { setRequest, isLoading, response } = useFetchCustom<UserAddressesSchema.Update>({
         target: "/users/addresess",
         method: "PATCH",
         onSuccess({ result }) {

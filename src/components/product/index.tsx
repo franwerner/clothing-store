@@ -8,13 +8,12 @@ import classNames from "classnames"
 import { ProductPreview } from "clothing-store-shared/types"
 
 
-const ProductCard = memo(({ discount = 0, product, url, price, color, brand, category, _REF }: ProductPreview.Product & { _REF?: any }) => {
+const ProductCard = memo(({ discount = 0, product, url, price, color, brand, category }: ProductPreview.Product ) => {
 
     const calculateDiscount = (discount / 100) * price
 
     return (
         <Card
-            ref={_REF}
             as="article"
             classNames={{
                 body: "p-0 pb-[80%] relative flex-0 overflow-hidden",

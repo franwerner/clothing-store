@@ -1,14 +1,13 @@
-import useDeleteShopcartProduct from "@/api/shopcart/useDeleteProduct.api";
-import usePatchShopcartProductQuantity from "@/api/shopcart/usePatchProductQuantity.api";
-import { useSelector } from "@/store";
-import transformToCurrency from "@/utils/transformToCurrency.utils";
-import { Button, Image, Spinner } from "@nextui-org/react";
-import classNames from "classnames";
-import { ShopcartProductSchema } from "clothing-store-shared/schema";
-import { AnimatePresence, motion } from "framer-motion";
-import { memo } from "react";
+import useDeleteShopcartProduct from "@/api/shopcart/useDeleteProduct.api"
+import usePatchShopcartProductQuantity from "@/api/shopcart/usePatchProductQuantity.api"
+import transformToCurrency from "@/utils/transformToCurrency.utils"
+import { Button, Image, Spinner } from "@nextui-org/react"
+import classNames from "classnames"
+import { ShopcartProductSchema } from "clothing-store-shared/schema"
+import { motion } from "framer-motion"
+import { forwardRef, memo } from "react"
 
-const Product = memo(({
+const ShopcartProductItem = memo(forwardRef<HTMLElement,ShopcartProductSchema.BaseInShopcart>(({
     color,
     product,
     id,
@@ -16,9 +15,8 @@ const Product = memo(({
     quantity,
     size,
     url,
-    discount = 0,
-}: ShopcartProductSchema.BaseInShopcart) => {
-
+    discount,
+}, ref) => {
     const priceWithQuantity = price * quantity
     const calculateDiscount = priceWithQuantity * (discount / 100)
 
@@ -37,9 +35,9 @@ const Product = memo(({
             }
         })
     }
-
     return (
         <motion.article
+            ref={ref}
             layout
             exit={{
                 scale: 0,
@@ -47,21 +45,21 @@ const Product = memo(({
                 transition: { duration: 0.3 },
             }}
             role="article"
-            className="relative border border-default-200 xs:flex border-b-2 shadow rounded-md p-2"
+            className="relative border-default-100 border bg-white rounded-md  xs:flex shadow-md p-2"
         >
             {
-                url && <Image
+                <Image
                     radius="none"
                     alt={product}
                     title={product}
                     classNames={{
-                        img: "object-contain w-full max-h-[120px] xs:max-h-[90px]",
+                        img: "object-contain w-full max-h-[80px] xs:max-h-[80px]",
                         wrapper: "max-xs:m-auto flex-shrink-0",
                     }}
-                    src={url}
+                    src={"https://http2.mlstatic.com/D_NQ_NP_634587-MLA79784694049_102024-O.webp"}
                 />
             }
-            <section className="px-1 flex flex-col">
+            <section className="px-1  overflow-hidden">
                 <div className="inline-flex max-xs:justify-center break-all w-full items-center gap-1">
                     <span
                         aria-label="discounted price"
@@ -70,26 +68,31 @@ const Product = memo(({
                         {transformToCurrency(priceWithQuantity - calculateDiscount, "ARS")}
                     </span>
                     {discount ?
-                        <span aria-label="original price" className="text-xs line-through ">
+                        <span
+                            aria-label="original price"
+                            className="text-xs line-through ">
                             {transformToCurrency(priceWithQuantity, "ARS")}
                         </span>
                         : ""}
                 </div>
                 <h3
-                    id="product-title"
-                    className="flex-1 text-[14px]  max-xs:text-center break-all">
+                    className=" font-medium uppercase text-[13px]  max-xs:text-center break-all">
                     {product}
-                    <span aria-hidden="true" className="ml-1 capitalize text-default-800 font-bold">
-                        {`(${color}, ${size})`}
-                    </span>
                 </h3>
-                <div aria-label="quantity controls" className="flex max-xs:justify-center items-center">
+                <div className="flex gap-1 justify-center text-sm">
+                    <p className="truncate">Color : <span className="uppercase font-semibold text-default-800">{color}</span></p>
+                    <span className="mx-1">|</span>
+                    <p className="truncate">Tamaño : <span className="uppercase font-semibold text-default-800">{size}</span></p>
+                </div>
+                <div
+                    aria-label="quantity controls"
+                    className="flex max-xs:justify-center items-center">
                     <Button
                         onPress={() => quantityHandler(-1)}
                         variant="bordered"
                         isDisabled={changeLoading}
                         color="default"
-                        className="material-symbols-outlined text-lg border border-default-700 hover:scale-90"
+                        className="material-symbols-outlined hover:bg-black hover:text-white text-lg h-[30px] border border-default-700 hover:scale-90"
                         isIconOnly
                         size="sm"
                         aria-label="decrease quantity"
@@ -105,7 +108,7 @@ const Product = memo(({
                         onPress={() => quantityHandler(+1)}
                         variant="bordered"
                         color="default"
-                        className="material-symbols-outlined text-lg border border-default-700 hover:scale-90"
+                        className="material-symbols-outlined hover:bg-black hover:text-white  text-lg border h-[30px] border-default-700 hover:scale-95"
                         isIconOnly
                         isDisabled={changeLoading}
                         size="sm"
@@ -120,56 +123,13 @@ const Product = memo(({
                 isIconOnly
                 onPress={() => remove()}
                 isLoading={removeLoading}
-                className="material-symbols-outlined bg-transparent text-2xl z-10 text-end absolute right-0 top-0 p-1 cursor-pointer transition duration-100 active:scale-90"
+                className="material-symbols-outlined hover:bg-black h-[25px] !w-[25px] min-w-[10px] hover:text-white  bg-transparent text-[20px] z-10 text-end absolute right-1 top-1  cursor-pointer transition duration-100 active:scale-95"
                 aria-label="remove product"
             >
                 close
             </Button>
         </motion.article>
     )
-})
+}))
 
-const VoidShopcart = () => {
-    return (
-        <div
-            id="void-shopcart"
-            className="flex flex-1  justify-center items-center h-full rounded-md p-4 ">
-            <motion.h3
-                layout
-                className=" uppercase text-lg  rounded-lg underline">
-                ¡El carrito de compras esta vacio!
-            </motion.h3>
-        </div>
-    )
-}
-
-const ShopCartProducts = () => {
-
-    const products = useSelector(({ shopcart }) => shopcart.products) || []
-    const expired_at = useSelector(({ shopcart }) => shopcart.expired_at)
-
-    return (
-        <section
-            id="shoptcart-product"
-            className={classNames(
-                "flex-1 gap-2 flex flex-col  rounded-md bg-default-50",
-                {
-                    "opacity-80 pointer-events-none": expired_at === 0
-                }
-            )}>
-            <AnimatePresence mode="sync"  >
-                {
-                    products.length > 0 ?
-                        products.map((props) =>
-                            <Product
-                                key={props.id}
-                                {...props} />) :
-                        <VoidShopcart />
-                }
-            </AnimatePresence>
-        </section>
-    )
-}
-
-
-export default ShopCartProducts;
+export default ShopcartProductItem

@@ -4,6 +4,9 @@ import SelectLocationLocalities from "@/containers/select-location/Localities.se
 import SelectLocationProvinces from "@/containers/select-location/Provinces.select-location"
 import { ReactNode } from "react"
 import useDirectionForm from "./hook/useDirectionForm.hook"
+import { useSelector } from "@/store"
+import { Button } from "@nextui-org/react"
+import usePostOrder from "@/api/order/usePostOrder.api"
 
 const GroupInput = ({ children, className = "" }: { children: ReactNode, className?: string }) => (
     <section className={`grid w-full gap-3 grid-cols-2 ${className}`}>
@@ -13,14 +16,27 @@ const GroupInput = ({ children, className = "" }: { children: ReactNode, classNa
 
 const DirectionForm = () => {
     const { form, errors, onChange, setForm } = useDirectionForm()
+
+    const { user_id } = useSelector(({ user }) => user.info) || {}
     const { email, department, lastname, locality, name, phone, postal_code, province, street, street_number } = form
     const errors_list = errors.list
+    const isGuest = !user_id
 
+    const { setRequest } = usePostOrder({
+        department,
+        locality,
+        phone,
+        postal_code,
+        province,
+        street,
+        street_number
+    })
     return (
         <FormBase
             className="grid gap-3"
             errors={errors.list}>
             <InputBase
+                show={isGuest}
                 name="email"
                 value={email}
                 label="Email"
@@ -29,6 +45,7 @@ const DirectionForm = () => {
             />
             <GroupInput>
                 <InputBase
+                    show={isGuest}
                     name="name"
                     value={name}
                     onChange={onChange}
@@ -36,6 +53,7 @@ const DirectionForm = () => {
                     isRequired
                 />
                 <InputBase
+                    show={isGuest}
                     name="lastname"
                     value={lastname}
                     onChange={onChange}
@@ -87,7 +105,7 @@ const DirectionForm = () => {
                     label="Departamento"
                 />
                 <InputBase
-                maxLength={4}
+                    maxLength={4}
                     name="postal_code"
                     value={postal_code}
                     onChange={onChange}
@@ -102,6 +120,11 @@ const DirectionForm = () => {
                 label="Telefono"
                 isRequired
             />
+            <Button
+                onPress={() => {
+                    setRequest()
+                }}
+            >TESTING</Button>
         </FormBase>
     )
 }

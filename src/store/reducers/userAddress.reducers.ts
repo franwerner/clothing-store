@@ -1,15 +1,15 @@
-import { UserAddresessSchema } from "clothing-store-shared/schema"
+import { UserAddressesSchema } from "clothing-store-shared/schema"
 import { createReducer } from "react-observer-context"
 
 
 type State = {
-    address?: UserAddresessSchema.Base,
+    address?: UserAddressesSchema.Base,
 }
 
 type Actions = {
-    set: UserAddresessSchema.Base
+    set: UserAddressesSchema.Base
     reset: undefined,
-    update: Partial<UserAddresessSchema.Base>
+    update: Partial<UserAddressesSchema.Base>
 }
 
 const userAddressReducer = createReducer<State, Actions>({

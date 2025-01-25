@@ -1,12 +1,12 @@
 import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
-import { UserAddresessSchema } from "clothing-store-shared/schema"
+import { UserAddressesSchema } from "clothing-store-shared/schema"
 
 const useGetUserAddress = () => {
 
     const dispatch = useDispatch()
 
-    const { setRequest, isLoading, response } = useFetchCustom<UserAddresessSchema.Base>({
+    return useFetchCustom<UserAddressesSchema.Base>({
         target: "/users/addresess",
         method: "GET",
         onSuccess({ result }) {
@@ -14,11 +14,6 @@ const useGetUserAddress = () => {
         },
     })
 
-    return {
-        isLoading,
-        response,
-        setRequest
-    }
 
 }
 

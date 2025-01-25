@@ -1,6 +1,5 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import InputAuth from "@/components/InputAuth"
 import useForm from "@/hooks/useForm.hook"
 import router from "@/router"
 import { motion } from "framer-motion"
