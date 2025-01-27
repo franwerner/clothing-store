@@ -10,7 +10,6 @@ interface HydrateAppProps {
 }
 
 const HydrateApp = ({ children }: HydrateAppProps) => {
-
     const userSession = useGetUserSession()
     const shopcartSession = useShopcartGetSession()
     const userAddress = useGetUserAddress()

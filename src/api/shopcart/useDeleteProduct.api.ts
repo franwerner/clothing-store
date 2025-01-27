@@ -12,7 +12,7 @@ const useDeleteShopcartProduct = (id: string) => {
             id
         },
         onSuccess: () => {
-            dispatch(({ shopcart }) => shopcart.remove(id))
+            dispatch(({ shopcart }) => shopcart.removeProduct(id))
         }
     })
 }

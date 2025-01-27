@@ -2,34 +2,33 @@ import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import { Progress } from "@nextui-org/react";
 import { ShopcartProductSchema } from "clothing-store-shared/schema";
+import { Shopcart } from "clothing-store-shared/types";
 
-const shippingMock = {
-    freeShipping: 100000,
-    shipping: 7000
-}
-const calculateShopCart = ({ freeShipping, shipping }: Shipping, products?: Array<ShopcartProductSchema.BaseInShopcart>) => {
-    const total = (products || []).reduce((acc, { discount = 0, price, quantity }) => {
+
+const calculateShopCart = ({ cost_based_shipping = 0, min_free_shipping = 0 }: Partial<Shopcart["shipping"]>, products: Array<ShopcartProductSchema.BaseInShopcart>) => {
+    const total = products.reduce((acc, { discount = 0, price, quantity }) => {
         const priceWithQuantity = price * quantity
         const calculateDiscount = priceWithQuantity * (discount / 100)
         return acc + (priceWithQuantity - calculateDiscount)
     }, 0)
-
-    const isFreeShiping = freeShipping <= total
-
+    const isFreeShiping = min_free_shipping <= total
     return {
-        total: isFreeShiping ? total : total + shipping,
+        total: isFreeShiping ? total : total + cost_based_shipping,
         subTotal: total,
-        freeShippingAmountNeeded: Math.max(freeShipping - total, 0),
+        freeShippingAmountNeeded: Math.max(min_free_shipping - total, 0),
     }
 }
 
 
 const ShopcartTotal = () => {
 
-    const products = useSelector(({ shopcart }) => shopcart.products)
+    const products = useSelector(({ shopcart }) => shopcart.products) || []
+    const shipping = useSelector(({ shopcart }) => shopcart.shipping)
 
-    const { freeShippingAmountNeeded, subTotal, total } = calculateShopCart(shippingMock, products)
+    const { freeShippingAmountNeeded, subTotal, total } = calculateShopCart(shipping || {}, products)
 
+    const cost = shipping?.cost_based_shipping ?? 0
+    const free_shipping = shipping?.min_free_shipping ?? 0
     return (
         <section
             id="shopcart-total"
@@ -39,7 +38,7 @@ const ShopcartTotal = () => {
                 label="none"
                 size="md"
                 value={subTotal}
-                maxValue={shippingMock.freeShipping}
+                maxValue={free_shipping}
                 classNames={{
                     indicator: `${freeShippingAmountNeeded ? "bg-secondary-300" : "bg-success-300"}`,
                     label: "hidden",
@@ -55,7 +54,7 @@ const ShopcartTotal = () => {
             <section className="w-full h-full grid  border-b-0">
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Envio</p>
-                    <span className="font-medium">{transformToCurrency(freeShippingAmountNeeded ? 7000 : -7000)}</span>
+                    <span className="font-medium">{transformToCurrency(freeShippingAmountNeeded ? cost : -cost)}</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Subtotal</p>

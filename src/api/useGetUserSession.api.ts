@@ -11,7 +11,7 @@ const useGetUserSession = () => {
         user_info: UserSchema.FormatUser,
         edit_authorization?: EditAuth
     }>({
-        target: "/users/info",
+        target: "/users/session",
         method: "GET",
         onSuccess: ({ result }) => {
             const data = result.data

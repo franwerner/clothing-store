@@ -15,21 +15,10 @@ const AccountDirectionModal = ({ onShow, show }: { show: boolean, onShow: () => 
     const { form, onChange, setForm, errors, changes, handlerValidationForm } = useDirectionForm(address)
     const { hasError, list } = errors
     const submitHandler = () => {
-        if (hasError) return
-        if (user_address_id) {
-            patch.setRequest({
-                body: {
-                    ...changes.list,
-                    user_address_id,
-                }
-            })
-        } else {
-            const { setErrors, hasError } = handlerValidationForm()
-            if (hasError) return setErrors()
-            post.setRequest({
-                body: form
-            })
-        }
+
+        post.setRequest({
+            body: form
+        })
     }
 
     return (

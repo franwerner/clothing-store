@@ -7,25 +7,26 @@ type ShopcartEdit = Omit<Shopcart, "expired_at"> & { expired_at: null | number }
 
 type Actions = {
     hydrateShopcart: ShopcartEdit
-    remove: string
+    removeProduct: string
     changeQuantity: { quantity: number, id: string }
     addProducts: Array<ShopcartProductSchema.BaseInShopcart>
-    changeExpired: number | null
-    reset:undefined
+    reset: undefined
 }
 
 const shopcartReducer = createReducer<ShopcartEdit, Actions>({
     state: {
         expired_at: null,
         products: [],
+        shipping: { cost_based_shipping: 0, min_free_shipping: 0 }
     },
     actions: {
         hydrateShopcart(state, payload) {
-            const { expired_at, products } = payload
+            const { expired_at, products, shipping } = payload
             state.expired_at = expired_at
             state.products = products
+            state.shipping = shipping
         },
-        remove: (state, payload) => {
+        removeProduct: (state, payload) => {
             const filter = state.products.filter(i => i.id !== payload)
             state.products = filter
             if (state.products.length === 0) {
@@ -57,12 +58,10 @@ const shopcartReducer = createReducer<ShopcartEdit, Actions>({
                 }
             })
         },
-        changeExpired(state, payload) {
-            state.expired_at = payload
-        },
-        reset(state){
-         state.products = []
-         state.expired_at = null
+        reset(state) {
+            state.products = []
+            state.expired_at = null
+            state.shipping = { cost_based_shipping: 0, min_free_shipping: 0 }
         }
     }
 })
