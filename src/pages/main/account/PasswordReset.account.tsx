@@ -13,14 +13,13 @@ const AccountPasswordReset = () => {
     const [params] = useSearchParams()
     const token = params.get("token")
     const email = params.get("email")
-    const { onChange, form, errors } = usePasswordResetForm()
+    const { onChange, form, errors, checkFormErrors } = usePasswordResetForm()
     const { confirm_password, password } = form
     const { isLoading, setRequest } = usePostPasswordReset({ token, password: password })
-
     const { hasError, list } = errors
-
     const passwordResetHandler = () => {
-        if (hasError) return
+        const { hasError, setErrors } = checkFormErrors()
+        if (hasError) return setErrors()
         setRequest()
     }
 
@@ -28,7 +27,7 @@ const AccountPasswordReset = () => {
         <>
             <AnimatedTitle title={email} />
             <motion.section
-                className="flex flex-col gap-2 items-center"
+                className="flex flex-col gap-4 items-center"
                 initial={"hidden"}
                 variants={AccountAnimationVariant}
                 animate={"show"}
@@ -37,7 +36,7 @@ const AccountPasswordReset = () => {
                 }}
             >
                 <FormBase
-                    className="w-full max-w-[400px] grid"
+                    className="w-full gap- max-w-[400px] grid"
                     errors={list}
                 >
                     <InputBase

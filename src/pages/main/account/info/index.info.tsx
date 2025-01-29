@@ -24,7 +24,7 @@ const AccountInfo = () => {
         password: ""
     })
 
-    const { isLoading, setRequest } = usePatchUserInfo(changes.list)
+    const { isLoading, setRequest } = usePatchUserInfo(changes.list, () => setForm({ password: "" }))
 
     return (
         <>
@@ -48,7 +48,7 @@ const AccountInfo = () => {
             <ActionButton
                 className={classNames(
                     "bg-black", {
-                    "opacity-70 ": (errors.hasError || !changes.hasChanges) && isEditing,
+                    "opacity-60 pointer-events-none ": (errors.hasError || !changes.hasChanges) && isEditing,
 
                 })}
                 startContent={
@@ -63,15 +63,11 @@ const AccountInfo = () => {
                 }
                 isLoading={isLoading}
                 onPress={() => {
-            
+
                     if (!isAuthorized || Date.now() > expired_at) return onShowModal()
 
                     if (isEditing) {
-                        setRequest({
-                            onSuccess: () => {
-                                setForm({ password: "" })
-                            }
-                        })
+                        setRequest()
                     } else {
                         setisEditing(true)
                     }

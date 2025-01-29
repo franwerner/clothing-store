@@ -8,7 +8,7 @@ import usePostRegister from "./api/usePostRegister.api"
 import useRegisterForm from "./hook/useRegisterForm.hook"
 
 const AccountRegister = () => {
-    const { form, onChange, errors, handlerValidationForm } = useRegisterForm()
+    const { form, onChange, errors, checkFormErrors } = useRegisterForm()
     const {
         email,
         lastname,
@@ -24,7 +24,7 @@ const AccountRegister = () => {
         phone,
     })
     const onRegister = () => {
-        const { hasError, setErrors } = handlerValidationForm()
+        const { hasError, setErrors } = checkFormErrors()
         if (hasError) return setErrors()
         setRequest()
     }

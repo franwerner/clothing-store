@@ -1,9 +1,9 @@
-import navigationList from "@/constant/navigationList.contant";
 import router from "@/router";
 import { NavbarContent, Tab, Tabs } from "@nextui-org/react";
 import { isString } from "my-utilities";
 import { memo } from "react";
 import useGetMainPaths from "../hooks/useGetMainPaths.hooks";
+import navigationList from "@/pages/main/constant/navigationList.contant";
 
 const NavbarNavigation = memo(() => {
 

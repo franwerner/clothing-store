@@ -3,13 +3,8 @@ import InputBase from "@/containers/form-base/InputBase";
 import useForm from "@/hooks/useForm.hook";
 import { Textarea } from "@nextui-org/react";
 
-
-
-
 const ContactForm = () => {
-
     const { form, onChange } = useForm({ name: "", mail: "", phone: "", message: "" })
-
     return (
         <form
             className="inline-flex  gap-3  flex-wrap "
@@ -53,9 +48,7 @@ const ContactForm = () => {
                 Enviar consulta
             </ActionButton>
         </form>
-    );
-};
-
-
+    )
+}
 
 export default ContactForm

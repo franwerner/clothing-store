@@ -5,7 +5,7 @@ import router from "@/router"
 import localStorageHandler from "@/utils/localStorageHandler.utilts"
 
 
-const useLogout = () => {
+const useGetLogout = () => {
 
     const alertHandler = useAlertContext()
     const resetStore = useResetStore()
@@ -25,4 +25,4 @@ const useLogout = () => {
 }
 
 
-export default useLogout
+export default useGetLogout

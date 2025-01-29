@@ -19,7 +19,7 @@ const DividerAnimate = ({ x }: { x: string }) => {
 
 const AnimatedTitle = ({ title,className = "" }: AnimatedTitleProps) => {
     return (
-        <div className={`text-center gap-4 [ overflow-hidden animated-title justify-center  items-center flex w-full ${className}`}>
+        <div className={`text-center gap-4  overflow-hidden justify-center  items-center flex w-full ${className}`}>
             <DividerAnimate x="-100%" />
             <motion.h1
                 transition={{

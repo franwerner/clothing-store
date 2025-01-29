@@ -6,7 +6,7 @@ const usePostPasswordReset = ({ password, token = null }: { password: string, to
 
     const alertHandler = useAlertContext()
 
-    return useFetchCustom<any, any, { password: string }>({
+    return useFetchCustom({
         target: "/users/info/reset/password",
         method: "POST",
         body: {

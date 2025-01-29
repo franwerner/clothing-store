@@ -1,12 +1,12 @@
+import useGetLogout from "@/api/user-session/useGetLogout.api"
 import router from "@/router"
 import { useSelector } from "@/store"
 import { Button, DropdownItem, DropdownMenu } from "@nextui-org/react"
-import useLogout from "./api/useLogout.api"
 
 
 const AccountLoggedIn = () => {
 
-    const { isLoading, setRequest } = useLogout()
+    const { isLoading, setRequest } = useGetLogout()
     const fullname = useSelector((store) => {
         const { lastname, name } = store.user.info || {}
         return name + " " + lastname

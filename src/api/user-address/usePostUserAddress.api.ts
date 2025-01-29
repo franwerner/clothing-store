@@ -7,7 +7,6 @@ const usePostUserAddress = () => {
 
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
-
     const { setRequest, isLoading, response } = useFetchCustom<UserAddressesSchema.Base>({
         target: "/users/addresess",
         method: "POST",
@@ -17,7 +16,6 @@ const usePostUserAddress = () => {
             dispatch(({userAddress}) => userAddress.set(data) )
         }
     })
-
     return {
         setRequest,
         isLoading,

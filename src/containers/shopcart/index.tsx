@@ -1,7 +1,7 @@
 import { HTMLProps, useEffect } from "react"
 import ShopcartTotal from "./Total.shopcart"
 import ShopcartProducts from "./Products.shopcart"
-import useShopcartGetSession from "@/api/shopcart/useGetSession.api";
+import useShopcartGetSession from "@/api/shopcart/useGetShopcartSession.api";
 
 const Shopcart = (props: HTMLProps<HTMLDivElement>) => {
     const { isLoading, setRequest } = useShopcartGetSession()

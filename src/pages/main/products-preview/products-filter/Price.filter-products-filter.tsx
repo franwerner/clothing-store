@@ -10,7 +10,7 @@ const ProductsFilterPrice = memo(() => {
 
     const price = searchParams.get("price")
 
-    const [defaultMin, defaultMax] = price ? price.split("-") : []
+    const [defaultMin = 0, defaultMax = 0] = price ? price.split("-") : []
 
     const verificateDefaultMax = Number(defaultMin) > Number(defaultMax) ? 0 : defaultMax
 
@@ -21,7 +21,7 @@ const ProductsFilterPrice = memo(() => {
                 min: "0"
             }))
         }
-    }, [price === null])
+    }, [price])
 
     const { form, setValue, onChange } = useForm({
         min: defaultMin,
@@ -30,9 +30,8 @@ const ProductsFilterPrice = memo(() => {
 
     const { max: _max, min: _min } = form
 
-    const max = Number(_max)
-    const min = Number(_min)
-
+    const max = Math.abs(Number(_max))
+    const min = Math.abs(Number(_min))
 
     return (
         <section
@@ -47,7 +46,7 @@ const ProductsFilterPrice = memo(() => {
                     onChange={onChange}
                     name="min"
                     type="number"
-                    value={min < 0 ? "0" : min.toString()}
+                    value={min.toString()}
                     label="Min"
                     classNames={{
                         inputWrapper: "h-2 bg-default-200 bg-white border border-default-300",
@@ -63,7 +62,7 @@ const ProductsFilterPrice = memo(() => {
                     onChange={onChange}
                     name="max"
                     type="number"
-                    value={max < 0 ? "0" : max.toString()}
+                    value={max.toString()}
                     classNames={{
                         inputWrapper: "h-2 bg-default-200 bg-white border border-default-300",
                         label: " text-[13px]",
@@ -77,15 +76,14 @@ const ProductsFilterPrice = memo(() => {
                     isIconOnly
                     className="material-symbols-outlined text-md bg-default-800 text-white "
                     onPress={() => {
-                        const r = [Math.abs(min), Math.abs(max)]
                         if (min == 0 && max == 0) {
                             searchParams.delete("price")
                         }
                         else if (min > max) {
                             searchParams.set("price", min.toString())
-                            setValue((prev) => ({...prev,max : "0"}))
+                            setValue((prev) => ({ ...prev, max: "0" }))
                         } else {
-                            searchParams.set("price", r.join("-"))
+                            searchParams.set("price", [Math.abs(min), Math.abs(max)].join("-"))
                         }
                         fn(searchParams)
                     }}

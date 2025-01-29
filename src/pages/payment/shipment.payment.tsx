@@ -1,5 +1,5 @@
 import transformToCurrency from "@/utils/transformToCurrency.utils"
-import { Radio, RadioGroup } from "@nextui-org/react"
+import { Checkbox } from "@nextui-org/react"
 
 const PaymentShipment = () => {
     return (
@@ -12,20 +12,20 @@ const PaymentShipment = () => {
                     Métodos de envío
                 </h2>
             </div>
-                <RadioGroup defaultValue={"house"} className="p-2">
-                    <Radio 
-                    size="sm"
-                    color="default" 
-                    classNames={{
-                        label: " grid grid-cols-2 p-1  w-full  min-w-full",
-                        base: " min-w-full border-black py-4",
-                        control : "bg-black p-[4px]",
-                        labelWrapper: "w-full",
-                    }} value="house" >
-                            <span className="font-semibold">{transformToCurrency(7000)}</span>
-                            <p className="text-end text-sm font-medium">Envío a domicilio</p>
-                    </Radio>
-                </RadioGroup>
+            <Checkbox
+                size="md"
+                radius="full"
+                color="secondary"
+                classNames={{
+                    base: "w-full p-4  max-w-[100%]",
+                    label: "w-full flex before:hidden  justify-between",
+                    wrapper : "after:bg-default-800"
+                }}
+                isSelected
+            >
+                    <span className="font-semibold ms-4 ">{transformToCurrency(7000)}</span>
+                    <p className="text-end text-sm font-medium">Envío a domicilio</p>
+            </Checkbox>
         </section>
     )
 }

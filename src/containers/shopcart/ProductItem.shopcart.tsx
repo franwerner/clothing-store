@@ -1,5 +1,5 @@
-import useDeleteShopcartProduct from "@/api/shopcart/useDeleteProduct.api"
-import usePatchShopcartProductQuantity from "@/api/shopcart/usePatchProductQuantity.api"
+import useDeleteShopcartProduct from "@/api/shopcart/useDeleteShopcartProduct.api"
+import usePatchShopcartProductQuantity from "@/api/shopcart/usePatchShopcartProductQuantity.api"
 import transformToCurrency from "@/utils/transformToCurrency.utils"
 import { Button, Image, Spinner } from "@nextui-org/react"
 import classNames from "classnames"

@@ -1,29 +1,13 @@
 import AnimatedTitle from "@/components/AnimatedTitle";
 import { Link } from "react-router";
-
-const infoList = [
-    {
-        icon: "credit_card",
-        title: "Paga con tarjeta",
-        subtitle: "Aceptamos todas las tarjetas de debito para tu comodidad."
-    },
-    {
-        icon: "local_shipping",
-        title: "Envío gratis",
-        subtitle: "Disfruta del envío gratuito en compras mayores a $9000,30."
-    },
-    {
-        icon: "local_atm",
-        title: "mercadopago",
-        subtitle: "Realiza tus pagos de forma segura con la integración de Mercado Pago."
-    },
-];
+import InfoList from "./InfoList.top-foter";
+import { useSelector } from "@/store";
 
 
-const InstagramSvg = () => (
+const InstagramSvg = ({ url }: { url: string }) => (
     <Link
         target="_blank"
-        to={"https://www.instagram.com"}
+        to={url}
         className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] max-w-min p-2 rounded-full">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,10 +20,10 @@ const InstagramSvg = () => (
     </Link>
 )
 
-const WhatsappSvg = () => (
+const WhatsappSvg = ({ url }: { url: string }) => (
     <Link
         target="_blank"
-        to={"https://www.whatsapp.com"}
+        to={url}
         className="bg-success-400 max-w-min p-2 rounded-full">
         <svg
             height={35}
@@ -53,35 +37,20 @@ const WhatsappSvg = () => (
 
 
 const FooterTop = () => {
+    const { instagram = "", whatsapp = "" } = useSelector(({ storeConfig }) => storeConfig.config) || {}
+    
     return (
         <section
             id="footer-top"
-            className="max-w-[--page-width] flex-1  flex items-center flex-col  justify-end w-full p-2 sm:px-3 ">
+            className=" flex-1  flex items-center flex-col  justify-end w-full p-2 sm:px-3 ">
             <div id="social-media" className="border-b-1 w-full ">
-                <AnimatedTitle title="Redes sociales" className="p-0" />
+                <AnimatedTitle title="Redes sociales"  />
                 <div className="flex justify-center gap-6 py-5 ">
-                    <InstagramSvg />
-                    <WhatsappSvg />
+                    <InstagramSvg url={instagram} />
+                    <WhatsappSvg url={whatsapp} />
                 </div>
             </div>
-            <div className="md:flex justify-center items-center w-full   py-10 px-2">
-                {
-                    infoList.map(({ icon, title, subtitle }, index) =>
-                        <div
-                            key={index}
-                            className={`flex flex-col justify-start items-center group flex-1 max-md:py-3 md:px-3 gap-1"`}
-                        >
-                            <div className="flex justify-center items-center gap-2 ">
-                                <span className="material-symbols-outlined  text-[25px] ">
-                                    {icon}
-                                </span>
-                                <h3 className="text-[17px] font-oswald  text-default-700 font-semibold uppercase">{title}</h3>
-                            </div>
-                            <p className="text-[14px] text-center  font-light">{subtitle}</p>
-                        </div>
-                    )
-                }
-            </div>
+            <InfoList />
         </section>
     )
 }

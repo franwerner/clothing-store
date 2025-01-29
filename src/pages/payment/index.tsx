@@ -7,6 +7,7 @@ import ShopcartExpiredCounter from "@/containers/ShopcartExpiredCounter.containe
 import PaymentShipment from "./Shipment.payment"
 import PaymentMethods from "./Methods.payment"
 import { useSelector } from "@/store"
+import PaymentProvider from "./provider/Payment.provider"
 
 const AccountOrderPayment = () => {
 
@@ -33,12 +34,14 @@ const AccountOrderPayment = () => {
         </div>
       </header>
       <main className="grid md:grid-cols-2  gap-6  items-start  p-2 ">
-        <div className="grid gap-6  h-full">
-          <PaymentDirection />
-          <PaymentShipment />
-          <PaymentMethods />
-        </div>
-        <PaymentSummary />
+        <PaymentProvider>
+          <div className="grid gap-6  h-full">
+            <PaymentDirection />
+            <PaymentShipment />
+            <PaymentMethods />
+          </div>
+          <PaymentSummary />
+        </PaymentProvider>
       </main>
     </PageWrapper>
   )

@@ -1,23 +1,27 @@
 import { useAlertContext } from "@/containers/alert-global"
-import { ResponseToClientError, ResponseToClientSuccess } from "clothing-store-shared/types"
-import { isFunction, isNumber } from "my-utilities"
-import localStorageHandler from "@/utils/localStorageHandler.utilts"
 import router from "@/router"
+import localStorageHandler from "@/utils/localStorageHandler.utilts"
+import { RateLimiterResponse, ResponseToClient, ResponseToClientError } from "clothing-store-shared/types"
 import { UseFetch, useFetch } from "my-hooks"
+import { isFunction } from "my-utilities"
 import useResetStore from "./useResetStore.hooks"
 
-type FetchCustomResult<T = any, U = any, K = any> = ResponseToClientSuccess<T> | ResponseToClientError<U, K>
 
-const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<UseFetch.Props<
-    ResponseToClientSuccess<T>,
-    ResponseToClientError<U, K>>, "basename">
-) => {
+type FetchCustomResponse<T = any, U = RateLimiterResponse> = UseFetch.Response<ResponseToClient<T>, ResponseToClientError<U>>
+type FetchCustomProps<T = any, U = RateLimiterResponse> = Omit<UseFetch.Props<ResponseToClient<T>, ResponseToClientError<U>>, "basename">
+
+type Props<T = any, U = RateLimiterResponse> = Omit<FetchCustomProps<T, U>, "onFailed">
+    & { onFailed?: (response: Required<UseFetch.FailedResponse<ResponseToClientError<U>>>, handled: boolean) => void, failedTrigger?: boolean }
+
+/**
+ * Los genericos esperandos, son valores que van directamente a la propiedad data del `ResponseToClient`
+ */
+
+const useFetchCustom = <T = any, U = RateLimiterResponse>({ onFailed, failedTrigger, ...props }: Props<T, U>) => {
     const alertHandler = useAlertContext()
     const resetStore = useResetStore()
-    return useFetch<
-        ResponseToClientSuccess<T>,
-        ResponseToClientError<U, K>
-    >({
+
+    return useFetch<ResponseToClient<T>, ResponseToClientError<U>>({
         basename: "/api/",
         headers: {
             "Content-type": "application/json"
@@ -25,11 +29,10 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
         onFailed: (response) => {
             const { code, message } = response.result_error ?? {}
 
-            if (code && (code.includes("SQL") || ["rate_limit", "limit_tokens_by_ip"].includes(code))) {
+            let handled = true
+
+            if (code && ["rate_limit", "limit_tokens_by_ip"].includes(code)) {
                 alertHandler({ color: "warning", description: message })
-            }
-            else if (code === "err_internal") {
-                alertHandler({ color: "danger", description: message })
             }
             else if (code === "session_expired") {
                 localStorageHandler.removeItem("userHasLoggedIn")
@@ -37,7 +40,7 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
                 resetStore()
                 router.navigate("/cuenta/ingresar")
             }
-            else if (isNumber(response.status) && response.status >= 500) {
+            else if (response.status == 500 || code && code.includes("SQL")) {
                 alertHandler({ color: "danger", title: "Servidor no responde." })
             } else if (code === "session_not_complete") {
                 router.navigate("/cuenta/reenviar")
@@ -47,18 +50,22 @@ const useFetchCustom = <T = any, U = any, K = any>({ onFailed, ...props }: Omit<
                 router.navigate("/")
                 alertHandler({ color: "warning", description: message })
             }
-            else {
-                isFunction(onFailed) && onFailed(response)
+            else if (code === "app_maintenance") {
+                router.navigate("/")
+            } else {
+                handled = false
             }
 
+            if (isFunction(onFailed) && (failedTrigger || !handled)) {
+                onFailed(response, handled)
+            }
         },
         ...props
     })
 
 }
 
-
 export {
-    type FetchCustomResult
+    type FetchCustomProps, type FetchCustomResponse,
 }
 export default useFetchCustom

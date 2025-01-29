@@ -1,29 +1,25 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import TokenResetTimeCounter from "@/components/TokenResetTimeCounter"
-
+import TokenResetTimeCounter from "@/pages/main/account/components/TokenResetTimeCounter"
 import { useSelector } from "@/store"
 import { getRateLimiterData } from "@/utils/getResponseData.utilts"
 import { motion } from "framer-motion"
-import AccountAnimationVariant from "./constant/animationVariant.contant"
 import useGetRequestEmailVerification from "./api/useGetRequestVerificationEmail.api"
 import withAuthorization from "./components/withAuthorization"
+import AccountAnimationVariant from "./constant/animationVariant.contant"
 
 const AccountRequestEmailVerification = () => {
     const { email } = useSelector((store) => store.user.info) ?? { email: "", email_confirmed: true }
-
     const { isLoading, response, setRequest } = useGetRequestEmailVerification()
-
     const { code } = response.result_error ?? {}
-
     const data = getRateLimiterData(response)
 
     return (
         <>
             <AnimatedTitle title={email} />
-                <p className=" text-center text-md bg-danger-400 p-6 text-white rounded-lg  font-medium uppercase">
-                    Confirma tu direccion de corro electronico para continuar.
-                </p>
+            <p className=" text-center text-md bg-danger-400 p-6 text-white rounded-lg  font-medium uppercase">
+                Confirma tu direccion de corro electronico para continuar.
+            </p>
             <motion.section
                 variants={AccountAnimationVariant}
                 animate="show"

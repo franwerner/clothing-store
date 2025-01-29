@@ -3,10 +3,7 @@ import InputBase from "@/containers/form-base/InputBase"
 import SelectLocationLocalities from "@/containers/select-location/Localities.select-location"
 import SelectLocationProvinces from "@/containers/select-location/Provinces.select-location"
 import { ReactNode } from "react"
-import useDirectionForm from "./hook/useDirectionForm.hook"
-import { useSelector } from "@/store"
-import { Button } from "@nextui-org/react"
-import usePostOrder from "@/api/order/usePostOrder.api"
+import { usePaymentContext } from "../provider/Payment.provider"
 
 const GroupInput = ({ children, className = "" }: { children: ReactNode, className?: string }) => (
     <section className={`grid w-full gap-3 grid-cols-2 ${className}`}>
@@ -15,26 +12,13 @@ const GroupInput = ({ children, className = "" }: { children: ReactNode, classNa
 )
 
 const DirectionForm = () => {
-    const { form, errors, onChange, setForm } = useDirectionForm()
-
-    const { user_id } = useSelector(({ user }) => user.info) || {}
-    const { email, department, lastname, locality, name, phone, postal_code, province, street, street_number } = form
+    const {errors,form,isGuest,onChange,setForm} = usePaymentContext()
     const errors_list = errors.list
-    const isGuest = !user_id
-
-    const { setRequest } = usePostOrder({
-        department,
-        locality,
-        phone,
-        postal_code,
-        province,
-        street,
-        street_number
-    })
+    const {department,email,lastname,locality,name,phone,postal_code,province,street,street_number} = form
     return (
         <FormBase
             className="grid gap-3"
-            errors={errors.list}>
+            errors={errors_list}>
             <InputBase
                 show={isGuest}
                 name="email"
@@ -120,11 +104,6 @@ const DirectionForm = () => {
                 label="Telefono"
                 isRequired
             />
-            <Button
-                onPress={() => {
-                    setRequest()
-                }}
-            >TESTING</Button>
         </FormBase>
     )
 }

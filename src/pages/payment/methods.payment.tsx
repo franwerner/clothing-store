@@ -1,5 +1,5 @@
 import MercadoPagoSVG from "@/components/MecadoPagoSVG";
-import { Radio, RadioGroup } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 
 const PaymentMethods = () => {
     return (
@@ -12,22 +12,20 @@ const PaymentMethods = () => {
                     Métodos de pago
                 </h2>
             </div>
-            <RadioGroup
-                defaultValue={"mercadopago"}
-                className="p-2">
-                <Radio
-                    size="sm"
-                    color="default"
-                    className="flex"
-                    classNames={{
-                        label: " grid grid-cols-2 p-1  w-full  min-w-full",
-                        base: " min-w-full border-black",
-                        control : "bg-black p-[4px]",
-                        labelWrapper: "w-full",
-                    }} value="mercadopago">
-                    <MercadoPagoSVG />
-                </Radio>
-            </RadioGroup>
+
+            <Checkbox
+                size="md"
+                radius="full"
+                color="secondary"
+                classNames={{
+                    base: " p-4",
+                    label: "  before:hidden ",
+                    wrapper: "after:bg-default-800"
+                }}
+                isSelected
+            >
+                <MercadoPagoSVG />
+            </Checkbox>
         </section>
     );
 };

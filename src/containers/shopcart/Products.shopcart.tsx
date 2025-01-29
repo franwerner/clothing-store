@@ -1,37 +1,30 @@
 import { useSelector } from "@/store"
 import { AnimatePresence, motion } from "framer-motion"
 import ProductInShopcart from "./ProductItem.shopcart"
-import classNames from "classnames"
 import { Spinner } from "@nextui-org/react"
+import { forwardRef } from "react"
 
-const VoidShopcart = () => {
+const VoidShopcart = forwardRef<HTMLDivElement>((_, ref) => {
     return (
         <div
             id="void-shopcart"
             className="flex flex-1  justify-center items-center h-full rounded-md p-4 ">
             <motion.h3
                 layout
+                ref={ref}
                 className=" uppercase text-lg  rounded-lg underline">
                 ¡El carrito de compras esta vacio!
             </motion.h3>
         </div>
     )
-}
+})
 
 const ShopcartProducts = ({ isLoading }: { isLoading: boolean }) => {
     const products = useSelector(({ shopcart }) => shopcart.products) || []
-    const expired_at = useSelector(({ shopcart }) => shopcart.expired_at) || 0
-
     return (
         <section
             id={"shopcart-products"}
-            className={classNames(
-                "gap-2 flex flex-col p-2 overflow-y-auto rounded-md  h-full bg-default-50",
-                {
-                    "opacity-80 pointer-events-none": expired_at === 0
-                }
-            )}
-        >
+            className={"gap-2 flex flex-col p-2 overflow-y-auto rounded-md  h-full bg-default-50"}>
             {
                 isLoading ? <Spinner size="md" color="secondary" /> :
                     <AnimatePresence mode="popLayout"  >

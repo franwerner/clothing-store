@@ -1,12 +1,9 @@
-import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
+import useShopcartFetch from "."
 
 const useDeleteShopcartProduct = (id: string) => {
-
     const dispatch = useDispatch()
-
-    return useFetchCustom({
-        target: "/shopcart",
+    return useShopcartFetch({
         method: "DELETE",
         body: {
             id
@@ -15,6 +12,7 @@ const useDeleteShopcartProduct = (id: string) => {
             dispatch(({ shopcart }) => shopcart.removeProduct(id))
         }
     })
+
 }
 
 export default useDeleteShopcartProduct

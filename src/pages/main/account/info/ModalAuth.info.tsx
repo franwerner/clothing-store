@@ -6,18 +6,13 @@ import InputBase from "@/containers/form-base/InputBase"
 
 const InfoModalAuth = ({ show, onShow, setIsEdtion }: { show: boolean, onShow: () => void, setIsEdtion: () => void }) => {
     const { form, onChange, setValue } = useForm({ password: "" })
-    const { isLoading, response, setRequest } = usePostUserInfoAuthentication(form.password)
-    const { code, message } = response.result_error ?? {}
-
-    const authenticate = () => {
-        setRequest({
-            onSuccess: () => {
-                setValue((prev) => ({ ...prev, password: "" }))
-                onShow()
-                setIsEdtion()
-            }
+    const { isLoading, response, setRequest } = usePostUserInfoAuthentication(form.password,
+        () => {
+            setValue((prev) => ({ ...prev, password: "" }))
+            onShow()
+            setIsEdtion()
         })
-    }
+    const { code, message } = response.result_error ?? {}
 
     return (
         <Modal
@@ -33,7 +28,7 @@ const InfoModalAuth = ({ show, onShow, setIsEdtion }: { show: boolean, onShow: (
                     <InputBase
                         onKeyUp={({ key }) => {
                             if (key === "Enter") {
-                                authenticate()
+                                setRequest()
                             }
                         }}
                         onChange={onChange}
@@ -48,7 +43,7 @@ const InfoModalAuth = ({ show, onShow, setIsEdtion }: { show: boolean, onShow: (
                 </ModalBody>
                 <ModalFooter className="p-1 pb-4">
                     <ActionButton
-                        onPress={() => authenticate()}
+                        onPress={() => setRequest()}
                         isLoading={isLoading}>
                         Autenticar
                     </ActionButton>

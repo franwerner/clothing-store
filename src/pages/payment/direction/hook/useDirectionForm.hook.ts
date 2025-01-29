@@ -1,5 +1,5 @@
 import { useSelector } from "@/store"
-import {  userAddressesSchema, userSchema } from "clothing-store-shared/schema"
+import { userAddressesSchema, userSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
 const initialValues = {
@@ -77,4 +77,8 @@ const useDirectionForm = () => {
     })
 }
 
+type DirectionForm = typeof initialValues
+export {
+    type DirectionForm
+}
 export default useDirectionForm

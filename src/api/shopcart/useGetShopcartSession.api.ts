@@ -1,15 +1,14 @@
-import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { Shopcart } from "clothing-store-shared/types"
+import useShopcartFetch from "."
 
 const useGetShopcartSession = () => {
     const dispatch = useDispatch()
-    return useFetchCustom<Shopcart>({
-        target: "/shopcart",
+    return useShopcartFetch<Shopcart>({
         method: "GET",
         onSuccess: ({ result }) => {
-            dispatch(({ shopcart }) => shopcart.hydrateShopcart(result.data))
-        }
+            dispatch(({ shopcart }) => shopcart.set(result.data))
+        },
     })
 }
 

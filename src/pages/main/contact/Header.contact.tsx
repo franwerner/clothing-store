@@ -1,4 +1,4 @@
-import contactList from "@/constant/contactList.contant";
+import contactList from "../constant/contactList.contant";
 
 const restContactList = contactList.filter(i => i.type !== "direction")
 

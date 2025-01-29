@@ -1,6 +1,6 @@
 import { memo } from "react"
 import FooterMain from "./Main.footer"
-import FooterTop from "./Top.footer"
+import FooterTop from "./top-footer"
 
 
 const Footer = memo(() => {

@@ -1,16 +1,12 @@
 import { useAlertContext } from "@/containers/alert-global"
-import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { ShopcartProductSchema } from "clothing-store-shared/schema"
+import useShopcartFetch from "."
 
-const usePostShopcartAddProducts = (products: Array<ShopcartProductSchema.BaseOutShopcart>) => {
-
+const usePostShopcartProducts = (products: Array<ShopcartProductSchema.BaseOutShopcart>) => {
     const dispatch = useDispatch()
-
     const alertHandler = useAlertContext()
-
-    return useFetchCustom<Array<ShopcartProductSchema.BaseInShopcart>>({
-        target: "/shopcart",
+    return useShopcartFetch<Array<ShopcartProductSchema.BaseInShopcart>>({
         method: "POST",
         body: {
             products
@@ -23,13 +19,7 @@ const usePostShopcartAddProducts = (products: Array<ShopcartProductSchema.BaseOu
                 description: result.message
             })
         },
-        onFailed: ({ result_error }) => {
-            alertHandler({
-                color: "danger",
-                description: result_error.message
-            })
-        }
     })
 }
 
-export default usePostShopcartAddProducts
+export default usePostShopcartProducts

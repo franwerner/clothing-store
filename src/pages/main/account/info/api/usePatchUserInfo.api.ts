@@ -4,7 +4,7 @@ import { useDispatch } from "@/store"
 import { UserSchema } from "clothing-store-shared/schema"
 
 type UpdateInfo = Omit<UserSchema.Update, "user_id" | "guest_purchases_synced" | "email_confirmed">
-const usePatchUserInfo = (props: UpdateInfo = {}) => {
+const usePatchUserInfo = (props: UpdateInfo = {},action:() => void) => {
 
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
@@ -24,6 +24,7 @@ const usePatchUserInfo = (props: UpdateInfo = {}) => {
             const { data, message } = result
             alertHandler({ color: "success", description: message })
             dispatch(({ user }) => user.update(data))
+            action()
         }
     })
 }

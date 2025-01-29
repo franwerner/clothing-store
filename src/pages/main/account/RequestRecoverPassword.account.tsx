@@ -1,6 +1,6 @@
 import ActionButton from "@/components/ActionButton"
 import AnimatedTitle from "@/components/AnimatedTitle"
-import TokenResetTimeCounter from "@/components/TokenResetTimeCounter"
+import TokenResetTimeCounter from "@/pages/main/account/components/TokenResetTimeCounter"
 import useForm from "@/hooks/useForm.hook"
 import { getRateLimiterData } from "@/utils/getResponseData.utilts"
 import { motion } from "framer-motion"
@@ -9,13 +9,9 @@ import AccountAnimationVariant from "./constant/animationVariant.contant"
 import InputBase from "@/containers/form-base/InputBase"
 
 const AccountRequestRecoverPassword = () => {
-
     const { form, onChange } = useForm({ email: "" })
-
     const { isLoading, response, setRequest } = usePostRequestPasswordReset(form.email)
-
     const { code,message } = response.result_error ?? {}
-    
     const data = getRateLimiterData(response)
 
     return (

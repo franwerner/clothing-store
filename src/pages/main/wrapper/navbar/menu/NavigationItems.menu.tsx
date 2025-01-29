@@ -1,4 +1,4 @@
-import navigationList, { NavigationList } from "@/constant/navigationList.contant";
+import navigationList, { NavigationList } from "@/pages/main/constant/navigationList.contant";
 import { Link } from "@nextui-org/react";
 import { memo, useCallback } from "react";
 import { Link as LinkDom } from "react-router";

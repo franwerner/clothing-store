@@ -1,4 +1,4 @@
-import usePostShopcartAddProducts from "@/api/shopcart/usePostAddProducts.api";
+import usePostShopcartAddProducts from "@/api/shopcart/usePostShopcartProducts.api";
 import LoadPage from "@/components/LoadPage";
 import PageWrapper from "@/components/PageWrapper";
 import useForm from "@/hooks/useForm.hook";
@@ -90,7 +90,7 @@ const ProductNotFound = () => {
         <div className="uppercase flex-1 flex justify-center   flex-col items-center">
             <div className="bg-danger-50 px-10 py-8 rounded-lg grid justify-center">
                 <h3 className="text-danger font-bold text-3xl text-center ">404</h3>
-                <p className="text-center">Producto no encontrado o no se encuentra disponible.</p>
+                <p className="text-center text-danger-300 text-sm font-medium">Producto no encuentra disponible.</p>
             </div>
         </div>
     )

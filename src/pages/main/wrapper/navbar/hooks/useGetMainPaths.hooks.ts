@@ -1,4 +1,4 @@
-import navigationList from "@/constant/navigationList.contant"
+import navigationList from "@/pages/main/constant/navigationList.contant"
 import { useLocation } from "react-router"
 
 const useGetMainPaths = () => {

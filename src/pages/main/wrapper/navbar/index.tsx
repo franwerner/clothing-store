@@ -55,7 +55,6 @@ const NavBar = memo(() => {
                         alt="logo-olga-hats"
                         src={imgBrand}
                     />
-
                 </NavbarBrand>
                 <NavbarContent
                     as="div"

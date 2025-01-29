@@ -1,34 +1,23 @@
 import { useSelector } from "@/store";
 import transformToCurrency from "@/utils/transformToCurrency.utils";
 import { Progress } from "@nextui-org/react";
-import { ShopcartProductSchema } from "clothing-store-shared/schema";
-import { Shopcart } from "clothing-store-shared/types";
-
-
-const calculateShopCart = ({ cost_based_shipping = 0, min_free_shipping = 0 }: Partial<Shopcart["shipping"]>, products: Array<ShopcartProductSchema.BaseInShopcart>) => {
-    const total = products.reduce((acc, { discount = 0, price, quantity }) => {
-        const priceWithQuantity = price * quantity
-        const calculateDiscount = priceWithQuantity * (discount / 100)
-        return acc + (priceWithQuantity - calculateDiscount)
-    }, 0)
-    const isFreeShiping = min_free_shipping <= total
-    return {
-        total: isFreeShiping ? total : total + cost_based_shipping,
-        subTotal: total,
-        freeShippingAmountNeeded: Math.max(min_free_shipping - total, 0),
-    }
-}
+import calculateTotalShopcart from "./utils/calculateTotalShopcart.utils";
 
 
 const ShopcartTotal = () => {
 
     const products = useSelector(({ shopcart }) => shopcart.products) || []
     const shipping = useSelector(({ shopcart }) => shopcart.shipping)
+    const { min_free_shipping, cost_based_shipping } = useSelector(({ storeConfig }) => storeConfig.config) || {}
 
-    const { freeShippingAmountNeeded, subTotal, total } = calculateShopCart(shipping || {}, products)
+    const cost = shipping?.cost_based_shipping || cost_based_shipping || 0
+    const free_shipping = shipping?.min_free_shipping || min_free_shipping ||  0
 
-    const cost = shipping?.cost_based_shipping ?? 0
-    const free_shipping = shipping?.min_free_shipping ?? 0
+    const { freeShippingAmountNeeded, subTotal, total } = calculateTotalShopcart({
+        cost_based_shipping: cost,
+        min_free_shipping: free_shipping
+    }, products)
+
     return (
         <section
             id="shopcart-total"
@@ -54,7 +43,7 @@ const ShopcartTotal = () => {
             <section className="w-full h-full grid  border-b-0">
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Envio</p>
-                    <span className="font-medium">{transformToCurrency(freeShippingAmountNeeded ? cost : -cost)}</span>
+                    <span className="font-medium">{transformToCurrency(!freeShippingAmountNeeded && total ? -cost : cost)}</span>
                 </div>
                 <div className="flex justify-between items-center border-b border-default-200 p-4">
                     <p className="font-semibold">Subtotal</p>

@@ -15,12 +15,12 @@ const ShopcartExpiredCounter = (props: HTMLProps<HTMLSpanElement>) => {
         resetCounter()
     }, [expired_at])
 
-    const { hours, minutes, seconds, isFinish, resetCounter } = useCounter({
+    const { hours, minutes, seconds, resetCounter } = useCounter({
         milliseconds: (checkExpiredAt ? now : expired_at) - now,
         stop: checkExpiredAt,
         type: "decrement",
         onFinish: () => {
-            dispatch(({ shopcart }) => shopcart.changeExpired(0))
+            dispatch(({ shopcart }) => shopcart.reset())
         },
     })
 
@@ -28,8 +28,6 @@ const ShopcartExpiredCounter = (props: HTMLProps<HTMLSpanElement>) => {
 
     return (
         <span className="text-[14px] text-danger-400 font-medium" {...props}>{
-            isFinish ?
-                "El carrito de compras se encuentra expirado." :
                 `Tienes ${numberToTwoDigits(hours)}:${numberToTwoDigits(minutes)}:${numberToTwoDigits(seconds)} para finalizar la compra.`
         }
         </span>

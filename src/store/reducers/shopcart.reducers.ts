@@ -6,21 +6,23 @@ import { createReducer } from "react-observer-context"
 type ShopcartEdit = Omit<Shopcart, "expired_at"> & { expired_at: null | number }
 
 type Actions = {
-    hydrateShopcart: ShopcartEdit
+    set: ShopcartEdit
     removeProduct: string
     changeQuantity: { quantity: number, id: string }
     addProducts: Array<ShopcartProductSchema.BaseInShopcart>
     reset: undefined
 }
 
+const default_shipping = { cost_based_shipping: 0, min_free_shipping: 0 }
+
 const shopcartReducer = createReducer<ShopcartEdit, Actions>({
     state: {
         expired_at: null,
         products: [],
-        shipping: { cost_based_shipping: 0, min_free_shipping: 0 }
+        shipping: default_shipping
     },
     actions: {
-        hydrateShopcart(state, payload) {
+        set(state, payload) {
             const { expired_at, products, shipping } = payload
             state.expired_at = expired_at
             state.products = products
@@ -31,6 +33,7 @@ const shopcartReducer = createReducer<ShopcartEdit, Actions>({
             state.products = filter
             if (state.products.length === 0) {
                 state.expired_at = null
+                state.shipping = default_shipping
             }
         },
         addProducts(state, payload) {
@@ -61,8 +64,8 @@ const shopcartReducer = createReducer<ShopcartEdit, Actions>({
         reset(state) {
             state.products = []
             state.expired_at = null
-            state.shipping = { cost_based_shipping: 0, min_free_shipping: 0 }
-        }
+            state.shipping = default_shipping
+        },
     }
 })
 

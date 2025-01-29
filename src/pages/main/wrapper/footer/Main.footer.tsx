@@ -1,17 +1,39 @@
-import contactList from "@/constant/contactList.contant"
-import navigationList from "@/constant/navigationList.contant"
+import navigationList from "@/pages/main/constant/navigationList.contant"
 import { Link } from "@nextui-org/react"
 import { Link as LinkDom } from "react-router"
+import { useSelector } from "@/store"
+
 
 
 const Contact = () => {
+
+    const { contact_phone, location, contact_email } = useSelector(({ storeConfig }) => storeConfig.config) || {}
+
+    const contactList = [
+        {
+            type: "direction",
+            icon: "location_on",
+            method: location
+        },
+        {
+            type: "mail",
+            icon: "mail",
+            method: contact_email
+        },
+        {
+            type: "phone",
+            icon: "call",
+            method: contact_phone
+        },
+    ]
+
     return (
         <div id="footer-contact" className="flex flex-col  items-center sm:items-start ">
             <h3 className="font-oswald text-default-700   sm:text-start text-xl font-bold uppercase">Contactanos</h3>
             {
-                contactList.map(({ icon, method }, index) =>
+                contactList.map(({ icon, method }) =>
                     <div
-                        key={index}
+                        key={icon}
                         className="flex gap-x-2 p-[3px]">
                         <span className="material-symbols-outlined">
                             {icon}

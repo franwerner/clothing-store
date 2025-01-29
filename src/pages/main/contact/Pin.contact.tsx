@@ -1,4 +1,4 @@
-import contactList from "@/constant/contactList.contant";
+import contactList from "@/pages/main/constant/contactList.contant";
 import { motion } from "framer-motion";
 
 const location = contactList.find(i => i.type === "direction")

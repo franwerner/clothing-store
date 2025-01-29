@@ -24,7 +24,7 @@ const useDirectionForm = (address: UserAddressesSchema.Base) => {
         street_number,
     } = address
 
-    const { form, onChange, setForm, errors, handlerValidationForm } = useFormValidation<DirectionForm>({
+    const { form, onChange, setForm, errors, checkFormErrors } = useFormValidation<DirectionForm>({
         street: street,
         street_number: street_number || "",
         department: department || "",
@@ -76,7 +76,7 @@ const useDirectionForm = (address: UserAddressesSchema.Base) => {
             notChanges: !!user_address_id && Object.keys(changes).length === 0
         },
         errors,
-        handlerValidationForm
+        checkFormErrors
     }
 
 }
