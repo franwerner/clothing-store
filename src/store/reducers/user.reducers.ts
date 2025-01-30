@@ -1,40 +1,40 @@
 import { UserSchema } from "clothing-store-shared/schema"
-import { EditAuth } from "clothing-store-shared/types"
 import { createReducer } from "react-observer-context"
 
 type State = {
     info?: UserSchema.FormatUser,
-    edit_authorization?: EditAuth
+    edit_expiration: number
 }
 
 type Actions = {
     set: UserSchema.FormatUser
-    reset: undefined,
     update: Partial<UserSchema.FormatUser>
-    setEditAuth: EditAuth | undefined
+    setEditExpiration: number | undefined
 }
 
 const userReducer = createReducer<State, Actions>({
     state: {
+        edit_expiration: 0
     },
     actions: {
         set(state, payload) {
-            state.info = payload
+            return {
+                ...state,
+                info: payload
+            }
         },
-        setEditAuth(state, payload) {
-            state.edit_authorization = payload
-        },
-        reset(state) {
-            state.info = undefined
-            state.edit_authorization = undefined
+        setEditExpiration(state, payload = 0) {
+            return {
+                ...state,
+                edit_expiration: payload
+            }
         },
         update(state, payload) {
-            if (state.info) {
-                state.info = {
-                    ...state.info,
-                    ...payload
-                }
-            }
+            return state.info ?
+                { ...state, info: { ...state.info, ...payload } }
+                :
+                { ...state }
+
         }
     }
 })

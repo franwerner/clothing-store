@@ -1,7 +1,7 @@
-import contactList from "@/pages/main/constant/contactList.contant";
+import { useSelector } from "@/store";
 import { motion } from "framer-motion";
 
-const location = contactList.find(i => i.type === "direction")
+
 const PinLocaltionSVG = () => (
     <motion.svg
         initial={{
@@ -28,10 +28,11 @@ const PinLocaltionSVG = () => (
 )
 
 const ContactPin = () => {
+    const location = useSelector(({ storeConfig }) => storeConfig.location)
     return (
         <div className="w-full grid items-center justify-center">
             <PinLocaltionSVG />
-            <p className="text-center  text-default-900 font-medium p-1 text-lg ">{location?.method}</p>
+            <p className="text-center  text-default-900 font-medium p-1 text-lg ">{location}</p>
         </div>
     );
 };

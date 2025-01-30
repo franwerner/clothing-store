@@ -37,14 +37,14 @@ const WhatsappSvg = ({ url }: { url: string }) => (
 
 
 const FooterTop = () => {
-    const { instagram = "", whatsapp = "" } = useSelector(({ storeConfig }) => storeConfig.config) || {}
-    
+    const { instagram, whatsapp } = useSelector(({ storeConfig }) => storeConfig)
+
     return (
         <section
             id="footer-top"
             className=" flex-1  flex items-center flex-col  justify-end w-full p-2 sm:px-3 ">
             <div id="social-media" className="border-b-1 w-full ">
-                <AnimatedTitle title="Redes sociales"  />
+                <AnimatedTitle title="Redes sociales" />
                 <div className="flex justify-center gap-6 py-5 ">
                     <InstagramSvg url={instagram} />
                     <WhatsappSvg url={whatsapp} />

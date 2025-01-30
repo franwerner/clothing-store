@@ -9,10 +9,8 @@ import AlertGlobal from "./containers/alert-global";
 import HydrateApp from "./containers/HydrateApp.containers";
 import router from './router';
 import { ObserverStore } from "./store";
-import { useEffect } from "react";
 
 function App() {
-
   
   return (
     <NextUIProvider>

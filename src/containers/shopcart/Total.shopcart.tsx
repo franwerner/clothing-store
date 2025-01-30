@@ -8,10 +8,10 @@ const ShopcartTotal = () => {
 
     const products = useSelector(({ shopcart }) => shopcart.products) || []
     const shipping = useSelector(({ shopcart }) => shopcart.shipping)
-    const { min_free_shipping, cost_based_shipping } = useSelector(({ storeConfig }) => storeConfig.config) || {}
+    const { min_free_shipping, cost_based_shipping } = useSelector(({ storeConfig }) => storeConfig)
 
-    const cost = shipping?.cost_based_shipping || cost_based_shipping || 0
-    const free_shipping = shipping?.min_free_shipping || min_free_shipping ||  0
+    const cost = shipping.cost_based_shipping || cost_based_shipping
+    const free_shipping = shipping.min_free_shipping || min_free_shipping 
 
     const { freeShippingAmountNeeded, subTotal, total } = calculateTotalShopcart({
         cost_based_shipping: cost,

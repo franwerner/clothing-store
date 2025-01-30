@@ -17,7 +17,7 @@ const infoList = [
 
 
 const InfoList = () => {
-    const min_free_shipping = useSelector(({ storeConfig }) => storeConfig.config?.min_free_shipping) ?? 0
+    const min_free_shipping = useSelector(({ storeConfig }) => storeConfig.min_free_shipping)
     const item_info = {
         icon: "local_shipping",
         title: "Envío gratis",

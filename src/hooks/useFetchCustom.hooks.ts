@@ -6,7 +6,6 @@ import { UseFetch, useFetch } from "my-hooks"
 import { isFunction } from "my-utilities"
 import useResetStore from "./useResetStore.hooks"
 
-
 type FetchCustomResponse<T = any, U = RateLimiterResponse> = UseFetch.Response<ResponseToClient<T>, ResponseToClientError<U>>
 type FetchCustomProps<T = any, U = RateLimiterResponse> = Omit<UseFetch.Props<ResponseToClient<T>, ResponseToClientError<U>>, "basename">
 

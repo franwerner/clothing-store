@@ -1,14 +1,11 @@
 import { useAlertContext } from "@/containers/alert-global"
-import useFetchCustom from "@/hooks/useFetchCustom.hooks"
 import { useDispatch } from "@/store"
 import { UserPurchaseAddressesSchema } from "clothing-store-shared/schema"
 import UseOrderFetch from "."
 
 const usePostOrder = (order_address: Omit<UserPurchaseAddressesSchema.Insert, "user_purchase_fk">) => {
-
     const alertHandler = useAlertContext()
     const dispatch = useDispatch()
-
     return UseOrderFetch<{ init_point: string, date_of_expiration: string }>({
         method: "POST",
         body: {

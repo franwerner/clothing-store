@@ -7,7 +7,7 @@ import { ShopcartProductSchema } from "clothing-store-shared/schema"
 import { motion } from "framer-motion"
 import { forwardRef, memo } from "react"
 
-const ShopcartProductItem = memo(forwardRef<HTMLElement,ShopcartProductSchema.BaseInShopcart>(({
+const ShopcartProductItem = memo(forwardRef<HTMLElement, ShopcartProductSchema.BaseInShopcart>(({
     color,
     product,
     id,
@@ -47,18 +47,16 @@ const ShopcartProductItem = memo(forwardRef<HTMLElement,ShopcartProductSchema.Ba
             role="article"
             className="relative border-default-100 border bg-white rounded-md  xs:flex shadow-md p-2"
         >
-            {
-                <Image
-                    radius="none"
-                    alt={product}
-                    title={product}
-                    classNames={{
-                        img: "object-contain w-full max-h-[80px] xs:max-h-[80px]",
-                        wrapper: "max-xs:m-auto flex-shrink-0",
-                    }}
-                    src={"https://http2.mlstatic.com/D_NQ_NP_634587-MLA79784694049_102024-O.webp"}
-                />
-            }
+            <Image
+                radius="none"
+                alt={product}
+                title={product}
+                classNames={{
+                    img: "object-contain w-full max-h-[80px] xs:max-h-[80px]",
+                    wrapper: "max-xs:m-auto flex-shrink-0",
+                }}
+                src={url}
+            />
             <section className="px-1  overflow-hidden">
                 <div className="inline-flex max-xs:justify-center break-all w-full items-center gap-1">
                     <span

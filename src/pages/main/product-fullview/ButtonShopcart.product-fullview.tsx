@@ -13,7 +13,6 @@ const ProductFullViewButtonShopcart = ({
 }: ProductFullViewButtonShopcartProps) => {
 
     return (
-        <section className="flex flex-col gap-4">
             <ActionButton
                 isLoading={isLoading}
                 variant={"solid"}
@@ -21,14 +20,13 @@ const ProductFullViewButtonShopcart = ({
                     addProductToCart()
                 }}
                 isDisabled={isDisabled}
-              className="bg-white border-1 rounded-sm h-16 text-lg text-black max-w-full w-full border-black"
+              className="bg-white border-1 rounded-sm h-16  text-black max-w-full px-0 w-full border-black"
             >
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-1 max-md:text-lg md:text-md lg:text-lg items-center">
                     <span className="material-symbols-outlined">add_shopping_cart</span>
                     Agregar al carrito
                 </div>
             </ActionButton>
-        </section>
     );
 };
 

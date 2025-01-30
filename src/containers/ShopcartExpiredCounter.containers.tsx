@@ -12,6 +12,7 @@ const ShopcartExpiredCounter = (props: HTMLProps<HTMLSpanElement>) => {
     const checkExpiredAt = !expired_at || expired_at < now
 
     useEffect(() => {
+        if (!expired_at) return
         resetCounter()
     }, [expired_at])
 
@@ -25,10 +26,9 @@ const ShopcartExpiredCounter = (props: HTMLProps<HTMLSpanElement>) => {
     })
 
     if (expired_at === null) return
-
     return (
         <span className="text-[14px] text-danger-400 font-medium" {...props}>{
-                `Tienes ${numberToTwoDigits(hours)}:${numberToTwoDigits(minutes)}:${numberToTwoDigits(seconds)} para finalizar la compra.`
+            `Tienes ${numberToTwoDigits(hours)}:${numberToTwoDigits(minutes)}:${numberToTwoDigits(seconds)} para finalizar la compra.`
         }
         </span>
     )

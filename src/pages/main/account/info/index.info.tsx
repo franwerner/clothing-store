@@ -12,20 +12,16 @@ import InfoModalAuth from "./ModalAuth.info"
 const AccountInfo = () => {
     const [isEditing, setisEditing] = useState(false)
     const [showModal, setShowModal] = useState(false)
-    const { isAuthorized, expired_at } = useSelector(({ user }) => user.edit_authorization) || { expired_at: 0, isAuthorized: false }
+    const edit_expiration = useSelector(({ user }) => user.edit_expiration)
     const { name = "", lastname = "", phone } = useSelector(({ user }) => user.info) || {}
-
     const onShowModal = () => setShowModal(prev => !prev)
-
     const { form, onChange, errors, setForm, changes } = useInfoForm({
         name,
         lastname,
         phone: phone ?? "",
         password: ""
     })
-
     const { isLoading, setRequest } = usePatchUserInfo(changes.list, () => setForm({ password: "" }))
-
     return (
         <>
             <AnimatedTitle
@@ -64,7 +60,7 @@ const AccountInfo = () => {
                 isLoading={isLoading}
                 onPress={() => {
 
-                    if (!isAuthorized || Date.now() > expired_at) return onShowModal()
+                    if (Date.now() > edit_expiration) return onShowModal()
 
                     if (isEditing) {
                         setRequest()

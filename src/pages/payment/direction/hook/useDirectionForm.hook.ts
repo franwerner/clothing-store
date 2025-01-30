@@ -20,8 +20,8 @@ const userAddressShape = userAddressesSchema.insert.shape
 
 const useDirectionForm = () => {
 
-    const props = useSelector(({ userAddress }) => userAddress.address) || {}
-    const phone = useSelector(({ user }) => user?.info?.phone) || ""
+    const props = useSelector(({ userAddress }) => userAddress)
+    const phone = useSelector(({ user }) => user?.info?.phone ?? "")
 
 
     return useFormValidation({

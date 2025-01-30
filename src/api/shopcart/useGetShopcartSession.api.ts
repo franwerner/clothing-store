@@ -7,7 +7,11 @@ const useGetShopcartSession = () => {
     return useShopcartFetch<Shopcart>({
         method: "GET",
         onSuccess: ({ result }) => {
-            dispatch(({ shopcart }) => shopcart.set(result.data))
+            const { data } = result
+            dispatch(({ shopcart }) => shopcart.set({
+                ...data,
+                expired_at: new Date(data.expired_at).getTime()
+            }))
         },
     })
 }

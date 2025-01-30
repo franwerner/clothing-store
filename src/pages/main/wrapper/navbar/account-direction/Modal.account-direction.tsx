@@ -3,15 +3,14 @@ import usePostUserAddress from "@/api/user-address/usePostUserAddress.api";
 import ActionButton from "@/components/ActionButton";
 import { useSelector } from "@/store";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
-import { UserAddressesSchema } from "clothing-store-shared/schema";
 import AccountDirectionForm from "./Form.account-direction";
 import useDirectionForm, { DirectionForm } from "./hooks/useDirectionForm.hooks";
 
 const AccountDirectionModal = ({ onShow, show }: { show: boolean, onShow: () => void }) => {
     const post = usePostUserAddress()
     const patch = usePatchUserAddress()
-    const address = useSelector(({ userAddress }) => userAddress.address) || {} as UserAddressesSchema.Base
-    const user_address_id = address?.user_address_id
+    const address = useSelector(({ userAddress }) => userAddress)
+    const user_address_id = address.user_address_id
     const { form, onChange, setForm, errors, changes, checkFormErrors } = useDirectionForm(address)
     const { hasError, list } = errors
     const submitHandler = () => {

@@ -5,7 +5,7 @@ import { lazy, memo, Suspense, useState } from "react"
 const LazyAccountDirectionModal = lazy(() => import("./Modal.account-direction"))
 
 const Icon = memo(({ onShow }: { onShow: () => void }) => {
-    const postal_code = useSelector(({ userAddress }) => userAddress.address?.postal_code) ?? ""
+    const postal_code = useSelector(({ userAddress }) => userAddress.postal_code) 
     return (
         <div
             onClick={onShow}
