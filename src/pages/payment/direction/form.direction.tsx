@@ -12,9 +12,13 @@ const GroupInput = ({ children, className = "" }: { children: ReactNode, classNa
 )
 
 const DirectionForm = () => {
+    
     const {errors,form,isGuest,onChange,setForm} = usePaymentContext()
+
     const errors_list = errors.list
+    
     const {department,email,lastname,locality,name,phone,postal_code,province,street,street_number} = form
+    
     return (
         <FormBase
             className="grid gap-3"

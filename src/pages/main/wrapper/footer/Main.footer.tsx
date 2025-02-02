@@ -7,7 +7,7 @@ import { useSelector } from "@/store"
 
 const Contact = () => {
 
-    const { contact_phone, location, contact_email } = useSelector(({ storeConfig }) => storeConfig.config) || {}
+    const { contact_phone, location, contact_email } = useSelector(({ storeConfig }) => storeConfig)
 
     const contactList = [
         {

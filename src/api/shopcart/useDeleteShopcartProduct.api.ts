@@ -1,7 +1,8 @@
 import { useDispatch } from "@/store"
 import useShopcartFetch from "."
+import { DatabaseKeySchema } from "clothing-store-shared/schema"
 
-const useDeleteShopcartProduct = (id: string) => {
+const useDeleteShopcartProduct = (id: DatabaseKeySchema) => {
     const dispatch = useDispatch()
     return useShopcartFetch({
         method: "DELETE",

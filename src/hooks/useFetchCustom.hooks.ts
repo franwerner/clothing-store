@@ -5,6 +5,7 @@ import { RateLimiterResponse, ResponseToClient, ResponseToClientError } from "cl
 import { UseFetch, useFetch } from "my-hooks"
 import { isFunction } from "my-utilities"
 import useResetStore from "./useResetStore.hooks"
+import { useDispatch } from "@/store"
 
 type FetchCustomResponse<T = any, U = RateLimiterResponse> = UseFetch.Response<ResponseToClient<T>, ResponseToClientError<U>>
 type FetchCustomProps<T = any, U = RateLimiterResponse> = Omit<UseFetch.Props<ResponseToClient<T>, ResponseToClientError<U>>, "basename">
@@ -19,6 +20,7 @@ type Props<T = any, U = RateLimiterResponse> = Omit<FetchCustomProps<T, U>, "onF
 const useFetchCustom = <T = any, U = RateLimiterResponse>({ onFailed, failedTrigger, ...props }: Props<T, U>) => {
     const alertHandler = useAlertContext()
     const resetStore = useResetStore()
+    const dispatch = useDispatch()
 
     return useFetch<ResponseToClient<T>, ResponseToClientError<U>>({
         basename: "/api/",
@@ -39,9 +41,13 @@ const useFetchCustom = <T = any, U = RateLimiterResponse>({ onFailed, failedTrig
                 resetStore()
                 router.navigate("/cuenta/ingresar")
             }
-            else if (response.status == 500 || code && code.includes("SQL")) {
+            else if (response.status == 500) {
                 alertHandler({ color: "danger", title: "Servidor no responde." })
-            } else if (code === "session_not_complete") {
+            } 
+            else if(code && code.includes("SQL")){
+                alertHandler({ color: "danger",description : message })
+            }
+            else if (code === "session_not_complete") {
                 router.navigate("/cuenta/reenviar")
                 alertHandler({ color: "primary", description: message })
             }
@@ -50,7 +56,8 @@ const useFetchCustom = <T = any, U = RateLimiterResponse>({ onFailed, failedTrig
                 alertHandler({ color: "warning", description: message })
             }
             else if (code === "app_maintenance") {
-                router.navigate("/")
+                dispatch(({ storeConfig }) => storeConfig.update({ is_maintenance: true }))
+
             } else {
                 handled = false
             }

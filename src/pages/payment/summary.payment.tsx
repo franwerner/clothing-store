@@ -25,6 +25,7 @@ const PaymentButton = () => {
             name
         }
     })
+
     return (
         <ActionButton
             isDisabled={errors.hasError}

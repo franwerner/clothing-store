@@ -1,5 +1,5 @@
 import { ChangeEventHandler, createContext, ReactNode, useContext } from "react";
-import useDirectionForm, { DirectionForm } from "../direction/hook/useDirectionForm.hook";
+import useDirectionForm, { DirectionForm } from "../hook/useDirectionForm.hook";
 import { useSelector } from "@/store";
 import { CheckFormErrors, FormValidationErrors, SetValidationForm } from "my-hooks";
 
@@ -19,10 +19,11 @@ const PaymentContext = createContext<{
 const usePaymentContext = () => useContext(PaymentContext)
 
 const PaymentProvider = ({ children }: { children: ReactNode }) => {
-
-    const { form, errors, onChange, setForm, checkFormErrors } = useDirectionForm()
+    
     const { user_id } = useSelector(({ user }) => user.info) || {}
     const isGuest = !user_id
+    const { form, errors, onChange, setForm, checkFormErrors } = useDirectionForm(isGuest)
+    
 
     return (
         <PaymentContext.Provider value={{

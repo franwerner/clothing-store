@@ -10,12 +10,16 @@ const useShopcartFetch = <T = any, U = RateLimiterResponse>(props: FetchCustomPr
         target: "/shopcart",
         onFailed(response) {
             const { message, code } = response.result_error
-            if (code === "shopcart_not_found") return
-
-            alertHandler({ color: "danger", description: message })
-            if (code === "expired_shopcart") {
+            if (code === "shopcart_not_found") {
+                dispatch(({ shopcart }, state) => {
+                    if (state.shopcart.products.length > 0) shopcart.reset()
+                })
+                return
+            } else if (code === "expired_shopcart") {
                 dispatch(({ shopcart }) => shopcart.reset())
             }
+
+            alertHandler({ color: "danger", description: message })
         },
         ...props
     })

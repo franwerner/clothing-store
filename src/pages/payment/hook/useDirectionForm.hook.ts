@@ -18,7 +18,7 @@ const initialValues = {
 const userShape = userSchema.insert.shape
 const userAddressShape = userAddressesSchema.insert.shape
 
-const useDirectionForm = () => {
+const useDirectionForm = (isGuest: boolean) => {
 
     const props = useSelector(({ userAddress }) => userAddress)
     const phone = useSelector(({ user }) => user?.info?.phone ?? "")
@@ -31,14 +31,17 @@ const useDirectionForm = () => {
     }, {
         validators: {
             email(v) {
+                if (!isGuest) return
                 const parse = userShape.email.safeParse(v)
                 return parse.error?.formErrors.formErrors
             },
             name(v) {
+                if (!isGuest) return
                 const parse = userShape.name.safeParse(v)
                 return parse.error?.formErrors.formErrors
             },
             lastname(v) {
+                if (!isGuest) return
                 const parse = userShape.lastname.safeParse(v)
                 return parse.error?.formErrors.formErrors
             },
