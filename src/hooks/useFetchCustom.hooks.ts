@@ -41,12 +41,12 @@ const useFetchCustom = <T = any, U = RateLimiterResponse>({ onFailed, failedTrig
                 resetStore()
                 router.navigate("/cuenta/ingresar")
             }
-            else if (response.status == 500) {
-                alertHandler({ color: "danger", title: "Servidor no responde." })
-            } 
             else if(code && code.includes("SQL")){
                 alertHandler({ color: "danger",description : message })
             }
+            else if (response.status == 500) {
+                alertHandler({ color: "danger", title: "Servidor no responde." })
+            } 
             else if (code === "session_not_complete") {
                 router.navigate("/cuenta/reenviar")
                 alertHandler({ color: "primary", description: message })

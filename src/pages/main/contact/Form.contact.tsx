@@ -1,12 +1,18 @@
 import ActionButton from "@/components/ActionButton";
+import FormBase from "@/containers/form-base";
 import InputBase from "@/containers/form-base/InputBase";
-import useForm from "@/hooks/useForm.hook";
 import { Textarea } from "@nextui-org/react";
+import useContactForm from "./hook/useContactForm.hook";
+import usePostUserQuestionsGuest from "@/api/user-questions/usePostUserQuestionsGuest.api";
 
 const ContactForm = () => {
-    const { form, onChange } = useForm({ name: "", mail: "", phone: "", message: "" })
+    const { form, onChange, errors, checkFormErrors } = useContactForm()
+    const { isLoading, setRequest } = usePostUserQuestionsGuest(form)
+
+    const { hasError, list } = errors
     return (
-        <form
+        <FormBase
+            errors={list}
             className="inline-flex  gap-3  flex-wrap "
             id="contact-form">
             <InputBase
@@ -18,23 +24,29 @@ const ContactForm = () => {
             <InputBase
                 isRequired
                 onChange={onChange}
+                label={"Apellido"}
+                name={"lastname"}
+                value={form.lastname} />
+            <InputBase
+                isRequired
+                onChange={onChange}
                 label={"Email"}
-                name={"mail"}
-                value={form.mail} />
+                name={"email"}
+                value={form.email} />
             <InputBase
                 onChange={onChange}
                 label={"Teléfono"}
                 name={"phone"}
                 isRequired={false}
-                value={form.phone} />
+                value={form.phone || ""} />
             <Textarea
                 color="default"
                 label="Deja un mensaje"
                 labelPlacement="outside"
                 variant="bordered"
                 radius="sm"
-                maxLength={256}
-                minLength={0}
+                isInvalid={!!list.message}
+                errorMessage={list.message}
                 classNames={{
                     label: "uppercase font-semibold  text-default-600",
                     inputWrapper: "border-1 border-default-400 group-data-[focus=true]:border-secondary-400 data-[hover=true]:border-secondary-200 "
@@ -42,12 +54,20 @@ const ContactForm = () => {
                 placeholder="Comentanos tu duda."
                 onChange={onChange}
                 name={"message"}
-                value={form.message}
+                value={form.message || ""}
             />
-            <ActionButton>
+            <ActionButton
+                onPress={() => {
+                    const { hasError, setErrors } = checkFormErrors()
+                    if (hasError) return setErrors()
+                    setRequest()
+                }}
+                isDisabled={hasError}
+                isLoading={isLoading}
+            >
                 Enviar consulta
             </ActionButton>
-        </form>
+        </FormBase>
     )
 }
 

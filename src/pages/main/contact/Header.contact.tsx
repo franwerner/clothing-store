@@ -16,7 +16,7 @@ const ContactHeader = () => {
         },
     ]
     return (
-        <div className="flex border-b-1 justify-around  pb-3">
+        <div className=" border-b-1 grid sm:grid-cols-2  justify-items-center items-center   pb-3">
             {
                 contact.map(({ icon, method }) =>
                     <div key={method} className="flex gap-1 items-center text-default-600">
