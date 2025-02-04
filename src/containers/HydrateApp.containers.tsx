@@ -3,7 +3,7 @@ import useGetStoreConfig from "@/api/store-config/useGetStoreConfig.api"
 import useGetUserAddress from "@/api/user-address/useGetUserAddress.api"
 import useGetUserSession from "@/api/user-session/useGetUserSession.api"
 import LoadPage from "@/components/LoadPage"
-import { store, useSelector } from "@/store"
+import { useSelector } from "@/store"
 import { ReactNode, useEffect } from "react"
 
 interface HydrateAppProps {

@@ -1,11 +1,11 @@
-import { userQuestionSchema, UserQuestionSchema } from "clothing-store-shared/schema"
+import { GuestQuestionSchema, guestQuestionSchema } from "clothing-store-shared/schema"
 import { useFormValidation } from "my-hooks"
 
-const shape = userQuestionSchema.insert.shape
+const shape = guestQuestionSchema.insert.shape
 
 const useContactForm = () => {
 
-    const intial: Omit<UserQuestionSchema.Insert, "is_guest" | "user_fk"> = {
+    const intial: GuestQuestionSchema.Insert = {
         email: "",
         lastname: "",
         message: "",

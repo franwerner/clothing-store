@@ -6,7 +6,7 @@ const ActionButton = ({ className, ...props }: ButtonProps) => (
         variant="solid"
         color="default"
         radius="lg"
-        className={`h-14  shadow-sm max-w-min hover:scale-95 mx-auto px-16 text-[15px] bg-black font-medium  text-white  uppercase ${className} `}
+        className={`h-14  shadow-sm max-w-min hover:scale-95 mx-auto px-10 text-[15px] bg-black font-medium  text-white  uppercase ${className} `}
         {...props}
     />)
 

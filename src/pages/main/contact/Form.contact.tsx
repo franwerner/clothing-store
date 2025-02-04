@@ -3,11 +3,11 @@ import FormBase from "@/containers/form-base";
 import InputBase from "@/containers/form-base/InputBase";
 import { Textarea } from "@nextui-org/react";
 import useContactForm from "./hook/useContactForm.hook";
-import usePostUserQuestionsGuest from "@/api/user-questions/usePostUserQuestionsGuest.api";
+import usePostUserQuestionsGuest from "@/pages/main/contact/api/usePostUserQuestionsGuest.api";
 
 const ContactForm = () => {
-    const { form, onChange, errors, checkFormErrors } = useContactForm()
-    const { isLoading, setRequest } = usePostUserQuestionsGuest(form)
+    const { form, onChange, errors, checkFormErrors, resetForm } = useContactForm()
+    const { isLoading, setRequest } = usePostUserQuestionsGuest(form, resetForm)
 
     const { hasError, list } = errors
     return (
