@@ -10,7 +10,7 @@ const useGetShopcartSession = () => {
             const { data } = result
             dispatch(({ shopcart }) => shopcart.set({
                 ...data,
-                expired_at: new Date(data.expired_at).getTime()
+                expired_at: new Date(data.expire_at).getTime()
             }))
         },
     })
