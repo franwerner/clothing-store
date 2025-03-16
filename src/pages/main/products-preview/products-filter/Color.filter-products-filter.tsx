@@ -32,12 +32,10 @@ const ColorItem = memo(({ setSearchParams, color, quantity, hexadecimal, isActiv
         </li >
     )
 })
+const classname = `inline-flex flex-wrap md:block`
+const maxLength = 6
 
 const ProductsFilterColor = () => {
-
-    const maxLength = 6
-
-    const classname = `inline-flex flex-wrap md:block`
 
     const { colors, isLoading } = useGetProductColorsPreview()
 

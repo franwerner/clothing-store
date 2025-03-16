@@ -6,8 +6,8 @@ import { useParams, useSearchParams } from "react-router-dom"
 const useGetProductColorsPreview = () => {
 
     const params = useParams()
-
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const color = searchParams.get("color") || ""
 
     const queryParams = {
         size: searchParams.get("size") || undefined,
@@ -16,31 +16,42 @@ const useGetProductColorsPreview = () => {
         category: params.category
     }
 
-const {isLoading,response,setRequest,clearSideEffects} = useFetchCustom<Array<ProductPreview.Color>>({
-    target: "products/view/preview/colors",
-    method: "GET"
-})
-
-useEffect(() => {
-    const { brand, category, price, size } = queryParams
-    setRequest({
-        query: {
-            price,
-            size,
-            brand,
-            category
-        }
+    const { isLoading, response, setRequest, clearSideEffects } = useFetchCustom<Array<ProductPreview.Color>>({
+        target: "products/view/preview/colors",
+        method: "GET",
     })
-    return clearSideEffects
 
-}, [JSON.stringify(queryParams)])
+    useEffect(() => {
+        const { brand, category, price, size } = queryParams
+        setRequest({
+            query: {
+                price,
+                size,
+                brand,
+                category,
+            },
+            onSuccess({ result }) {
+                const arr = color.split("-")
+                const { data } = result
+                const currentColors = arr.filter(i => data.findIndex((e) => e.color_id == i) !== -1)
+                searchParams.set("color", currentColors.join("-"))
+                setSearchParams(searchParams)
+            },
+            onFailed() {
+                searchParams.set("color", "")
+                setSearchParams(searchParams)
+            },
+        })
 
-const is = response.result ? response.result.data : []
+        return clearSideEffects
 
-return {
-    isLoading,
-    colors: is
-}
+    }, [JSON.stringify(queryParams)])
+
+    const is = response.result ? response.result.data : []
+    return {
+        isLoading,
+        colors: is
+    }
 
 }
 

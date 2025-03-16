@@ -6,7 +6,9 @@ import { useParams, useSearchParams } from "react-router-dom"
 const useGetProductSizesPreview = () => {
 
     const params = useParams()
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const size = searchParams.get("size") || ""
 
     const queryParams = {
         color: searchParams.get("color") || undefined,
@@ -28,7 +30,18 @@ const useGetProductSizesPreview = () => {
                 color,
                 brand,
                 category
-            }
+            },
+            onSuccess({ result }) {
+                const arr = size.split("-")
+                const { data } = result
+                const currentColors = arr.filter(i => data.findIndex((e) => e.size_id == i) !== -1)
+                searchParams.set("size", currentColors.join("-"))
+                setSearchParams(searchParams)
+            },
+            onFailed() {
+                searchParams.set("size", "")
+                setSearchParams(searchParams)
+            },
         })
         return clearSideEffects
     }, [JSON.stringify(queryParams)])

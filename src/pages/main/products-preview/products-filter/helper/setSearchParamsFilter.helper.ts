@@ -8,12 +8,14 @@ interface setSearchParamsFilterProps {
 const setSearchParamsFilter = ({ isActive, value, param }: setSearchParamsFilterProps) => {
     const search = window.location.search
     const newURLSearchParms = new URLSearchParams(search)
-    const getColor = newURLSearchParms.get(param) || ""
+    let getQuery = newURLSearchParms.get(param) || ""
+
     if (isActive) {
-        newURLSearchParms.set(param, getColor.split("-").filter(i => i != value).join("-"))
+        newURLSearchParms.set(param, getQuery.split("-").filter(i => i != value).join("-"))
     } else {
-        newURLSearchParms.set(param, `${getColor}${value}-`)
+        newURLSearchParms.set(param, `${getQuery}${getQuery ? "-" : ""}${value}`)
     }
+
     return newURLSearchParms
 };
 

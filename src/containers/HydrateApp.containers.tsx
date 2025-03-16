@@ -40,7 +40,7 @@ const HydrateApp = ({ children }: HydrateAppProps) => {
         is_maintenance ? <div>
             "Lo siento la tienda se encuentra en mantenimiento"
             <button onClick={() => {
-                 window.location.replace(window.location.href)
+                window.location.replace(window.location.href)
             }}>Reload</button>
         </div> : children
 }
