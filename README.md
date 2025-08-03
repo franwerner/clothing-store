@@ -1,4 +1,1 @@
-
-#a27de8 COLOR RETOQUES
-#010101 COLOR PRINCIPAL
-Tracking : Wider
+Repositorio de server : https://github.com/franwerner/clothing-store-server
